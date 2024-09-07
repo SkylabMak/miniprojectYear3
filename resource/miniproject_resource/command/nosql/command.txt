@@ -1,0 +1,213 @@
+ok give me command to insert example data to consistent with previous sql
+this csv file is from after insert example data u can use these to involved in the create example in noSql
+i will use mongodb
+(thess image is new design for noSQL)
+
+addition info
+orgChat collection
+รายการ	ชนิด	คำอธิบาย
+IDAccount	STRING	เก็บ IDAccount ของผู้ใช้
+IDTrip	STRING	เก็บ IDTrip ที่ Booking เป็น BookEd หรือ ได้จองทริปนั้นแล้ว 
+Chat	List<>	เก็บข้อความที่คุยในทริปนี้
+Chat.message	STRING	ข้อความ
+Chat.time	TIMESTAMP	เก็บเวลาที่ส่งข้อความ
+Chat.orgReaded	BOOLEAN	เก็บว่าข้อความนี้ ที่พักได้อ่านหรือยัง
+Chat.readed	BOOLEAN	เก็บว่าข้อความนี้ ผู้ใช้ได้อ่านหรือยัง
+Chat.serderUser	BOOLEAN	เก็บว่าข้อความนี้ ผู้ใช้ส่งหรือไหม
+
+
+checkpointNSQL collection
+รายการ	ชนิด	คำอธิบาย
+IDTrip 	STRING	เก็บ ID ของทริป
+(Combined  Key)
+IDCheckpoint	STRING	เก็บ ID ของcheckpoint
+(Combined  Key)
+progress	List<STRING>	คนที่อยู่ความคืบหน้านี้
+Comments	List<>	เก็บข้อความที่คุยในทริปนี้
+Comments.sender	STRING	เก็บ IDAccount ของคนที่ส่ง
+Comments.message	STRING	เก็บข้อความ
+Comments.time	TIMESTAMP	เก็บเวลา
+Comments.readed	List<STRING>	เก็บ IDAccount ของคนที่ได้อ่านข้อความนี้แล้ว
+
+checkpointNSQL collection
+1. "เที่ยว 3 วัดใน 1 วัน(ปีหน้า)" trip
+insert all checkpoint in "เที่ยว 3 วัดใน 1 วัน" trip with empty list in progress.
+comments will talk about review this location in that checkpoint some 2 - 3 sentence. 
+comments.sender is from joined that trip
+Comments.readed is some 1-2 in join this trip
+Comments.time is up to u consistent a time in createTime in checkpoint table in sql
+
+2. "เที่ยวรอบเขื่อนขุลด่าน" trip but in booking = 'BI'
+follow example data with "เที่ยว 3 วัดใน 1 วัน(ปีหน้า)" trip
+
+3. "เที่ยว 3 วัดใน 1 วัน" trip
+it is like a "เที่ยว 3 วัดใน 1 วัน(ปีหน้า)" but in progress u will example data for me
+
+orgChat collection
+in both of trip "เที่ยวรอบเขื่อนขุลด่าน" trip in booking = 'BE'
+insert example conversion with in each trip in "เที่ยวรอบเขื่อนขุลด่าน" trip in booking = 'BE'
+Chat.time consistent a time after createDate in trip table in sql
+
+Chat.readed and Chat.orgReaded is boolean for all sentences in someone.
+in another one Chat.orgReaded is false in last sentend from sernder is user
+
+
+
+db.orgChat.insertMany([
+  {
+    "IDAccount": "0e51cc96-6cd2-11ef-9f47-04421a0238fa",  // Valid user
+    "IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",  // "เที่ยวรอบเขื่อนขุลด่าน"
+    "Chat": [
+      {
+        "message": "ขอห้อง ชั้น 1",
+        "time": ISODate("2024-09-08T08:30:00Z"),
+        "orgReaded": true,
+        "readed": true,
+        "senderUser": true
+      },
+      {
+        "message": "ok เลขห้อง 101",
+        "time": ISODate("2024-09-08T08:45:00Z"),
+        "orgReaded": false,
+        "readed": true,
+        "senderUser": false
+      }
+    ]
+  },
+  {
+    "IDAccount": "0e51d9ad-6cd2-11ef-9f47-04421a0238fa",  // Another valid user
+    "IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",  // "เที่ยวรอบเขื่อนขุลด่าน"
+    "Chat": [
+      {
+        "message": "มี ชั้น 2 ไหม",
+        "time": ISODate("2024-09-08T08:55:00Z"),
+        "orgReaded": true,
+        "readed": true,
+        "senderUser": true
+      },
+      {
+        "message": "มี 5 เอา จะเอาไหม",
+        "time": ISODate("2024-09-08T09:05:00Z"),
+        "orgReaded": false,
+        "readed": true,
+        "senderUser": false
+      }
+    ]
+  },
+  ])
+
+db.checkpointNSQL.insertMany([
+  {
+    "IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",  // "เที่ยว 3 วัดใน 1 วัน"
+    "IDCheckpoint": "310db747-6cd2-11ef-9f47-04421a0238fa",
+    "progress": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"],
+    "Comments": [
+      {
+        "sender": "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
+        "message": "This was a perfect first destination.",
+        "time": ISODate("2024-09-07T08:00:00Z"),
+        "readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"]
+      },
+      {
+        "sender": "0e51d858-6cd2-11ef-9f47-04421a0238fa",
+        "message": "I really enjoyed the architecture of this place.",
+        "time": ISODate("2024-09-07T08:15:00Z"),
+        "readed": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d673-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+  {
+    "IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
+    "IDCheckpoint": "310dc3a6-6cd2-11ef-9f47-04421a0238fa",
+    "progress": ["0e51d8aa-6cd2-11ef-9f47-04421a0238fa"],
+    "Comments": [
+      {
+        "sender": "0e51d8aa-6cd2-11ef-9f47-04421a0238fa",
+        "message": "This was a fantastic activity.",
+        "time": ISODate("2024-09-07T08:30:00Z"),
+        "readed": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+  {
+    "IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
+    "IDCheckpoint": "310dc734-6cd2-11ef-9f47-04421a0238fa",
+    "progress": ["0e51d673-6cd2-11ef-9f47-04421a0238fa"],
+    "Comments": [
+      {
+        "sender": "0e51d673-6cd2-11ef-9f47-04421a0238fa",
+        "message": "I enjoyed the peaceful atmosphere here.",
+        "time": ISODate("2024-09-07T09:30:00Z"),
+        "readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+  {
+    "IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",  // "เที่ยว 3 วัดใน 1 วัน (ปีหน้า)"
+    "IDCheckpoint": "b9529f6c-6cd2-11ef-9f47-04421a0238fa",
+    "progress": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"],
+    "Comments": [
+      {
+        "sender": "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
+        "message": "This was a peaceful start to the trip.",
+        "time": ISODate("2024-09-07T08:00:00Z"),
+        "readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+  {
+    "IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
+    "IDCheckpoint": "b952a008-6cd2-11ef-9f47-04421a0238fa",
+    "progress": ["0e51d8aa-6cd2-11ef-9f47-04421a0238fa"],
+    "Comments": [
+      {
+        "sender": "0e51d8aa-6cd2-11ef-9f47-04421a0238fa",
+        "message": "The activity was very engaging.",
+        "time": ISODate("2024-09-07T09:30:00Z"),
+        "readed": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+  {
+    "IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
+    "IDCheckpoint": "b952a037-6cd2-11ef-9f47-04421a0238fa",
+    "progress": ["0e51d673-6cd2-11ef-9f47-04421a0238fa"],
+    "Comments": [
+      {
+        "sender": "0e51d673-6cd2-11ef-9f47-04421a0238fa",
+        "message": "I felt very relaxed here.",
+        "time": ISODate("2024-09-07T10:30:00Z"),
+        "readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d7f7-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+])
+
+db.checkpointNSQL.insertMany([
+  {
+    "IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",  // "เที่ยวรอบเขื่อนขุลด่าน"
+    "IDCheckpoint": "82d4ffee-6cd2-11ef-9f47-04421a0238fa",
+    "progress": [],
+    "Comments": [
+      {
+        "sender": "0e51d94e-6cd2-11ef-9f47-04421a0238fa",
+        "message": "Amazing views to start the trip.",
+        "time": ISODate("2024-09-08T09:00:00Z"),
+        "readed": ["0e51d94e-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  },
+  {
+    "IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",
+    "IDCheckpoint": "82d50a1d-6cd2-11ef-9f47-04421a0238fa",
+    "progress": [],
+    "Comments": [
+      {
+        "sender": "0e51d94e-6cd2-11ef-9f47-04421a0238fa",
+        "message": "I loved this part of the trip.",
+        "time": ISODate("2024-09-08T09:45:00Z"),
+        "readed": ["0e51d94e-6cd2-11ef-9f47-04421a0238fa"]
+      }
+    ]
+  }
+])

@@ -1,0 +1,62 @@
+-- Create table for 'account'
+CREATE TABLE account (
+    IDAccount VARCHAR(50) PRIMARY KEY,
+    IDGoogle VARCHAR(100),
+    Email VARCHAR(100),
+    Org BOOLEAN, -- Organization flag (True/False)
+    imgURL VARCHAR(255)
+);
+ALTER TABLE account
+ADD COLUMN name VARCHAR(100);
+
+
+-- Create table for 'trip'
+CREATE TABLE trip (
+    IDTrip VARCHAR(50) PRIMARY KEY,
+    IDOriginTrip VARCHAR(50),
+    IDAccount VARCHAR(50),
+    TripName VARCHAR(255),
+    Detail VARCHAR(200),
+    Preparation VARCHAR(100),
+    Booking CHAR(2) CHECK (Booking IN ('NM', 'BI', 'BE')), -- NorMal, BookIng, BookEd
+    createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastEdit TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    private BOOLEAN,
+    maxJoiner INT,  -- Removed display width
+    started BOOLEAN,
+    count INT,  -- Removed display width
+    FOREIGN KEY (IDAccount) REFERENCES account(IDAccount)
+);
+
+-- Create table for 'checkpoint'
+CREATE TABLE checkpoint (
+    IDCheckpoint VARCHAR(50) PRIMARY KEY,
+    IDTrip VARCHAR(50),
+	OrderC INT,
+    createTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    time TIMESTAMP,
+    locationName VARCHAR(50),
+    detail VARCHAR(100),
+    type CHAR(1) CHECK (type IN ('D', 'G', 'A')), -- D = Destination, G = Gather, A = Activity
+    FOREIGN KEY (IDTrip) REFERENCES trip(IDTrip)
+);
+
+-- Create table for 'joiner'
+CREATE TABLE joiner (
+    IDTrip VARCHAR(50),
+    IDAccount VARCHAR(50),
+    type CHAR(1) CHECK (type IN ('B', 'J')), -- B = Booking, J = Join
+    status CHAR(1) CHECK (status IN ('B', 'D')), -- B = Booking, D = Done
+    PRIMARY KEY (IDTrip, IDAccount),
+    FOREIGN KEY (IDTrip) REFERENCES trip(IDTrip),
+    FOREIGN KEY (IDAccount) REFERENCES account(IDAccount)
+);
+
+-- Create table for 'checkpointList'
+--CREATE TABLE checkpointList (
+ --   IDTrip VARCHAR(50),
+ --   IDCheckpoint VARCHAR(50),
+ --   PRIMARY KEY (IDTrip, IDCheckpoint),
+ --   FOREIGN KEY (IDTrip) REFERENCES trip(IDTrip),
+ --   FOREIGN KEY (IDCheckpoint) REFERENCES checkpoint(IDCheckpoint)
+--);

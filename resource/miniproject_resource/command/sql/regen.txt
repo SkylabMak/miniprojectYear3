@@ -1,0 +1,110 @@
+i think u wrong. let restart .
+modify this command to add order in each echeckpoint for me and in checkpoint in Duplicate the checkpoints for the duplicated trip, postponing the times by 1 year u should add IDTrip of 'เที่ยว 3 วัดใน 1 วัน (ปีหน้า)' too 
+
+in Duplicate the second trip twice with 'BookEd' status u should duplicate checkpoint too
+
+-- Insert 10 accounts with UUID, names, and other details
+INSERT INTO account (IDAccount, IDGoogle, Email, Org, imgURL, name) VALUES
+    (UUID(), 'googleid_1', 'user1@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User One'),
+    (UUID(), 'googleid_2', 'user2@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Two'),
+    (UUID(), 'googleid_3', 'user3@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Three'),
+    (UUID(), 'googleid_4', 'user4@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Four'),
+    (UUID(), 'googleid_5', 'user5@example.com', true, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Five'),
+    (UUID(), 'googleid_6', 'user6@example.com', true, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Six'),
+    (UUID(), 'googleid_7', 'user7@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Seven'),
+    (UUID(), 'googleid_8', 'user8@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Eight'),
+    (UUID(), 'googleid_9', 'user9@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Nine'),
+    (UUID(), 'googleid_10', 'user10@example.com', false, 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png', 'User Ten');
+
+-- Insert first trip
+INSERT INTO trip (IDTrip, IDOriginTrip, IDAccount, TripName, Detail, preparation, Booking, createDate, lastEdit, private, maxJoiner, started, count) VALUES
+    (UUID(), NULL, (SELECT IDAccount FROM account ORDER BY RAND() LIMIT 1), 'เที่ยว 3 วัดใน 1 วัน', 'เที่ยว 3 วัดใน 1 วัน', 'เตรียมตัวพร้อมถวายสังฆทาน', 'NM', 
+    DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), false, 10, true, 0);
+
+-- Add checkpoints for the first trip with OrderC
+INSERT INTO checkpoint (IDCheckpoint, IDTrip, createTime, time, locationName, detail, type, OrderC) VALUES
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 0 MINUTE), '2024-09-07 08:00:00', 'วัดลานบุญ', 'Starting point', 'D', 1),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 5 MINUTE), '2024-09-07 08:30:00', 'ถวายสังฆทาน', 'Activity 1', 'A', 2),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 10 MINUTE), '2024-09-07 09:30:00', 'วัดสังฆราชา', 'Destination 2', 'D', 3),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 15 MINUTE), '2024-09-07 10:00:00', 'ถวายสังฆทาน', 'Activity 2', 'A', 4),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 20 MINUTE), '2024-09-07 12:00:00', 'กินข้าวเที่ยง', 'Gather', 'G', 5),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 25 MINUTE), '2024-09-07 13:30:00', 'วัดลาดกระบัง', 'Destination 3', 'D', 6),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 30 MINUTE), '2024-09-07 14:00:00', 'ถวายสังฆทาน', 'Activity 3', 'A', 7),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), DATE_ADD(DATE_SUB('2024-09-07 08:00:00', INTERVAL 2 MONTH), INTERVAL 35 MINUTE), '2024-09-07 15:30:00', 'พูดคุยกัน', 'Gather', 'G', 8);
+
+
+-- Insert joiners for the first trip
+INSERT INTO joiner (IDTrip, IDAccount, type, status) 
+SELECT (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน'), IDAccount, 'J', 'D' 
+FROM account ORDER BY RAND() LIMIT 5;
+
+-- Insert second trip
+INSERT INTO trip (IDTrip, IDOriginTrip, IDAccount, TripName, Detail, preparation, Booking, createDate, lastEdit, private, maxJoiner, started, count) VALUES
+    (UUID(), NULL, (SELECT IDAccount FROM account ORDER BY RAND() LIMIT 1), 'เที่ยวรอบเขื่อนขุลด่าน', 'เที่ยวรอบเขื่อนขุลด่าน', 'เตรียมตัวเที่ยวรอบเขื่อน', 'BI', 
+    DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), false, 10, false, 0);
+
+
+-- Insert checkpoints for the second trip with OrderC
+INSERT INTO checkpoint (IDCheckpoint, IDTrip, createTime, time, locationName, detail, type, OrderC) VALUES
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 0 MINUTE), '2024-09-08 09:00:00', 'นีราการ์เดนส์', 'Destination 1', 'D', 1),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 5 MINUTE), '2024-09-08 09:30:00', 'รวมตัว', 'Gather 1', 'G', 2),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 10 MINUTE), '2024-09-08 11:00:00', 'สวนคุณเล็ก', 'Destination 2', 'D', 3),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 15 MINUTE), '2024-09-08 12:30:00', 'นีราการ์เดนส์', 'Destination 3', 'D', 4),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 20 MINUTE), '2024-09-08 13:00:00', 'กินข้าวและพักผ่อน', 'Activity', 'A', 5),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 25 MINUTE), '2024-09-08 14:30:00', 'รวมตัวเดินทาง', 'Gather 2', 'G', 6),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 30 MINUTE), '2024-09-08 15:30:00', 'เขื่อนขุนด่านปราการชล', 'Destination 4', 'D', 7),
+    (UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), DATE_ADD(DATE_SUB('2024-09-08 09:00:00', INTERVAL 2 MONTH), INTERVAL 35 MINUTE), '2024-09-08 17:00:00', 'นีราการ์เดนส์', 'Destination 5', 'D', 8);
+
+-- Insert joiners for the second trip
+INSERT INTO joiner (IDTrip, IDAccount, type, status) 
+SELECT (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), IDAccount, 'B', 'B' 
+FROM account ORDER BY RAND() LIMIT 1;
+
+INSERT INTO joiner (IDTrip, IDAccount, type, status) 
+SELECT (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยวรอบเขื่อนขุลด่าน'), IDAccount, 'B', 'D' 
+FROM account ORDER BY RAND() LIMIT 1;
+
+-- Duplicate the second trip twice with 'BookEd' status and duplicate checkpoints
+-- First, duplicate the trips
+INSERT INTO trip (IDTrip, IDOriginTrip, IDAccount, TripName, Detail, preparation, Booking, createDate, lastEdit, private, maxJoiner, started, count) 
+SELECT UUID(), t.IDTrip, j.IDAccount, t.TripName, t.Detail, t.preparation, 'BE', 
+DATE_SUB(t.createDate, INTERVAL 1 DAY), DATE_SUB(t.lastEdit, INTERVAL 1 DAY), true, t.maxJoiner, t.started, t.count
+FROM trip t
+JOIN joiner j ON t.IDTrip = j.IDTrip
+WHERE t.TripName = 'เที่ยวรอบเขื่อนขุลด่าน'
+LIMIT 2;
+
+-- Then, duplicate checkpoints for each duplicated trip
+INSERT INTO checkpoint (IDCheckpoint, IDTrip, createTime, time, locationName, detail, type, OrderC)
+SELECT UUID(), (SELECT IDTrip FROM trip WHERE IDOriginTrip = t.IDTrip ORDER BY createDate DESC LIMIT 1), c.createTime, c.time, c.locationName, c.detail, c.type, c.OrderC
+FROM checkpoint c
+JOIN trip t ON c.IDTrip = t.IDTrip
+WHERE t.TripName = 'เที่ยวรอบเขื่อนขุลด่าน';
+
+-- Duplicate the trip "เที่ยว 3 วัดใน 1 วัน" for next year
+INSERT INTO trip (IDTrip, IDOriginTrip, IDAccount, TripName, Detail, preparation, Booking, createDate, lastEdit, private, maxJoiner, started, count)
+SELECT UUID(), t.IDTrip, t.IDAccount, CONCAT(t.TripName, ' (ปีหน้า)'), t.Detail, t.preparation, t.Booking, 
+DATE_ADD(t.createDate, INTERVAL 1 YEAR), DATE_ADD(t.lastEdit, INTERVAL 1 YEAR), t.private, t.maxJoiner, t.started, t.count
+FROM trip t
+WHERE t.TripName = 'เที่ยว 3 วัดใน 1 วัน';
+
+-- Duplicate the checkpoints for the duplicated trip for next year
+INSERT INTO checkpoint (IDCheckpoint, IDTrip, createTime, time, locationName, detail, type, OrderC)
+SELECT UUID(), (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน (ปีหน้า)' LIMIT 1), 
+DATE_ADD(c.createTime, INTERVAL 1 YEAR), DATE_ADD(c.time, INTERVAL 1 YEAR), c.locationName, c.detail, c.type, c.OrderC
+FROM checkpoint c
+JOIN trip t ON c.IDTrip = t.IDTrip
+WHERE t.TripName = 'เที่ยว 3 วัดใน 1 วัน';
+
+-- Duplicate the joiners for the duplicated trip
+INSERT INTO joiner (IDTrip, IDAccount, type, status)
+SELECT (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัดใน 1 วัน (ปีหน้า)' LIMIT 1), j.IDAccount, j.type, j.status
+FROM joiner j
+JOIN trip t ON j.IDTrip = t.IDTrip
+WHERE t.TripName = 'เที่ยว 3 วัดใน 1 วัน';
+
+-- Copy checkpoints from '9d785a08-6cd2-11ef-9f47-04421a0238fa' to '9d785b6a-6cd2-11ef-9f47-04421a0238fa'
+INSERT INTO checkpoint (IDCheckpoint, IDTrip, createTime, time, locationName, detail, type, OrderC)
+SELECT UUID(), '9d785b6a-6cd2-11ef-9f47-04421a0238fa', createTime, time, locationName, detail, type, OrderC
+FROM checkpoint
+WHERE IDTrip = '9d785a08-6cd2-11ef-9f47-04421a0238fa';

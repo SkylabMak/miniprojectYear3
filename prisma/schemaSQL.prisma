@@ -1,0 +1,74 @@
+// generator client {
+//   provider = "prisma-client-js"
+//   output   = "./generated/clientMysql"
+// }
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma-app/clientMysql"  // For SQL
+}
+
+datasource mysql {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model account {
+  IDAccount String   @id @mysql.VarChar(50)
+  IDGoogle  String?  @mysql.VarChar(100)
+  Email     String?  @mysql.VarChar(100)
+  Org       Boolean?
+  imgURL    String?  @mysql.VarChar(255)
+  name      String?  @mysql.VarChar(100)
+  joiner    joiner[]
+  trip      trip[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model checkpoint {
+  IDCheckpoint String    @id @mysql.VarChar(50)
+  IDTrip       String?   @mysql.VarChar(50)
+  OrderC       Int?
+  createTime   DateTime? @default(now()) @mysql.Timestamp(0)
+  time         DateTime? @mysql.Timestamp(0)
+  locationName String?   @mysql.VarChar(50)
+  detail       String?   @mysql.VarChar(100)
+  type         String?   @mysql.Char(1)
+  trip         trip?     @relation(fields: [IDTrip], references: [IDTrip], onDelete: NoAction, onUpdate: NoAction, map: "checkpoint_ibfk_1")
+
+  @@index([IDTrip], map: "IDTrip")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model joiner {
+  IDTrip    String  @mysql.VarChar(50)
+  IDAccount String  @mysql.VarChar(50)
+  type      String? @mysql.Char(1)
+  status    String? @mysql.Char(1)
+  trip      trip    @relation(fields: [IDTrip], references: [IDTrip], onDelete: NoAction, onUpdate: NoAction, map: "joiner_ibfk_1")
+  account   account @relation(fields: [IDAccount], references: [IDAccount], onDelete: NoAction, onUpdate: NoAction, map: "joiner_ibfk_2")
+
+  @@id([IDTrip, IDAccount])
+  @@index([IDAccount], map: "IDAccount")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model trip {
+  IDTrip       String       @id @mysql.VarChar(50)
+  IDOriginTrip String?      @mysql.VarChar(50)
+  IDAccount    String?      @mysql.VarChar(50)
+  TripName     String?      @mysql.VarChar(255)
+  Detail       String?      @mysql.VarChar(200)
+  Preparation  String?      @mysql.VarChar(100)
+  Booking      String?      @mysql.Char(2)
+  createDate   DateTime?    @default(now()) @mysql.Timestamp(0)
+  lastEdit     DateTime?    @default(now()) @mysql.Timestamp(0)
+  private      Boolean?
+  maxJoiner    Int?
+  started      Boolean?
+  count        Int?
+  checkpoint   checkpoint[]
+  joiner       joiner[]
+  account      account?     @relation(fields: [IDAccount], references: [IDAccount], onDelete: NoAction, onUpdate: NoAction, map: "trip_ibfk_1")
+
+  @@index([IDAccount], map: "IDAccount")
+}

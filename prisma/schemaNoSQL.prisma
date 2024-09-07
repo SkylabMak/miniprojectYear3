@@ -1,0 +1,44 @@
+// generator client {
+//   provider = "prisma-client-js"
+//   output   = "./generated/clientMongodb"
+// }
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma-app/clientMongo"
+}
+
+datasource mongodb {
+  provider = "mongodb"
+  url      = env("MONGO_URL")
+}
+
+type CheckpointNsqlComments {
+  message String
+  readed  String[]
+  sender  String
+  time    DateTime @mongodb.Date
+}
+
+type OrgChatChat {
+  message    String
+  orgReaded  Boolean
+  readed     Boolean
+  senderUser Boolean
+  time       DateTime @mongodb.Date
+}
+
+model checkpointNSQL {
+  id           String                   @id @default(auto()) @map("_id") @mongodb.ObjectId
+  Comments     CheckpointNsqlComments[]
+  IDCheckpoint String
+  IDTrip       String
+  progress     String[]
+}
+
+model orgChat {
+  id        String        @id @default(auto()) @map("_id") @mongodb.ObjectId
+  Chat      OrgChatChat[]
+  IDAccount String
+  IDTrip    String
+}
