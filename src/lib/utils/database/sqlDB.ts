@@ -2,7 +2,7 @@
 import { PrismaClient as MySQLClient } from '@prisma-app/clientMysql';
 
 
-const prismaMySQL = new MySQLClient();  // MySQL Client initialization
+export const prismaMySQL = new MySQLClient();  // MySQL Client initialization
 
 export const testConnectionsSQL = async () => {
     try {

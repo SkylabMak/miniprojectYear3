@@ -1,7 +1,7 @@
 // import { PrismaClient as MongoClient } from '@prismaMongo';
 import { PrismaClient as MongoClient} from '@prisma-app/clientMongo';
 
-const prismaMongo = new MongoClient();  // MySQL Client initialization
+export const prismaMongo = new MongoClient();  // MySQL Client initialization
 
 export const testConnectionsNoSQL = async () => {
     try {

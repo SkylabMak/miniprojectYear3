@@ -1,7 +1,6 @@
-import { json, text } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { testConnectionsSQL } from '$lib/server/utils/database/sqlDB'; // Updated import
-import { testConnectionsNoSQL } from '$lib/server/utils/database/noSqlDB'; // Updated import
+import { json, text, type RequestHandler } from '@sveltejs/kit';
+import { testConnectionsSQL } from '$lib/utils/database/sqlDB'; // Updated import
+import { testConnectionsNoSQL } from '$lib/utils/database/noSqlDB'; // Updated import
 
 
 export const GET: RequestHandler = async () => {
