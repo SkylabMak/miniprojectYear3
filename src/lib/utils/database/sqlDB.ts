@@ -1,4 +1,3 @@
-// import { PrismaClient as MySQLClient } from '@prismaMysql';
 import { PrismaClient as MySQLClient } from '@prisma-app/clientMysql';
 
 

@@ -18,7 +18,7 @@ CREATE TABLE trip (
     TripName VARCHAR(255),
     Detail VARCHAR(200),
     Preparation VARCHAR(100),
-    Booking CHAR(2) CHECK (Booking IN ('NM', 'BI', 'BE')), -- NorMal, BookIng, BookEd
+    Booking CHAR(2) CHECK (Booking IN ('NM', 'BI', 'BE')), -- NorMal, BookIng, BookEd(ขอจองแล้ว ยังจองไม่เสร็จ)
     createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     lastEdit TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     private BOOLEAN,

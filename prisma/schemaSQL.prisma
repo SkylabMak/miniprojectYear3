@@ -1,10 +1,6 @@
-// generator client {
-//   provider = "prisma-client-js"
-//   output   = "./generated/clientMysql"
-// }
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/@prisma-app/clientMysql"  // For SQL
+  output   = "../node_modules/@prisma-app/clientMysql"
 }
 
 datasource mysql {
@@ -56,7 +52,7 @@ model trip {
   IDTrip       String       @id @mysql.VarChar(50)
   IDOriginTrip String?      @mysql.VarChar(50)
   IDAccount    String?      @mysql.VarChar(50)
-  TripName     String?      @mysql.VarChar(255)
+  TripName     String       @mysql.VarChar(255)
   Detail       String?      @mysql.VarChar(200)
   Preparation  String?      @mysql.VarChar(100)
   Booking      String?      @mysql.Char(2)

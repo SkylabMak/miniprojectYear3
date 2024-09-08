@@ -115,3 +115,6 @@ SELECT (SELECT IDTrip FROM trip WHERE TripName = 'เที่ยว 3 วัด
 FROM joiner j
 JOIN trip t ON j.IDTrip = t.IDTrip
 WHERE t.TripName = 'เที่ยว 3 วัดใน 1 วัน';
+
+
+ UPDATE trip SET IDAccount = '0e51d900-6cd2-11ef-9f47-04421a0238fa' WHERE IDAccount = '0e51d94e-6cd2-11ef-9f47-04421a0238fa' and IDTrip = '7c6ad9a0-6cd2-11ef-9f47-04421a0238fa'; 

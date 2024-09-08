@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { CustomError } from './customError';
+import { TOKEN_FAILED } from '$lib/constants/errorCodes';
 
 dotenv.config();
 
@@ -18,7 +20,7 @@ export function decrypt(token: string): string | null {
         const decoded = jwt.verify(token, SECRET_KEY) as { account_id: string };
         return decoded.account_id;
     } catch (error) {
-        console.error('Token is invalid or expired', error);
-        return null;
+        // console.error('Token is invalid or expired', error);
+       throw new CustomError(TOKEN_FAILED)
     }
 }

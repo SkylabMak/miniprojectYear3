@@ -1,8 +1,3 @@
-// generator client {
-//   provider = "prisma-client-js"
-//   output   = "./generated/clientMongodb"
-// }
-
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/@prisma-app/clientMongo"
