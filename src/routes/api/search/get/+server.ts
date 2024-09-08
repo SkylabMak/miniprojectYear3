@@ -1,6 +1,6 @@
-import { CustomError, resCustomError } from "$lib/utils/customError";
+import { CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
-import { decrypt } from "$lib/utils/jwtUtils";
+import { decrypt } from "$lib/security/jwtUtils"
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {

@@ -1,6 +1,7 @@
-import { CustomError, resCustomError } from "$lib/utils/customError";
+import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
+import { CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
-import { decrypt } from "$lib/utils/jwtUtils";
+import { decrypt } from "$lib/security/jwtUtils"
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -39,12 +40,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
         
 
-        return new Response(JSON.stringify({success:true}), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        return resTrue()
     } catch (error) {
         if (error instanceof CustomError) {
             return resCustomError(error as CustomError)
@@ -56,13 +52,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 };
 
-async function resFalse() {
-    return new Response(JSON.stringify({success:false}), {
-        status: 200,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-}
+
 // DELETE FROM joiner WHERE IDAccount = '0e51d7f7-6cd2-11ef-9f47-04421a0238fa' and IDTrip = '267d09a5-6cd2-11ef-9f47-04421a0238fa'; my
 // DELETE FROM joiner WHERE IDAccount = '0e51da43-6cd2-11ef-9f47-04421a0238fa' and IDTrip = '267d09a5-6cd2-11ef-9f47-04421a0238fa'; 10

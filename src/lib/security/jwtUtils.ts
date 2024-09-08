@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { CustomError } from './customError';
+import { CustomError } from '$lib/myAPI/customError';
 import { TOKEN_FAILED } from '$lib/constants/errorCodes';
 
 dotenv.config();

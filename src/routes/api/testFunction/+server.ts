@@ -1,4 +1,4 @@
-import { encrypt } from '$lib/utils/jwtUtils';
+import { encrypt } from "$lib/security/jwtUtils";
 import { getUUID } from '$lib/utils/uuidUtils';
 import { json, text, type RequestHandler } from '@sveltejs/kit';
 

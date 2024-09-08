@@ -1,11 +1,11 @@
 // src/routes/api/auth/google/callback/+server.ts
 import { OAuth2Client } from 'google-auth-library';
-import { getInfo, oauth2Client } from '$lib/utils/auth2Utils';
+import { getInfo, oauth2Client } from '$lib/security/auth2Utils';
 import { prismaMySQL } from '$lib/utils/database/sqlDB.js';
-import { encrypt } from '$lib/utils/jwtUtils.js';
+import { encrypt } from "$lib/security/jwtUtils";
 import { getUUID } from '$lib/utils/uuidUtils.js';
 import { CAN_NOT_INSERT_ACCOUNT } from '$lib/constants/errorCodes';
-import { resError } from '$lib/utils/customError';
+import { resError } from '$lib/myAPI/customError';
 import type { RequestHandler } from '@sveltejs/kit';
 
 const client = oauth2Client

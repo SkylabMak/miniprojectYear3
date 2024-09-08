@@ -1,4 +1,4 @@
-import { encrypt } from "$lib/utils/jwtUtils";
+import { encrypt } from "$lib/security/jwtUtils"
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async () => {

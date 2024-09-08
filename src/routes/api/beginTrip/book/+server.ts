@@ -1,10 +1,10 @@
-import { CustomError, resCustomError } from "$lib/utils/customError";
+import { CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMongo } from "$lib/utils/database/noSqlDB";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
-import { decrypt } from "$lib/utils/jwtUtils";
+import { decrypt } from "$lib/security/jwtUtils";
 import { getUUID } from "$lib/utils/uuidUtils";
 import type { RequestHandler } from "@sveltejs/kit";
-import { resFalse } from "../resFlase";
+import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
@@ -122,12 +122,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         })
 
 
-        return new Response(JSON.stringify({ success: true }), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        return resTrue()
     } catch (error) {
         if (error instanceof CustomError) {
             return resCustomError(error as CustomError)

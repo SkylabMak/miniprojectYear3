@@ -1,4 +1,4 @@
-import { authorizationUri } from "$lib/utils/auth2Utils";
+import { authorizationUri } from "$lib/security/auth2Utils";
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async () => {
