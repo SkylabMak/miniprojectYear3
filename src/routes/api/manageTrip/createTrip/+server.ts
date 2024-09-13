@@ -21,7 +21,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     IDAccount: uuid as string,
                     TripName: tripName as string,
                     Detail: tripName,
-                    Booking: (booking)?'BE':'NM',
+                    Booking: (booking)?'BI':'NM',
                     createDate: isoDate as string,
                     lastEdit: isoDate as string,
                     private: true,

@@ -59,7 +59,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
 
         //copy
-        copyTrip(trip,uuid as string,count,true)
+        await copyTrip(trip,uuid as string,count,true)
 
 
         return resTrue()

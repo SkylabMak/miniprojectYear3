@@ -9,13 +9,14 @@ datasource mysql {
 }
 
 model account {
-  IDAccount String   @id @mysql.VarChar(50)
-  IDGoogle  String?  @mysql.VarChar(100)
-  Email     String?  @mysql.VarChar(100)
+  IDAccount String    @id @mysql.VarChar(50)
+  IDGoogle  String?   @mysql.VarChar(100)
+  Email     String?   @mysql.VarChar(100)
   Org       Boolean?
-  imgURL    String?  @mysql.VarChar(255)
-  name      String?  @mysql.VarChar(100)
+  imgURL    String?   @mysql.VarChar(255)
+  name      String?   @mysql.VarChar(100)
   joiner    joiner[]
+  orgwaitq  orgwaitq?
   trip      trip[]
 }
 
@@ -67,4 +68,10 @@ model trip {
   account      account?     @relation(fields: [IDAccount], references: [IDAccount], onDelete: NoAction, onUpdate: NoAction, map: "trip_ibfk_1")
 
   @@index([IDAccount], map: "IDAccount")
+}
+
+model orgwaitq {
+  IDAccount String    @id @mysql.VarChar(255)
+  reqTime   DateTime? @default(now()) @mysql.Timestamp(0)
+  account   account   @relation(fields: [IDAccount], references: [IDAccount], onDelete: NoAction, onUpdate: NoAction, map: "orgwaitq_ibfk_1")
 }

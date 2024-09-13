@@ -80,9 +80,13 @@ export async function copyTrip(
         });
 
         //nosql
-        await prismaMongo.checkpointNSQL.createMany({
-            data: cpID
-        })
+        if (cpID.length > 0) {
+            await prismaMongo.checkpointNSQL.createMany({
+                data: cpID
+            });
+        } else {
+            console.log('No checkpoint data to insert into MongoDB.');
+        }
         if (booking) {
             await prismaMongo.orgChat.create({
                 data: {

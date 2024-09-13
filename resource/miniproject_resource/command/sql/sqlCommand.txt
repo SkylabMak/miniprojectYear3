@@ -59,3 +59,11 @@ CREATE TABLE checkpointList (
     FOREIGN KEY (IDTrip) REFERENCES trip(IDTrip),
     FOREIGN KEY (IDCheckpoint) REFERENCES checkpoint(IDCheckpoint)
 );
+
+CREATE TABLE orgWaitQ (
+    IDAccount VARCHAR(255),
+    reqTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (IDAccount),
+    FOREIGN KEY (IDAccount) REFERENCES account(IDAccount)
+);
+
