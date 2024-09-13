@@ -9,7 +9,7 @@ const SECRET_KEY = process.env.SECRET_KEY as string;
 
 export function encrypt(account_id: string): string {
     const token = jwt.sign({ account_id }, SECRET_KEY, {
-        expiresIn: '1d' 
+        expiresIn: '60d' 
     });
     return token;
 }

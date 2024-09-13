@@ -8,32 +8,43 @@ import { prismaMongo } from "$lib/utils/database/noSqlDB";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripName,booking } = await request.json();
+        const { tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate } = await request.json();
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         const isoDate = new Date().toISOString();
         console.log("uuid is " + uuid)
-        let newTripID = await getTripID()
         try {
-            await prismaMySQL.trip.create({
-                data: {
-                    IDTrip: newTripID as string,
-                    IDAccount: uuid as string,
-                    TripName: tripName as string,
-                    Detail: tripName,
-                    Booking: (booking)?'BE':'NM',
-                    createDate: isoDate as string,
-                    lastEdit: isoDate as string,
-                    private: true,
-                    maxJoiner: 10,
-                    started: false,
-                    count: 0,
+            const oldTrip = await prismaMySQL.trip.findUnique({
+                where: {
+                    IDTrip: tripID
+                },
+                select: {
+                    Booking: true,
+                    IDAccount:true
                 }
-            });
-    
-    
+            })
+            if(oldTrip?.IDAccount !== uuid){
+                return resFalse()
+            }
+            await prismaMySQL.trip.update({
+                where: {
+                    IDTrip: tripID as string
+                }, data: {
+                    TripName: tripName,
+                    Detail: detail,
+                    Booking: booking,
+                    Preparation: preparation,
+                    maxJoiner: maxJoiner,
+                    private: tripPrivate,
+                    lastEdit: isoDate
+                }
+            })
+
+
+
             return resTrue()
         } catch (error) {
+            console.log(error)
             return resFalse()
         }
 

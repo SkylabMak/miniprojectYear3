@@ -38,10 +38,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 
 
-        if (tripDetail?.Booking !== 'NM' //can not set progress
-            || tripDetail.started !== true  // not start ted
-            || (tripDetail.joiner.some(j => j.IDAccount !== uuid) // not join
-            &&(tripDetail.IDAccount !== uuid)) //not head
+        if (tripDetail?.Booking === 'BI'//can not set progress
+            || tripDetail?.started !== true  // not start ted
+            || ((!tripDetail.joiner.some(e => e.IDAccount === uuid)) // not join
+            &&(tripDetail?.IDAccount !== uuid)) //not head
         ) {
             return resFalse()
         }
