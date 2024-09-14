@@ -27,11 +27,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 Preparation: true,
                 maxJoiner: true,
                 IDAccount: true,
-                Booking: true
+                Booking: true,
+                count:true
 
             }
         })
-        if ((trip?.joiner.length ?? 0) >= (trip?.maxJoiner ?? 10)) {
+        if ((trip?.joiner.length ?? 0)+count+trip?.count > (trip?.maxJoiner ?? 10)) {
             console.log("false max")
             return resFalse()
         }
@@ -54,6 +55,16 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     IDAccount: uuid as string,
                     type: 'B',
                     status: 'B',
+                }
+            })
+            await prismaMySQL.trip.update({
+                where:{
+                    IDTrip:tripID
+                },
+                data:{
+                    count: {
+                        increment:count
+                    }
                 }
             })
         }

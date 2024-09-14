@@ -43,6 +43,17 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     status:'D',
                 }
             })
+
+            await prismaMySQL.trip.update({
+                where:{
+                    IDTrip:tripID
+                },
+                data:{
+                    count: {
+                        increment:1
+                    }
+                }
+            })
         }
         
 

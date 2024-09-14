@@ -88,12 +88,31 @@ export async function copyTrip(
             console.log('No checkpoint data to insert into MongoDB.');
         }
         if (booking) {
+            const oldChat = (await prismaMongo.orgChat.findFirst({
+                where:{
+                    IDTrip: trip.IDTrip,
+                    IDAccount: uuid as string
+                },
+                select:{
+                    Chat:true
+                }
+            }))?.Chat
+            // if(oldChat){
+            //     await prismaMongo.orgChat.deleteMany({
+            //         where:{
+            //             IDTrip: trip.IDTrip,
+            //             IDAccount: uuid as string
+            //         }
+            //     })
+            // }
             await prismaMongo.orgChat.create({
                 data: {
-                    IDTrip: newIDTrip,
-                    IDAccount: uuid as string
+                    IDTrip: trip.IDTrip,
+                    IDAccount: uuid as string,
+                    Chat: oldChat??[]
                 }
             })
+  
         }
 
     } catch (error) {

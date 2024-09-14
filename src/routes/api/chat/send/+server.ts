@@ -9,7 +9,7 @@ import { MISSING_INPUT } from "$lib/constants/errorCodes";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripID, text } = await request.json();
+        const { tripID, text,custID } = await request.json();
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is " + uuid)
@@ -18,63 +18,98 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             return resCustomError(new CustomError(MISSING_INPUT))
         }
 
-        const custTrip = await prismaMySQL.trip.findUnique({
+        const tripChat = await prismaMySQL.trip.findUnique({
             where: {
                 IDTrip: tripID
             },
             select: {
                 IDAccount: true,
-                IDOriginTrip:true
+                IDOriginTrip: true,
+                Booking: true
             }
         })
 
-        const restTrip = await prismaMySQL.trip.findFirst({
-            where: {
-                IDTrip: custTrip?.IDOriginTrip as string
-            },
-            select: {
-                IDAccount: true
-            }
-        })
+        // if (custTrip?.Booking === 'BE') {
+        //     const restTrip = await prismaMySQL.trip.findFirst({
+        //         where: {
+        //             IDTrip: custTrip?.IDOriginTrip as string
+        //         },
+        //         select: {
+        //             IDAccount: true
+        //         }
+        //     })
+
+        //     if (restTrip === null) {
+        //         console.log("false trip")
+        //         return resFalse();
+        //     }
+        //     if (restTrip.IDAccount !== uuid
+        //         && custTrip?.IDAccount !== uuid) {
+        //         console.log("flase user")
+        //         return resFalse();
+        //     }
+        // }
 
 
-
-        if (restTrip === null) {
-            console.log("false trip")
-            return resFalse();
-        }
-        if (restTrip.IDAccount !== uuid
-            && custTrip?.IDAccount !== uuid) {
-                console.log("flase user")
-            return resFalse();
-        }
-
-        const senderUser :boolean = (custTrip?.IDAccount === uuid)
-
-        try {
-            const newChat = {
-                message: text as string,
-                orgReaded: !senderUser,
-                readed: senderUser,
-                senderUser: senderUser,
-                time : isoDate
-            }
-            await prismaMongo.orgChat.updateMany({
-                where: {
-                    IDAccount: custTrip?.IDAccount as string,
-                    IDTrip: tripID
-                },
-                data: {
-                    Chat: {
-                        push: newChat
-                    }
+        // const senderUserBooked: boolean = (custTrip?.Booking === 'BE' &&custTrip?.IDAccount === uuid)//cust
+        // const senderUser = (custTrip?.Booking === 'BI' && custTrip?.IDAccount !== uuid)//newcust
+        const cust = !(uuid === tripChat?.IDAccount)
+        console.log("cust is "+cust)
+        const chatAccount = (cust)?uuid as string:custID
+        console.log(chatAccount)
+        if(chatAccount){
+            try {
+                const newChat = {
+                    message: text as string,
+                    orgReaded: !cust,
+                    readed: cust,
+                    senderUser: cust,
+                    time: isoDate
                 }
-            })
-            return resTrue()
-        } catch (error) {
-            console.log(error)
+                const orgChat = await prismaMongo.orgChat.findFirst({
+                    where: {
+                        IDTrip: tripID,
+                        IDAccount:chatAccount
+                    }
+                });
+                
+                // const chatID : string = (senderUser)?uuid as string:custID
+                // console.log("chatID is "+chatID)
+                if((orgChat===null || orgChat===undefined)){
+                    console.log("new")
+                    await prismaMongo.orgChat.create({
+                        data: {
+                            IDTrip: tripID,
+                            IDAccount: uuid as string, // ที่พักจะไม่ส่งก่อน เว้นแต่ลูกค้าจอง ถึงจะสร้างไว้
+                            Chat: [newChat]
+                        }
+                    })
+                }
+                else{
+                    console.log("update")
+                    await prismaMongo.orgChat.updateMany({
+                        where: {
+                            IDTrip: tripID,
+                            IDAccount: chatAccount
+                        },
+                        data: {
+                            Chat: {
+                                push: newChat
+                            }
+                        }
+                    })
+                }
+    
+                return resTrue()
+            } catch (error) {
+                console.log(error)
+                return resFalse()
+            }
+        }
+        else{
             return resFalse()
         }
+        
 
     } catch (error) {
         if (error instanceof CustomError) {

@@ -24,3 +24,14 @@ export function decrypt(token: string): string | null {
        throw new CustomError(TOKEN_FAILED)
     }
 }
+
+export function decryptWithNull(token: string): string | null {
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY) as { account_id: string };
+        return decoded.account_id;
+    } catch (error) {
+        // console.error('Token is invalid or expired', error);
+    //    throw new CustomError(TOKEN_FAILED)
+        return null
+    }
+}

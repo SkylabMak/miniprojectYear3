@@ -76,12 +76,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             })
  
             //No sql deleate 
-            await prismaMongo.orgChat.deleteMany({
-                where:{
-                    IDTrip:tripID,
-                    IDAccount:IDAccount
-                }
-            })
+            // await prismaMongo.orgChat.deleteMany({
+            //     where:{
+            //         IDTrip:tripID,
+            //         IDAccount:IDAccount
+            //     }
+            // })
 
             await prismaMongo.checkpointNSQL.deleteMany({
                 where:{

@@ -28,3 +28,12 @@ export class CustomError extends Error {
         this.code = cusE.code.toString();
     }
 }
+
+export async function checkErrorAndRes(error:any) {
+    if (error instanceof CustomError) {
+        return resCustomError(error as CustomError)
+    }
+    else {
+        throw error
+    }
+}
