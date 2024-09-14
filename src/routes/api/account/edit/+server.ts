@@ -1,15 +1,15 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
+import { checkErrorAndRes, checkMissingInput } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
-import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getCheckpointID, getTripID, isoDate } from "$lib/myAPI/tripUtils";
-import { prismaMongo } from "$lib/utils/database/noSqlDB";
-import { MISSING_INPUT } from "$lib/constants/errorCodes";
+import {resTrue } from "$lib/myAPI/resTrueFalse";
+import { getCurrentIsoDate } from "$lib/myAPI/tripUtils";
+
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { name, org, imgURL, remove } = await request.json();
+        checkMissingInput(name, org, imgURL, remove)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is " + uuid)
@@ -46,7 +46,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 await prismaMySQL.orgwaitq.create({
                     data:{
                         IDAccount:uuid as string,
-                        reqTime:isoDate
+                        reqTime:getCurrentIsoDate()
                     }
                 })
             }
@@ -56,7 +56,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
     } catch (error) {
         console.log(error)
-        return resFalse()
+        return checkErrorAndRes(error)
     }
 
 

@@ -1,5 +1,4 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
-import { prismaMongo } from "$lib/utils/database/noSqlDB";
+import { checkErrorAndRes, checkMissingInput} from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils"
 import type { RequestHandler } from "@sveltejs/kit";
@@ -9,6 +8,7 @@ import { copyTrip } from "$lib/myAPI/tripUtils";
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID} = await request.json();
+        checkMissingInput(tripID)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is changeBooking " + uuid)
@@ -38,12 +38,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         await copyTrip(trip, uuid as string, 1, false);
         return resTrue()
     } catch (error) {
-        if (error instanceof CustomError) {
-            return resCustomError(error as CustomError)
-        }
-        else {
-            throw error
-        }
+        return checkErrorAndRes(error)
     }
 
 };

@@ -2,8 +2,7 @@ import { CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
-import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getCheckpointID, getTripID, isoDate } from "$lib/myAPI/tripUtils";
+import { resFalse} from "$lib/myAPI/resTrueFalse";
 import { prismaMongo } from "$lib/utils/database/noSqlDB";
 import { MISSING_INPUT } from "$lib/constants/errorCodes";
 
@@ -13,10 +12,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is " + uuid)
-
-        if ([tripID].some(val => val === null)) {
-            return resCustomError(new CustomError(MISSING_INPUT))
-        }
 
         const tripChat = await prismaMySQL.trip.findUnique({
             where: {

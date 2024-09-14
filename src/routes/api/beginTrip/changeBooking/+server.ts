@@ -1,4 +1,4 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
+import { checkErrorAndRes, checkMissingInput } from "$lib/myAPI/customError";
 import { prismaMongo } from "$lib/utils/database/noSqlDB";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils"
@@ -8,6 +8,7 @@ import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID, book, IDAccount } = await request.json();
+        checkMissingInput(tripID, book, IDAccount )
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is changeBooking " + uuid)
@@ -96,12 +97,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
         return resTrue()
     } catch (error) {
-        if (error instanceof CustomError) {
-            return resCustomError(error as CustomError)
-        }
-        else {
-            throw error
-        }
+        return checkErrorAndRes(error)
     }
 
 };

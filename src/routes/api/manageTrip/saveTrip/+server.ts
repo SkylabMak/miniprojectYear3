@@ -1,17 +1,17 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
+import { checkErrorAndRes, checkMissingInput } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
 import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getTripID } from "$lib/myAPI/tripUtils";
-import { prismaMongo } from "$lib/utils/database/noSqlDB";
+import { getCurrentIsoDate } from "$lib/myAPI/tripUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate } = await request.json();
+        checkMissingInput( tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate )
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
-        const isoDate = new Date().toISOString();
+        const isoDate = getCurrentIsoDate()
         console.log("uuid is " + uuid)
         try {
             const oldTrip = await prismaMySQL.trip.findUnique({
@@ -49,12 +49,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
 
     } catch (error) {
-        if (error instanceof CustomError) {
-            return resCustomError(error as CustomError)
-        }
-        else {
-            throw error
-        }
+        return checkErrorAndRes(error)
     }
 
 };

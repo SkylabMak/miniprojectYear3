@@ -1,12 +1,9 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
-import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getCheckpointID, getTripID, isoDate } from "$lib/myAPI/tripUtils";
+import { resFalse} from "$lib/myAPI/resTrueFalse";
 import { prismaMongo } from "$lib/utils/database/noSqlDB";
-import { MISSING_INPUT } from "$lib/constants/errorCodes";
-import { getChat, getLatestChatFromlist } from "$lib/myAPI/chatUtils";
+import { getLatestChatFromlist } from "$lib/myAPI/chatUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
@@ -27,8 +24,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         // const yetBooked = await prismaMongo.checkpointNSQL.findMany({
         //     where:{}
         // })
-        let yetBooked = []
-        console.log(isoDate)
+        // let yetBooked = []
+        // console.log(isoDate)
         // let allCustTrip = [];
         const allMessage = await Promise.all(
             allTrip.map(async (e) => {

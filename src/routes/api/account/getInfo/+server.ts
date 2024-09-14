@@ -1,11 +1,7 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
-import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getCheckpointID, getTripID, isoDate } from "$lib/myAPI/tripUtils";
-import { prismaMongo } from "$lib/utils/database/noSqlDB";
-import { MISSING_INPUT } from "$lib/constants/errorCodes";
+import { resFalse } from "$lib/myAPI/resTrueFalse";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {

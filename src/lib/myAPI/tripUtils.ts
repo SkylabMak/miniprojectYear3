@@ -2,7 +2,6 @@ import { prismaMongo } from "$lib/utils/database/noSqlDB";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { getUUID } from "$lib/utils/uuidUtils";
 import { error } from "@sveltejs/kit";
-import { CustomError, resCustomError } from "./customError";
 
 export async function copyTrip(
     trip: {
@@ -32,7 +31,7 @@ export async function copyTrip(
         }
         let newIDTrip = await getTripID()
         console.log("newIDTrip " + newIDTrip)
-        const isoDate = new Date().toISOString();
+        const isoDate = getCurrentIsoDate()
         //copy trip
         await prismaMySQL.trip.create({
             data: {
@@ -158,4 +157,6 @@ export async function getTripID(): Promise<string> {
     return newIDTrip as string
 }
 
-export const isoDate = new Date().toISOString();
+export function getCurrentIsoDate() {
+    return new Date().toISOString();
+}

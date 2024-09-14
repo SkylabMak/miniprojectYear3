@@ -1,8 +1,10 @@
+import { checkErrorAndRes } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request }) => {
-    const { Text } = await request.json();
+    try {
+        const { Text } = await request.json();
 
     const trips = await prismaMySQL.trip.findMany({
         where: {
@@ -39,4 +41,8 @@ export const POST: RequestHandler = async ({ request }) => {
             'Content-Type': 'application/json',
         },
     });
+    } catch (error) {
+        return checkErrorAndRes(error)
+    }
+    
 };

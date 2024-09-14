@@ -1,22 +1,19 @@
-import { CustomError, resCustomError } from "$lib/myAPI/customError";
+import { checkErrorAndRes, checkMissingInput, CustomError, resCustomError } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
 import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getCheckpointID, getTripID, isoDate } from "$lib/myAPI/tripUtils";
+import { getCheckpointID,  getCurrentIsoDate } from "$lib/myAPI/tripUtils";
 import { prismaMongo } from "$lib/utils/database/noSqlDB";
 import { MISSING_INPUT } from "$lib/constants/errorCodes";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID, locationName, time, detail, type } = await request.json();
+        checkMissingInput(tripID, locationName, time, detail, type)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is " + uuid)
-
-        if ([tripID, locationName, time, detail, type].some(val => val === null)) {
-            return resCustomError(new CustomError(MISSING_INPUT))
-        }
         const checkpointList = await prismaMySQL.trip.findUnique({
             where: {
                 IDTrip: tripID
@@ -42,7 +39,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     IDCheckpoint: newCKID,
                     IDTrip: tripID,
                     OrderC: (checkpointList.checkpoint[last-1].OrderC??last)+1,
-                    createTime: isoDate,
+                    createTime: getCurrentIsoDate(),
                     time: time,
                     locationName: locationName,
                     detail: detail,
@@ -66,12 +63,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
 
     } catch (error) {
-        if (error instanceof CustomError) {
-            return resCustomError(error as CustomError)
-        }
-        else {
-            throw error
-        }
+        return checkErrorAndRes(error)
     }
 
 };
