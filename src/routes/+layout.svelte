@@ -1,28 +1,63 @@
-<script>
+<script lang="ts">
 import Header from './Header.svelte';
 import '../app.css';
+import Navbar from '$lib/components/layout/Navbar.svelte';
+import SearchBar from '$lib/components/layout/SearchBar.svelte';
+import {
+    searchedTrip,
+    setActiveNavbarItem
+} from '$lib/store/store';
+import {
+    onMount
+} from 'svelte';
+import {
+    goto
+} from '$app/navigation';
+let searchTerm = '';
+
+async function getSearchTrip() {
+    const response = await fetch('/api/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            Text: searchTerm
+        }),
+    });
+    const data = (await response.json()).Trip;
+    // console.log("searched data",data)
+    searchedTrip.set(data)
+    setActiveNavbarItem(0)
+    goto("/")
+}
+
+function handleSearch(event: CustomEvent) {
+    // console.log('Search term:', event.detail.term);
+    getSearchTrip();
+}
+onMount(async () => {
+    getSearchTrip();
+});
 </script>
 
-<div class="app">
-    <Header />
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
+<div class="app bg-primary">
+    <SearchBar bind:searchTerm on:search={handleSearch} />
+
     <main>
         <slot />
     </main>
 
-    <footer>
-        <p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-    </footer>
+    <Navbar/>
 
-</div>
+        </div>
 
 <style lang="postcss">
 .app {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-bottom: 6rem;
 }
 
 main {
@@ -34,23 +69,5 @@ main {
     max-width: 64rem;
     margin: 0 auto;
     box-sizing: border-box;
-}
-
-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-}
-
-footer a {
-    font-weight: bold;
-}
-
-@media (min-width: 480px) {
-    footer {
-        padding: 12px 0;
-    }
 }
 </style>

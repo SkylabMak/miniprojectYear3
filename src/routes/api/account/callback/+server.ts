@@ -12,11 +12,13 @@ const client = oauth2Client
 
 export const GET : RequestHandler = async ({ url, cookies }) => {
     const code = url.searchParams.get('code') as string;
-    console.log("code is "+code)
+    console.log("code account callback is "+code)
     const { tokens } = await client.getToken(code);
-    console.log("tokens is  "+tokens)
+    console.log("tokens in account callback is  "+tokens)
     // client.setCredentials(tokens);
     const info = await getInfo(tokens as Token)
+    // console.log("info : ",info.name)
+    // console.log("info : ",info)
 
     const uuidUser = await prismaMySQL.account.findFirst({
         where: {
@@ -54,7 +56,7 @@ async function senResponse(token: string, code: number): Promise<Response> {
 
 async function addNewUsre(info: googleInfo, IDAccount: string) {
     try {
-        prismaMySQL.account.create({
+        await prismaMySQL.account.create({
             data: {
                 IDAccount: IDAccount,
                 IDGoogle: info.Google_ID,

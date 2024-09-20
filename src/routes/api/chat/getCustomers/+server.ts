@@ -15,45 +15,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             where: {
                 IDAccount: uuid as string
             }, select: {
-                IDTrip: true
+                IDTrip: true,
+                TripName:true
             }
         })
 
-        // const allMea
-
-        // const yetBooked = await prismaMongo.checkpointNSQL.findMany({
-        //     where:{}
-        // })
-        // let yetBooked = []
-        // console.log(isoDate)
-        // let allCustTrip = [];
         const allMessage = await Promise.all(
             allTrip.map(async (e) => {
-                return await prismaMongo.orgChat.findMany({
-                    where:{
-                        IDTrip:e.IDTrip
+                const orgChats = await prismaMongo.orgChat.findMany({
+                    where: {
+                        IDTrip: e.IDTrip
                     }
-                })
-                // return prismaMySQL.trip.findMany({
-                //     where: {
-                //         IDOriginTrip: e.IDTrip
-                //     },
-                //     select: {
-                //         account: true,
-                //         IDAccount: true,
-                //         IDTrip: true,
-                //         IDOriginTrip: true,
-                //         checkpoint: {
-                //             orderBy: {
-                //                 OrderC: 'asc'
-                //             },
-                //             take: 1,
-                //             select: {
-                //                 time: true
-                //             }
-                //         },
-                //     }
-                // });
+                });
+        
+                // Add tripName to each orgChat result
+                return orgChats.map(orgChat => ({
+                    ...orgChat, // Spread the orgChat properties
+                    tripName: e.TripName // Add tripName from e
+                }));
             })
         );
 
@@ -70,6 +49,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                             IDAccount: true,
                             IDTrip: true,
                             IDOriginTrip: true,
+                            TripName:true,
                             checkpoint: {
                                 orderBy: {
                                     OrderC: 'asc'
@@ -97,17 +77,18 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         status: true
                     }
                 })
-                console.log("bookStatus is " + bookStatus)
+                // console.log("bookStatus is " + bookStatus)
                 const latestChat = await getLatestChatFromlist(m.Chat??null)
                 return {
                     IDTrip: tripDetail?.IDTrip??"",
                     IDAccount: m.IDAccount,
+                    tripname:m.tripName,
                     IDOriginTrip:m.IDTrip,
                     Lastmessage: latestChat?.message ?? "",
                     readed: latestChat?.orgReaded ?? "",
                     custImgUrl: acccount?.imgURL,
                     custName: acccount?.name ?? "",
-                    bookDone: bookStatus?.status,
+                    bookDone: bookStatus?.status??"",
                     startTime: tripDetail?.checkpoint?.[0]?.time ?? ""
                 }
             })

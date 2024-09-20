@@ -14,6 +14,36 @@ interface googleInfo {
 }
 
 interface customError {
-    code :number,
-    message:string
+    code: number,
+    message: string
+}
+
+interface tripCard {
+    tripID: string,
+    name: string,
+    detail: string,
+    startDate: string,
+    by: string,
+    org: boolean,
+    count: number
+}
+
+interface profile {
+    name: string,
+    Org: boolean,
+    imgURL: string,
+
+}
+
+interface orgChat {
+    IDTrip: string,// ของลูกค้า
+    IDAccount: string,
+    tripname:string
+    IDOriginTrip: string,
+    Lastmessage: string,
+    readed: Boolean,
+    custImgUrl: string,
+    custName: string,
+    bookDone: string,
+    startTime: string
 }

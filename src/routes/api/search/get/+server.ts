@@ -25,9 +25,21 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     select: {
                         time: true
                     }
+                },
+                account: {
+                    select: {
+                        name: true,
+                        Org: true
+                    }
+                },
+                _count: {
+                    select: {
+                        checkpoint: true 
+                    }
                 }
             }
         });
+        
 
         const joinTrips = await prismaMySQL.joiner.findMany({
             where: {
@@ -48,8 +60,20 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                             select: {
                                 time: true
                             }
+                        },
+                        account:{
+                            select:{
+                                name:true,
+                                Org:true
+                            }
+                        },
+                        _count: {
+                            select: {
+                                checkpoint: true // Count of checkpoints
+                            }
                         }
-                    }
+                    },
+                    
                 }
             },
         });
@@ -59,14 +83,20 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             name: trip.TripName,
             detail: trip.Detail,
             started: trip.started,
-            startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null
+            startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null,
+            by: trip.account?.name,
+            org:trip.account?.Org,
+            count:trip._count.checkpoint
         }));
         const formattedJoinTrips = joinTrips.map(trip => ({
             tripID: trip.IDTrip,
             name: trip.trip.TripName,
             detail: trip.trip.Detail,
             started: trip.trip.started,
-            startDate: trip.trip.checkpoint.length > 0 ? trip.trip.checkpoint[0].time : null
+            startDate: trip.trip.checkpoint.length > 0 ? trip.trip.checkpoint[0].time : null,
+            by: trip.trip.account?.name,
+            org:trip.trip.account?.Org,
+            count:trip.trip._count.checkpoint
         }));
 
         const combinedTrips = [...formattedOwnTrips, ...formattedJoinTrips];

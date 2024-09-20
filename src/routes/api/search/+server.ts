@@ -8,10 +8,12 @@ export const POST: RequestHandler = async ({ request }) => {
 
     const trips = await prismaMySQL.trip.findMany({
         where: {
-            TripName: {
-                contains: Text,
-            },
-            private:false
+            private: false,
+            ...(Text ? { // If Text is not empty, apply the TripName condition
+                TripName: {
+                    contains: Text,
+                }
+            } : {}) // If Text is empty, do not include the TripName condition
         },
         select: {
             IDTrip: true,
@@ -34,7 +36,7 @@ export const POST: RequestHandler = async ({ request }) => {
         detail: trip.Detail,
         startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null
     }));
-
+    // console.log("search => "+formattedTrips)
     return new Response(JSON.stringify({Trip:formattedTrips}), {
         status: 200,
         headers: {
