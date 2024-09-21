@@ -26,6 +26,9 @@ export default {
           DEFAULT: '#1A385A',
         },
       },
+      textColor: {
+        'green': 'text-green-600', // Custom class 'greee'
+      },
     },
   },
   plugins: [],

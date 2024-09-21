@@ -14,6 +14,8 @@
       <ul class="flex flex-col items-center gap-4 w-full">
         {#each data.data as trip}    
             <TripCard
+              imageUrl={trip.imageURL}
+              tripID={trip.tripID}
               tripTitle={trip.name}
               tripSubtitle={trip.detail}
               tripDate={trip.startDate}

@@ -7,7 +7,8 @@ import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID } = await request.json();
-        checkMissingInput(tripID)
+        const { join } = await request.json();
+        checkMissingInput(tripID,join)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is join "+uuid)
@@ -28,14 +29,26 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         if((trip?.joiner.length??0)+1 >= (trip?.maxJoiner??10)){
             return resFalse()
         }
-        else if(trip?.joiner.find(e => e.IDAccount == uuid)){
+        else if((trip?.joiner.find(e => e.IDAccount == uuid))&& join){
             return resFalse()
         }
         else if (trip?.IDAccount == uuid){
             return resFalse()
         }
         // console.log("")
+        else if(join == false){
+            console.log("delete join")
+            await prismaMySQL.joiner.delete({
+                where:{
+                    IDTrip_IDAccount: { //compound unique key
+                        IDTrip: tripID as string,
+                        IDAccount: uuid as string,
+                    },
+                }
+            })
+        }
         else{
+            console.log("create join")
             await prismaMySQL.joiner.create({
                 data:{
                     IDTrip:tripID,

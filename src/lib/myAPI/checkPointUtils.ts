@@ -10,8 +10,8 @@ export async function getCheckpointDetail(tripID: string,uuid: string|null) {
 
     const updatedCheckPoint = await Promise.all(
         allCheckpoint.map(async checkpoint => {
-            const progressInfo = getProgressInfo(checkpoint.progress)
-
+            const progressInfo = await getProgressInfo(checkpoint.progress)
+            console.log("progressInfo : ",progressInfo)
             let unReadCount = 0;
             if(uuid){
                 for (const element of checkpoint.Comments) {
@@ -32,8 +32,8 @@ export async function getCheckpointDetail(tripID: string,uuid: string|null) {
 }
 
 async function getProgressInfo(progress: string[]) {
-    return progress.map(
-        async user => {
+    const progressInfo = await Promise.all(
+        progress.map(async user => {
             return await prismaMySQL.account.findUnique({
                 where: {
                     IDAccount: user
@@ -43,7 +43,8 @@ async function getProgressInfo(progress: string[]) {
                     imgURL: true,
                     name: true
                 }
-            })
-        }
-    )
+            });
+        })
+    );
+    return progressInfo;
 }

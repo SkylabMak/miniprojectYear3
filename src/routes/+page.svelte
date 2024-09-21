@@ -17,6 +17,8 @@ searchedTrip.subscribe(value => {
     <ul class="flex flex-col items-center gap-4 w-full">
         {#each data as trip}
         <TripCard
+            tripID={trip.tripID}
+            imageUrl={trip.imageURL}
             tripTitle={trip.name}
             tripSubtitle={trip.detail}
             tripDate={trip.startDate}

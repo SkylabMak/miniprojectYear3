@@ -67,3 +67,6 @@ CREATE TABLE orgWaitQ (
     FOREIGN KEY (IDAccount) REFERENCES account(IDAccount)
 );
 
+
+ALTER TABLE trip
+ADD imageURL VARCHAR(500);

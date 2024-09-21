@@ -53,13 +53,14 @@ onMount(async () => {
         </div>
 
 <style lang="postcss">
-.app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding-bottom: 6rem;
-}
-
+    
+    .app {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-bottom: 6rem;
+    }
+    
 main {
     flex: 1;
     display: flex;
@@ -69,5 +70,6 @@ main {
     max-width: 64rem;
     margin: 0 auto;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 </style>

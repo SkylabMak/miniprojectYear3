@@ -6,14 +6,34 @@ import { MISSING_INPUT } from "$lib/constants/errorCodes";
 import { getLatestChat } from "$lib/myAPI/chatUtils";
 import { getCheckpointDetail } from "$lib/myAPI/checkPointUtils";
 
+async function getOrgDetail(originIDTrip: string): Promise<{ name: string; org: boolean; }> {
+    const resData = await prismaMySQL.trip.findUnique({
+        where: {
+            IDTrip: originIDTrip
+        },
+        select: {
+            account: {
+                select: {
+                    name: true,
+                    Org: true
+                }
+            }
+        }
+    })
+    return {
+        name: resData?.account?.name ?? "",
+        org: resData?.account?.Org ?? false
+    }
+}
+
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
     const { tripID } = await request.json();
     checkMissingInput(tripID)
     const token = cookies.get('token');
     const uuid = decrypt(token as string)
-    console.log("uuid is " + uuid)
-    console.log("trip is "+tripID)
+    // console.log("uuid is " + uuid)
+    // console.log("trip is "+tripID)
 
     const tripDetail = await prismaMySQL.trip.findUnique({
         where: {
@@ -26,6 +46,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             IDAccount: true,
             TripName: true,
             Detail: true,
+            imageURL:true,
             Preparation: true,
             Booking: true,
             createDate: true,
@@ -35,18 +56,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             started: true,
             count:true,
             checkpoint: true,
+            account:{
+                select:{
+                    name:true,
+                    Org:true
+                }
+            }
         }
     })
     let lastChat = null // Including booking and yet
     if(uuid){
         lastChat = await getLatestChat((tripDetail?.Booking === 'BE')?tripDetail.IDOriginTrip:tripID, uuid as string)
-        console.log(lastChat)
+        // console.log(lastChat)
     }
     const booking = tripDetail?.Booking
     const cust = ((booking === 'BE'&&tripDetail?.IDAccount === uuid) || (booking === 'BI' && tripDetail?.IDAccount !== uuid))
     let unread = !(cust === lastChat?.readed);
     unread = (booking === 'BI' && tripDetail?.IDAccount === uuid)?false:unread // if res will can't select cust
-    console.log("cust is "+cust)
+    // console.log("cust is "+cust)
     const checkpointDetail = await getCheckpointDetail(tripID, uuid)
     
     let index = 0;
@@ -71,7 +98,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     const result = {
         Trip: {
             tripID: tripDetail?.IDTrip,
-            head:tripDetail?.IDAccount,
+            head:(tripDetail?.Booking === "BE")?((await getOrgDetail(tripDetail.IDOriginTrip??"")).name):tripDetail?.account?.name,
             name: tripDetail?.TripName,
             detail: tripDetail?.Detail,
             startDate: startDate,
@@ -79,6 +106,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             booking: tripDetail?.Booking,
             lastEdit: tripDetail?.lastEdit,
             private: tripDetail?.private,
+            imageURL:tripDetail?.imageURL,
+            org:tripDetail?.account?.Org,
             maxJoiner: tripDetail?.maxJoiner,
             started: tripDetail?.started,
             me:tripDetail?.IDAccount === uuid,

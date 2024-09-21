@@ -63,6 +63,7 @@ model trip {
   maxJoiner    Int?
   started      Boolean?
   count        Int?
+  imageURL     String?      @mysql.VarChar(500)
   checkpoint   checkpoint[]
   joiner       joiner[]
   account      account?     @relation(fields: [IDAccount], references: [IDAccount], onDelete: NoAction, onUpdate: NoAction, map: "trip_ibfk_1")

@@ -1,8 +1,27 @@
-import { checkErrorAndRes, checkMissingInput} from "$lib/myAPI/customError";
+import { checkErrorAndRes, checkMissingInput } from "$lib/myAPI/customError";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils"
 import type { RequestHandler } from "@sveltejs/kit";
 
+async function getOrgDetail(originIDTrip: string): Promise<{ name: string; org: boolean; }> {
+    const resData = await prismaMySQL.trip.findUnique({
+        where: {
+            IDTrip: originIDTrip
+        },
+        select: {
+            account: {
+                select: {
+                    name: true,
+                    Org: true
+                }
+            }
+        }
+    })
+    return {
+        name: resData?.account?.name ?? "",
+        org: resData?.account?.Org ?? false
+    }
+}
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { my } = await request.json();
@@ -18,10 +37,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 TripName: true,
                 Detail: true,
                 started: true,
+                imageURL: true,
+                Booking: true,
+                IDOriginTrip: true,
                 checkpoint: {
-                    where: {
-                        OrderC: 1
+                    orderBy: {
+                        OrderC: 'asc'
                     },
+                    take: 1, // This ensures you get the checkpoint with the minimum OrderC
                     select: {
                         time: true
                     }
@@ -34,12 +57,16 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 },
                 _count: {
                     select: {
-                        checkpoint: true 
+                        checkpoint: {
+                            where:{
+                                type:"D"
+                            }
+                        }
                     }
                 }
             }
         });
-        
+
 
         const joinTrips = await prismaMySQL.joiner.findMany({
             where: {
@@ -53,18 +80,22 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         TripName: true,
                         Detail: true,
                         started: true,
+                        imageURL: true,
+                        Booking: true,
+                        IDOriginTrip:true,
                         checkpoint: {
-                            where: {
-                                OrderC: 1   // Filter where OrderC is 1
+                            orderBy: {
+                                OrderC: 'asc'
                             },
+                            take: 1, // This ensures you get the checkpoint with the minimum OrderC
                             select: {
                                 time: true
                             }
                         },
-                        account:{
-                            select:{
-                                name:true,
-                                Org:true
+                        account: {
+                            select: {
+                                name: true,
+                                Org: true
                             }
                         },
                         _count: {
@@ -73,31 +104,46 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                             }
                         }
                     },
-                    
+
                 }
             },
         });
-
-        const formattedOwnTrips = ownTrips.map(trip => ({
-            tripID: trip.IDTrip,
-            name: trip.TripName,
-            detail: trip.Detail,
-            started: trip.started,
-            startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null,
-            by: trip.account?.name,
-            org:trip.account?.Org,
-            count:trip._count.checkpoint
+        const joinTripsFilted = joinTrips.filter(e => (e.trip.Booking != "BI"))
+        // console.log("join",joinTripsFilted)
+        const formattedOwnTrips = await Promise.all(ownTrips.map(async trip => {
+            let orgDetail;
+            const book = (trip.Booking === "BE");
+            if (book) {
+                orgDetail = await getOrgDetail(trip.IDOriginTrip ?? "");
+            }
+            return {
+                tripID: trip.IDTrip,
+                name: trip.TripName,
+                idOriginTrip:trip.IDOriginTrip,
+                detail: trip.Detail,
+                started: trip.started,
+                imageURL: trip.imageURL,
+                booking: trip.Booking,
+                startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null,
+                by: (book) ? orgDetail?.name : trip.account?.name,
+                org: (book) ? orgDetail?.org : trip.account?.Org,
+                count: trip._count.checkpoint
+            };
         }));
-        const formattedJoinTrips = joinTrips.map(trip => ({
+        const formattedJoinTrips = joinTripsFilted.map(trip => ({
             tripID: trip.IDTrip,
+            idOriginTrip:trip.trip.IDOriginTrip,
             name: trip.trip.TripName,
+            imageURL: trip.trip.imageURL,
             detail: trip.trip.Detail,
             started: trip.trip.started,
+            booking: trip.trip.Booking,
             startDate: trip.trip.checkpoint.length > 0 ? trip.trip.checkpoint[0].time : null,
             by: trip.trip.account?.name,
-            org:trip.trip.account?.Org,
-            count:trip.trip._count.checkpoint
+            org: trip.trip.account?.Org,
+            count: trip.trip._count.checkpoint
         }));
+        // console.log(formattedJoinTrips)
 
         const combinedTrips = [...formattedOwnTrips, ...formattedJoinTrips];
         let uniqueTrips = Array.from(

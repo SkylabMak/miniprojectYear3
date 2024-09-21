@@ -19,12 +19,29 @@ export const POST: RequestHandler = async ({ request }) => {
             IDTrip: true,
             TripName: true,
             Detail: true,
+            imageURL:true,
+            account:{
+                select:{
+                    name:true,
+                    Org:true
+                }
+            },
             checkpoint: {
-                where: {
-                    OrderC: 1   // Filter where OrderC is 1
+                orderBy: {
+                    OrderC: 'asc'
                 },
+                take: 1, // This ensures you get the checkpoint with the minimum OrderC
                 select: {
                     time: true
+                }
+            },
+            _count: {
+                select: {
+                    checkpoint: {
+                        where:{
+                            type:"D"
+                        }
+                    }
                 }
             }
         }
@@ -34,7 +51,11 @@ export const POST: RequestHandler = async ({ request }) => {
         tripID: trip.IDTrip,
         name: trip.TripName,
         detail: trip.Detail,
-        startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null
+        imageURL:trip.imageURL,
+        org:trip.account?.Org,
+        by:trip.account?.name,
+        startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null,
+        count: trip._count.checkpoint
     }));
     // console.log("search => "+formattedTrips)
     return new Response(JSON.stringify({Trip:formattedTrips}), {

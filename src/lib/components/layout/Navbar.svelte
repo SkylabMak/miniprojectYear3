@@ -26,7 +26,7 @@
       >
         <IconContainer
           iconName="carbon:home"
-          bgColor={status[0] ? 'bg-secondary4' : 'bg-secondary2'}
+          yes={status[0]}
         />
       </button>
       {#if status[0]}
@@ -43,7 +43,7 @@
       >
         <IconContainer
           iconName="uil:books"
-          bgColor={status[1] ? 'bg-secondary4' : 'bg-secondary2'}
+          yes={status[1]}
         />
       </button>
       {#if status[1]}
@@ -60,7 +60,7 @@
       >
         <IconContainer
           iconName="carbon:location-current"
-          bgColor={status[2] ? 'bg-accent1' : 'bg-secondary2'}
+          yes={status[2]}
         />
       </button>
       {#if status[2]}
@@ -77,7 +77,7 @@
       >
         <IconContainer
           iconName="material-symbols:person-outline"
-          bgColor={status[3] ? 'bg-secondary4' : 'bg-secondary2'}
+          yes={status[3]}
         />
       </button>
       {#if status[3]}
