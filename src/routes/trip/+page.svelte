@@ -85,6 +85,7 @@
     </div>
 </div>
 
+{#if dataTrip}
 <div class="flex items-center justify-center flex-wrap">
     <!-- First Button with Text and Icon -->
     <button class="m-1 flex items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none">
@@ -122,3 +123,5 @@
         </button>
     </p>
 </div>
+{/if}
+

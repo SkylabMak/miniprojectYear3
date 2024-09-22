@@ -3,12 +3,12 @@ import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
 import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { copyTrip } from "$lib/myAPI/tripUtils";
+import { copyTrip, deleateBETrip } from "$lib/myAPI/tripUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripID, count } = await request.json();
-        checkMissingInput(tripID, count)
+        const { tripID, count,book } = await request.json();
+        checkMissingInput(tripID, count,book)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         console.log("uuid is " + uuid)
@@ -31,11 +31,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
             }
         })
-        if ((trip?.joiner.length ?? 0)+count+trip?.count > (trip?.maxJoiner ?? 10)) {
+        if (((trip?.joiner.length ?? 0)+count+trip?.count > (trip?.maxJoiner ?? 10))&&book) {
             console.log("false max")
             return resFalse()
         }
-        else if (trip?.joiner.find(e => e.IDAccount == uuid)) {
+        else if (trip?.joiner.find(e => e.IDAccount == uuid)&&book) {
             console.log("false joined")
             return resFalse()
         }
@@ -46,6 +46,36 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         else if (trip?.Booking != 'BI') {
             console.log("false trip")
             return resFalse()
+        }
+        else if (book === false){
+            const joinDetail = await prismaMySQL.joiner.findUnique({
+                where: {
+                    IDTrip_IDAccount: {
+                        IDTrip: tripID as string,
+                        IDAccount: uuid as string,
+                    },
+                },
+                select:{
+                    type:true,
+                    status:true
+                }
+            })
+            if(joinDetail?.type === "B"&& joinDetail?.status === "D"){
+                return resFalse()
+            }
+            await prismaMySQL.trip.update({
+                where:{
+                    IDTrip:tripID
+                },
+                data:{
+                    count: {
+                        decrement:count
+                    }
+                }
+            })
+            // deleate trip
+            console.log("try to deleate")
+            await deleateBETrip(tripID,uuid as string)
         }
         else {
             await prismaMySQL.joiner.create({
@@ -66,10 +96,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     }
                 }
             })
+            //copy
+            await copyTrip(trip,uuid as string,count,true)
         }
 
-        //copy
-        await copyTrip(trip,uuid as string,count,true)
 
 
         return resTrue()

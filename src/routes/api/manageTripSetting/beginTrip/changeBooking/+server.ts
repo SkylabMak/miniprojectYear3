@@ -4,6 +4,7 @@ import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils"
 import type { RequestHandler } from "@sveltejs/kit";
 import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
+import { deleateBETrip } from "$lib/myAPI/tripUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
@@ -45,50 +46,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             })
         }
         else if (book === false) {
-            // sql deleate 
-            await prismaMySQL.joiner.delete({
-                where: {
-                    IDTrip_IDAccount: {
-                        IDTrip: tripID as string,
-                        IDAccount: IDAccount as string,
-                    },
-                },
-            })
-            const userIDTrip = await prismaMySQL.trip.findFirst({
-                where: {
-                    IDOriginTrip: tripID,
-                    IDAccount: IDAccount,
-                    Booking: 'BE'
-                },
-                select: {
-                    IDTrip: true
-                }
-            })
-            console.log("userIDTrip is "+userIDTrip?.IDTrip)
-            await prismaMySQL.checkpoint.deleteMany({
-                where: {
-                    IDTrip: userIDTrip?.IDTrip
-                }
-            });
-            await prismaMySQL.trip.delete({
-                where: {
-                    IDTrip: userIDTrip?.IDTrip
-                }
-            })
- 
-            //No sql deleate 
-            // await prismaMongo.orgChat.deleteMany({
-            //     where:{
-            //         IDTrip:tripID,
-            //         IDAccount:IDAccount
-            //     }
-            // })
-
-            await prismaMongo.checkpointNSQL.deleteMany({
-                where:{
-                    IDTrip:userIDTrip?.IDTrip
-                }
-            })
+            // deleate trip
+            await deleateBETrip(tripID,IDAccount)
         }
         else {
             return resFalse()

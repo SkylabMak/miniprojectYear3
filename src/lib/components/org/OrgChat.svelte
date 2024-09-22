@@ -47,14 +47,13 @@
     <div class="flex space-x-4">
         {#if message.bookDone !== ""}
       <button
-        class="bg-blue-900 text-white px-4 py-2 rounded-lg"
+        class="bg-accent2 text-white px-4 py-2 rounded-lg"
         on:click={handleDayClick}
       >
         วัน
       </button>
-      
       <button
-      class="bg-blue-900 text-white px-4 py-2 rounded-lg"
+      class={`${(message.bookDone === "D")?"bg-accent1":"bg-accent2"} text-white px-4 py-2 rounded-lg`}
       on:click={handleStatusClick}
     >
       สถานะ

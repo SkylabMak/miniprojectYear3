@@ -30,7 +30,7 @@ export async function copyTrip(
             throw error
         }
         let newIDTrip = await getTripID()
-        console.log("newIDTrip " + newIDTrip)
+        // console.log("newIDTrip " + newIDTrip)
         const isoDate = getCurrentIsoDate()
         //copy trip
         await prismaMySQL.trip.create({
@@ -104,13 +104,22 @@ export async function copyTrip(
             //         }
             //     })
             // }
-            await prismaMongo.orgChat.create({
-                data: {
+            await prismaMongo.orgChat.upsert({
+                where: {
+                    IDTrip_IDAccount: { // This now refers to the unique combination
+                        IDTrip: trip.IDTrip,
+                        IDAccount: uuid as string
+                    }
+                },
+                update: {}, // No update if it already exists
+                create: {
                     IDTrip: trip.IDTrip,
                     IDAccount: uuid as string,
-                    Chat: oldChat??[]
+                    Chat: oldChat ?? []
                 }
-            })
+            });
+            
+            
   
         }
 
@@ -120,6 +129,51 @@ export async function copyTrip(
 
 }
 
+export async function deleateBETrip(tripID:string,IDAccount:string) {
+    await prismaMySQL.joiner.delete({
+        where: {
+            IDTrip_IDAccount: {
+                IDTrip: tripID as string,
+                IDAccount: IDAccount as string,
+            },
+        },
+    })
+    const userIDTrip = await prismaMySQL.trip.findFirst({
+        where: {
+            IDOriginTrip: tripID,
+            IDAccount: IDAccount,
+            Booking: 'BE'
+        },
+        select: {
+            IDTrip: true
+        }
+    })
+    console.log("userIDTrip is "+userIDTrip?.IDTrip)
+    await prismaMySQL.checkpoint.deleteMany({
+        where: {
+            IDTrip: userIDTrip?.IDTrip
+        }
+    });
+    await prismaMySQL.trip.delete({
+        where: {
+            IDTrip: userIDTrip?.IDTrip
+        }
+    })
+
+    //No sql deleate 
+    // await prismaMongo.orgChat.deleteMany({
+    //     where:{
+    //         IDTrip:tripID,
+    //         IDAccount:IDAccount
+    //     }
+    // })
+
+    await prismaMongo.checkpointNSQL.deleteMany({
+        where:{
+            IDTrip:userIDTrip?.IDTrip
+        }
+    })
+}
 
 export async function checkExistTrip(uuid: string) {
     const recordExists = await prismaMySQL.trip.findFirst({

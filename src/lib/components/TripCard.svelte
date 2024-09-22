@@ -58,7 +58,6 @@ async function handleClick() {
             </div>
         </div>
 
-        <!-- Download Icon -->
         <div>
             <Icon icon="ic:round-save-alt" class="text-2xl text-black" />
         </div>

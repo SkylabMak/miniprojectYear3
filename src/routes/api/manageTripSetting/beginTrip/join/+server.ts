@@ -46,6 +46,16 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     },
                 }
             })
+            await prismaMySQL.trip.update({
+                where: {
+                    IDTrip: tripID
+                },
+                data: {
+                    count: {
+                        decrement: 1 // Decrease the count by 1
+                    }
+                }
+            });            
         }
         else{
             console.log("create join")

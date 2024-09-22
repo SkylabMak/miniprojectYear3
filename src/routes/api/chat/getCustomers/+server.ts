@@ -28,10 +28,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     }
                 });
         
-                // Add tripName to each orgChat result
                 return orgChats.map(orgChat => ({
                     ...orgChat, // Spread the orgChat properties
-                    tripName: e.TripName // Add tripName from e
+                    tripName: e.TripName 
                 }));
             })
         );

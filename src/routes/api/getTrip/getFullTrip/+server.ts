@@ -31,7 +31,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     const { tripID } = await request.json();
     checkMissingInput(tripID)
     const token = cookies.get('token');
-    const uuid = decrypt(token as string)
+    let uuid = ""
+    try {
+        uuid = decrypt(token as string)??""
+    } catch (error) {
+        uuid = ""
+    }
     // console.log("uuid is " + uuid)
     // console.log("trip is "+tripID)
 

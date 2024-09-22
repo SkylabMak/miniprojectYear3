@@ -36,4 +36,6 @@ model orgChat {
   Chat      OrgChatChat[]
   IDAccount String
   IDTrip    String
+
+  @@unique([IDTrip, IDAccount], map: "IDTrip_1_IDAccount_1")
 }
