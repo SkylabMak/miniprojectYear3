@@ -1,0 +1,1 @@
+export const pleaseLogin = "Who are you? Try signing in."

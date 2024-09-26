@@ -3,20 +3,27 @@ import OrgChat from "$lib/components/org/OrgChat.svelte";
 import Popup from "$lib/components/Popup.svelte";
 import Icon from "@iconify/svelte";
 import {
+    goto
+} from '$app/navigation';
+import {
     onMount
 } from "svelte";
+	import NotYetLogin from "$lib/components/NotYetLogin.svelte";
 
 export let data: {
+    userToken: string
     data: profile;
     orgChat: orgChat[];
 };
 
-// Store the initial name as soon as the component is initialized
-let originalName = data.data.name;
+// console.log('Data passed to the page:', data.userToken);
+let originalName = "";
 let isModified = false;
+if (data.userToken) {
+    originalName = data.data.name
+}
+$: isModified = data.data && data.data.name !== originalName;
 
-// console.log('Data passed to the page:', data);
-$: isModified = data.data.name !== originalName;
 // $: console.log(isModified, data.data.name )
 async function changeName() {
     const response = await fetch('/api/account/edit', {
@@ -49,6 +56,7 @@ function openPopup() {
 }
 </script>
 
+{#if data.userToken}
 <!-- Parent Container for Flex Column Layout -->
 <div class="min-h-screen flex flex-col items-center p-4 space-y-4text-xl	">
 
@@ -107,3 +115,6 @@ function openPopup() {
         {/if}
     </Popup>
 </div>
+{:else}
+<NotYetLogin/>
+{/if}

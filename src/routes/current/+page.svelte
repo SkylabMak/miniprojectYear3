@@ -1,4 +1,5 @@
 <script lang="ts">
+	import NotYetLogin from "$lib/components/NotYetLogin.svelte";
     import TripCard from "$lib/components/TripCard.svelte";
   
     export let data: {
@@ -25,8 +26,10 @@
             />
         {/each}
       </ul>
-    {:else}
-      <p>No data found.</p>
+    {:else if !data}
+      <NotYetLogin/>
+      {:else}
+      <p>A free life</p>
     {/if}
   </div>
   

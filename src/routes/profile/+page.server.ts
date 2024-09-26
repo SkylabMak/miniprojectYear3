@@ -12,6 +12,9 @@ export const load: PageServerLoad = async ({ fetch }) => {
   });
   const data = await response.json();
   let orgChat: orgChat[] = []
+  if (!response.ok) {
+    return null;
+  }
   if (data.Org == true) {
     const orgResponse = await fetch('/api/chat/getCustomers ', {
       method: 'POST',
@@ -21,7 +24,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
     })
     const orgData = await orgResponse.json();
     orgChat = orgData as orgChat[]
-    console.log(orgData)
+    // console.log(orgData)
   }
   //   console.log('Fetched Data:', data);
 

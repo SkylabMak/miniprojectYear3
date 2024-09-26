@@ -83,16 +83,17 @@
             <span>No checkpoints available</span>
         {/if}
     </div>
+    <div class="flex justify-end w-full">
+        <button class="mt-[-80px] flex flex-col justify-center items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none">
+            <MapCicleIcon />
+            <span class="mt-1">AllMap</span>
+        </button>
+    </div>
+
 </div>
 
 {#if dataTrip}
 <div class="flex items-center justify-center flex-wrap">
-    <!-- First Button with Text and Icon -->
-    <button class="m-1 flex items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none">
-        <span class="mr-2">รับเส้นทางทั้งหมด</span>
-        <MapCicleIcon />
-    </button>
-
     <div>
         <!-- Icon Buttons -->
         <button class={`m-1 focus:outline-none ${(dataTrip.booking === "BE" || dataTrip.booking === "BI") ? "hidden" : ""}`} disabled={Boolean(dataTrip.me || dataTrip.join)}>
@@ -107,8 +108,8 @@
             <IconContainer iconName="carbon:location-current" yes={Boolean(dataTrip.started)} />
         </button>
     </div>
-
-    <p class={`${(dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)) ? "" : "hidden"}`}>
+    <div class="border-l h-12 mx-4 border-black	"></div>
+    <div class={`${(dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)) ? "" : "hidden"}`}>
         <button class="m-1 focus:outline-none" disabled={Boolean(dataTrip.me)}>
             <IconContainer iconName="medical-icon:i-registration" yes={Boolean(dataTrip.me)} />
         </button>
@@ -121,7 +122,7 @@
                 </span>
             {/if}
         </button>
-    </p>
+    </div>
 </div>
 {/if}
 

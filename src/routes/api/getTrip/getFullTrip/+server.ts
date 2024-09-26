@@ -118,7 +118,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             me:tripDetail?.IDAccount === uuid,
             count:tripDetail?.count,
             join:tripDetail?.joiner.some(e=>{ if(e.IDAccount === uuid )console.log("found at "+e.IDAccount); return e.IDAccount === uuid }),
-            unread:unread,
+            unread:(uuid === "")?false:unread,
             checkpoint:checkPointMix,
         }
     }
