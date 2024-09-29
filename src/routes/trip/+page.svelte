@@ -3,7 +3,12 @@
     import MapCicleIcon from "$lib/components/MapCicleIcon.svelte";
 	import ChatComponent from "$lib/components/org/ChatComponent.svelte";
 	import ChatComments from "$lib/components/org/ChatComponent.svelte";
-    import Checkpoint from "$lib/components/trip/checkpoint.svelte";
+	import BookBtn from "$lib/components/trip/button/BookBtn.svelte";
+	import ChatBtn from "$lib/components/trip/button/ChatBtn.svelte";
+	import CopyBtn from "$lib/components/trip/button/CopyBtn.svelte";
+	import GoBtn from "$lib/components/trip/button/GoBtn.svelte";
+	import JoinBtn from "$lib/components/trip/button/JoinBtn.svelte";
+	import Checkpoint from "$lib/components/trip/Checkpoint.svelte";
     import Go from "$lib/components/trip/Go.svelte";
     import { tripData } from "$lib/store/store";
     import Icon from "@iconify/svelte";
@@ -82,7 +87,9 @@
                     started={dataTrip.started}
                     join={Boolean(dataTrip.join)}
                     canSend={Boolean(dataTrip.join) || Boolean(dataTrip.me)}
-
+                    canCheckpoint={(Boolean(dataTrip.join) || Boolean(dataTrip.me))&&Boolean(dataTrip.started)}
+                    orderC={checkpoint.orderC}
+                    me={checkpoint.me}
                 />
             {/each}
             <Go type={"end"} />
@@ -103,34 +110,19 @@
 <div class="flex items-center justify-center flex-wrap">
     <div>
         <!-- Icon Buttons -->
-        <button class={`m-1 focus:outline-none ${(dataTrip.booking === "BE" || dataTrip.booking === "BI") ? "hidden" : ""}`} disabled={Boolean(dataTrip.me || dataTrip.join)}>
-            <IconContainer iconName="material-symbols:group-add-outline" yes={Boolean(dataTrip.me || dataTrip.join)} />
-        </button>
+        <JoinBtn hasToken={dataTrip.hasToken} joined={Boolean(dataTrip.join)} visbleBtn={dataTrip.booking !== "NM" || Boolean(dataTrip.me) } 
+        can={Boolean(dataTrip.me)} tripID={dataTrip.tripID}/>
+        <CopyBtn hasToken={dataTrip.hasToken} can={Boolean(dataTrip.me)} tripID={dataTrip.tripID}/>
+        <GoBtn tripID={dataTrip.tripID} status={dataTrip.started} can={Boolean(dataTrip.me)}/>
 
-        <button class="m-1 focus:outline-none" disabled={Boolean(dataTrip.me)}>
-            <IconContainer iconName="ic:round-save-alt" yes={Boolean(dataTrip.me)} />
-        </button>
-
-        <button class="m-1 focus:outline-none" disabled={Boolean(dataTrip.started)}>
-            <IconContainer iconName="carbon:location-current" yes={Boolean(dataTrip.started)} />
-        </button>
     </div>
-    <div class={`border-l h-12 mx-4 border-black ${(dataTrip.booking === "NM")?"hidden":""}`}></div>
-    <div class={`${(dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)) ? "" : "hidden"}`}>
-        <button class="m-1 focus:outline-none" disabled={Boolean(dataTrip.me)}>
-            <IconContainer iconName="medical-icon:i-registration" yes={Boolean(dataTrip.me)} />
-        </button>
-
-        <ChatComponent tripID={dataTrip.tripID} custID={""} bind:showChatPopup={showChatPopup} hasToken={dataTrip.hasToken}/>
-        <button class="m-1 focus:outline-none relative" disabled={Boolean(dataTrip.me)} on:click={()=>{showChatPopup = true}}>
-            <IconContainer iconName="ant-design:comment-outlined" yes={Boolean(dataTrip.me)} />
-            {#if dataTrip.unread}
-                <span class="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full p-1 flex items-center justify-center">
-                    un read
-                </span>
-            {/if}
-        </button>
-    </div>
+    <!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
+    {#if (dataTrip.booking !== "NM")}
+    <div class={`border-l h-12 mx-4 border-black `}></div>
+        <BookBtn can={Boolean(dataTrip.me || dataTrip.join)}/>
+        <ChatBtn can={Boolean(dataTrip.me)} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} unRead={Boolean(dataTrip.unread)}/>
+    {/if}
+    
 </div>
 {/if}
 

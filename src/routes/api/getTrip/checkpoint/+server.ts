@@ -15,7 +15,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             }
         });
 
-        return new Response(JSON.stringify({ Trip: { detail: detailCK?.detail } }), {
+        return new Response(JSON.stringify({  detail: detailCK?.detail  }), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',

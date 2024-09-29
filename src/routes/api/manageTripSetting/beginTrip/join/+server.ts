@@ -6,8 +6,7 @@ import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripID } = await request.json();
-        const { join } = await request.json();
+        const { tripID,join } = await request.json();
         checkMissingInput(tripID,join)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
