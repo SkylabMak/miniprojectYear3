@@ -37,7 +37,6 @@ interface profile {
 }
 
 interface orgChat {
-    custID: string
     IDTrip: string,// ของลูกค้า
     IDAccount: string,
     tripname: string

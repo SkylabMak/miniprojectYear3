@@ -8,10 +8,12 @@ import { deleateBETrip } from "$lib/myAPI/tripUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
+        console.log("change booking is run ")
         const { tripID, book, IDAccount } = await request.json();
         //tripID is rest trip
         checkMissingInput(tripID, book, IDAccount )
         const token = cookies.get('token');
+        console.log("token is ", token)
         const uuid = decrypt(token as string)
         let countToRemove = 0;
         console.log("uuid is changeBooking " + uuid)

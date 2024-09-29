@@ -110,6 +110,7 @@ function openPopup() {
     <Popup bind:isOpen={showPopup}>
         {#if data.orgChat}
         {#each data.orgChat as message}
+        <!-- {console.log("date ",message.startTime)} -->
         <OrgChat message={message}></OrgChat>
         {/each}
         {/if}

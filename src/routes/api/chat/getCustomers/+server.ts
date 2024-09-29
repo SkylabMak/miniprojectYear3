@@ -76,10 +76,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         status: true
                     }
                 })
-                // console.log("bookStatus is " + bookStatus)
+                // console.log(tripDetail?.IDTrip+" date is " + tripDetail?.checkpoint?.[0]?.time ?? "")
                 const latestChat = await getLatestChatFromlist(m.Chat??null)
                 return {
-                    IDTrip: m.IDTrip??"",
+                    IDTrip: tripDetail?.IDTrip,
                     IDAccount: m.IDAccount,
                     tripname:m.tripName,
                     IDOriginTrip:m.IDTrip,
