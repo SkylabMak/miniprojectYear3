@@ -1,12 +1,15 @@
 <script lang="ts">
     import IconContainer from "$lib/components/IconContainer.svelte";
     import MapCicleIcon from "$lib/components/MapCicleIcon.svelte";
+	import ChatComponent from "$lib/components/org/ChatComponent.svelte";
+	import ChatComments from "$lib/components/org/ChatComponent.svelte";
     import Checkpoint from "$lib/components/trip/checkpoint.svelte";
     import Go from "$lib/components/trip/Go.svelte";
     import { tripData } from "$lib/store/store";
     import Icon from "@iconify/svelte";
     import { onDestroy } from "svelte";
-    
+
+    let showChatPopup = false
     let dataTrip: tripPageData;
     let indexPass = -1;
     const unsubscribe = tripData.subscribe(value => {
@@ -67,6 +70,7 @@
                     <Go type={"mini"} />
                 {/if}
                 <Checkpoint
+                    tripID={dataTrip.tripID}
                     IDCheckpoint={checkpoint.IDCheckpoint}
                     locationName={checkpoint.locationName}
                     commentCount={checkpoint.commentCount}
@@ -76,6 +80,9 @@
                     unRead={checkpoint.unRead}
                     pass={index > indexPass}
                     started={dataTrip.started}
+                    join={Boolean(dataTrip.join)}
+                    canSend={Boolean(dataTrip.join) || Boolean(dataTrip.me)}
+
                 />
             {/each}
             <Go type={"end"} />
@@ -108,13 +115,14 @@
             <IconContainer iconName="carbon:location-current" yes={Boolean(dataTrip.started)} />
         </button>
     </div>
-    <div class="border-l h-12 mx-4 border-black	"></div>
+    <div class={`border-l h-12 mx-4 border-black ${(dataTrip.booking === "NM")?"hidden":""}`}></div>
     <div class={`${(dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)) ? "" : "hidden"}`}>
         <button class="m-1 focus:outline-none" disabled={Boolean(dataTrip.me)}>
             <IconContainer iconName="medical-icon:i-registration" yes={Boolean(dataTrip.me)} />
         </button>
 
-        <button class="m-1 focus:outline-none relative" disabled={Boolean(dataTrip.me)}>
+        <ChatComponent tripID={dataTrip.tripID} custID={""} bind:showChatPopup={showChatPopup} hasToken={dataTrip.hasToken}/>
+        <button class="m-1 focus:outline-none relative" disabled={Boolean(dataTrip.me)} on:click={()=>{showChatPopup = true}}>
             <IconContainer iconName="ant-design:comment-outlined" yes={Boolean(dataTrip.me)} />
             {#if dataTrip.unread}
                 <span class="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full p-1 flex items-center justify-center">

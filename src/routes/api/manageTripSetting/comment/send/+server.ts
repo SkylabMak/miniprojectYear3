@@ -103,7 +103,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     }
                 })
             }
-            return resTrue()
+            const userSender = await prismaMySQL.account.findUnique({
+                where:{
+                    IDAccount:uuid as string
+                }
+            })
+            return new Response(JSON.stringify({
+                text: newComment.message,
+                readed: newComment.readed,
+                name: userSender?.name,
+                imgUrl: userSender?.imgURL,
+                time: newComment.time,
+                my:true
+            }), {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
 
         } catch (error) {

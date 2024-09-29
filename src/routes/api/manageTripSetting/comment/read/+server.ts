@@ -2,17 +2,22 @@ import { checkErrorAndRes, checkMissingInput, CustomError, resCustomError } from
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
-import { resFalse,} from "$lib/myAPI/resTrueFalse";
+import { resFalse, } from "$lib/myAPI/resTrueFalse";
 import { prismaMongo } from "$lib/utils/database/noSqlDB";
 import { MISSING_INPUT } from "$lib/constants/errorCodes";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID, iDcheckpoint } = await request.json();
-        checkMissingInput(tripID,iDcheckpoint)
+        checkMissingInput(tripID, iDcheckpoint)
         const token = cookies.get('token');
-        const uuid = decrypt(token as string)
-        console.log("uuid is " + uuid)
+        let uuid
+        try {
+            uuid = decrypt(token as string)
+        } catch (error) {
+            uuid = " "
+        }
+        // console.log("uuid is " + uuid)
 
         const tripDetail = await prismaMySQL.trip.findUnique({
             where: {
@@ -49,25 +54,26 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
 
         try {
-            //update reader
-            console.log("joiner " + joiner)
-            if (joiner) {
-
-                const updatedComments = checkpointDetail?.Comments.map(user => {
-                    if (!(user.readed.includes(uuid as string))) {
-                        user.readed.push(uuid as string)
-                    }
-                    return user;
-                });
-                await prismaMongo.checkpointNSQL.updateMany({
-                    where: {
-                        IDTrip: tripID,
-                        IDCheckpoint: iDcheckpoint
-                    },
-                    data: {
-                        Comments: updatedComments
-                    }
-                })
+            if (token) {
+                //update reader
+                // console.log("joiner " + joiner)
+                if (joiner) {
+                    const updatedComments = checkpointDetail?.Comments.map(user => {
+                        if (!(user.readed.includes(uuid as string))) {
+                            user.readed.push(uuid as string)
+                        }
+                        return user;
+                    });
+                    await prismaMongo.checkpointNSQL.updateMany({
+                        where: {
+                            IDTrip: tripID,
+                            IDCheckpoint: iDcheckpoint
+                        },
+                        data: {
+                            Comments: updatedComments
+                        }
+                    })
+                }
             }
             const result = await Promise.all(checkpointDetail.Comments.map(async e => {
                 const userInfo = await prismaMySQL.account.findUnique({
@@ -79,11 +85,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     text: e.message,
                     name: userInfo?.name,
                     imgUrl: userInfo?.imgURL,
-                    readed: e.readed.length
+                    time:e.time,
+                    readed: e.readed.length,
+                    my: (uuid) ? e.sender === uuid : false
                 };
             }));
-
-            console.log(result);
             return new Response(JSON.stringify({
                 comments: result
 

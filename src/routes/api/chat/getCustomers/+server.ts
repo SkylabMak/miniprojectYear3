@@ -79,7 +79,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 // console.log("bookStatus is " + bookStatus)
                 const latestChat = await getLatestChatFromlist(m.Chat??null)
                 return {
-                    IDTrip: tripDetail?.IDTrip??"",
+                    IDTrip: m.IDTrip??"",
                     IDAccount: m.IDAccount,
                     tripname:m.tripName,
                     IDOriginTrip:m.IDTrip,

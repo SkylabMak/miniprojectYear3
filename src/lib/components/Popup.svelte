@@ -1,6 +1,6 @@
 <script>
     export let isOpen = false;
-    
+    export let hideCloseBtn = false
     // Function to close the popup
     function closePopup() {
         isOpen = false;
@@ -16,7 +16,7 @@
                 <slot />
             </div>
             <!-- Close Button -->
-            <button class="bg-accent2 w-fit text-white px-4 py-2 rounded-lg" on:click={closePopup}>
+            <button class={`bg-accent2 w-fit text-white px-4 py-2 rounded-lg ${hideCloseBtn?"hidden":""}`} on:click={closePopup}>
                 ปิด
             </button>
         </div>

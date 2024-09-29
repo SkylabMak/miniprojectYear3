@@ -37,6 +37,7 @@ interface profile {
 }
 
 interface orgChat {
+    custID: string
     IDTrip: string,// ของลูกค้า
     IDAccount: string,
     tripname: string
@@ -67,6 +68,7 @@ interface tripPageData {
     count: number,
     join: Boolean,
     imageURL:string,
+    hasToken:boolean
     checkpoint: {
         IDCheckpoint: string,
         time: string,
@@ -83,4 +85,21 @@ interface progress {
     IDAccount: string,
     imgURL: string,
     name: string
+}
+
+interface comment {
+    text: string;
+    name: string;
+    imgUrl: string;
+    readed: number;
+    time:string
+    my: boolean;
+  }
+
+interface chat{
+    text: string;
+    name: string;
+    imgUrl: string;
+    time:string;
+    my: boolean;
 }

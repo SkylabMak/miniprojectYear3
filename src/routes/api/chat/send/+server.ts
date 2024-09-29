@@ -96,8 +96,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         }
                     })
                 }
-    
-                return resTrue()
+
+                const userInfo = await prismaMySQL.account.findUnique({
+                    where:{
+                        IDAccount:uuid as string
+                    }
+                })
+                return new Response(JSON.stringify({ 
+                    text: newChat.message,
+                    name: userInfo?.name,
+                    imgUrl: userInfo?.imgURL,
+                    time:newChat.time,
+                    my: true
+                 }), {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
             } catch (error) {
                 console.log(error)
                 return resFalse()

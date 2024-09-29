@@ -81,12 +81,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 return chat;
             });
 
-            const result = updatedChat?.map(chat =>{
+            const result = await Promise.all((updatedChat ?? []).map(async (chat) => {
+                // Use async inside the map function to handle the asynchronous operation
+                const userInfo = await prismaMySQL.account.findUnique({
+                  where: {
+                    IDAccount: (chat.senderUser)?orgChat?.IDAccount:tripChat?.IDAccount as string,  // Fixed to use chat.sender
+                  },
+                });
+              
                 return {
-                    text:chat.message,
-                    my:(chat.senderUser === cust) //XOR
-                }
-            })
+                  text: chat.message,
+                  name: userInfo?.name || 'Unknown', // Add fallback in case userInfo is null
+                  imgUrl: userInfo?.imgURL || '/default-avatar.png', // Add fallback for imgUrl
+                  time:chat.time,
+                  my: chat.senderUser === cust, // XOR logic
+                };
+              }));
+              
+              
 
                 await prismaMongo.orgChat.updateMany({
                     where: {
@@ -97,7 +109,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         Chat: updatedChat,
                     }
                 });
-                return new Response(JSON.stringify(result), {
+                return new Response(JSON.stringify({
+                    chats : result
+                }), {
                     status: 200,
                     headers: {
                         'Content-Type': 'application/json',

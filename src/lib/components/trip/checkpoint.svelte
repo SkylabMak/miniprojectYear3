@@ -6,7 +6,10 @@ import {
 
 } from "$lib/utilsFn/Date";
 import Icon from "@iconify/svelte";
+	import Popup from "../Popup.svelte";
+	import CommentsComponent from "./CommentsComponent.svelte";
 
+export let tripID: string;
 export let IDCheckpoint: string;
 export let locationName: string;
 export let commentCount: number;
@@ -16,6 +19,11 @@ export let type: string;
 export let unRead: number;
 export let pass: boolean;
 export let started :boolean;
+export let join: boolean;
+export let canSend:boolean;
+
+let showCommentPopup = false
+let showDetailPopup = false
 
 const iconType = new Map<string, string>([
     ['D', "solar:point-on-map-linear"],
@@ -35,18 +43,25 @@ const iconType = new Map<string, string>([
         <!-- Location Name with Background -->
         <div class="flex-1 bg-blue-200 p-2 rounded-lg flex justify-between items-center">
             <span>{locationName}</span>
-            {#if started}
+            {#if started && (canSend)}
             <Icon icon="icon-park-outline:check-one" class={`text-2xl ${pass?"text-black":"text-emerald-600"}`} />
             {/if}
         </div>
     
-        <!-- Comment Count -->
+        <!-- Comment -->
         <div class="relative flex items-center space-x-1">
-            <Icon icon="ant-design:comment-outlined" class="text-2xl text-black" />
+            <button on:click={()=>{showCommentPopup = true}}>
+                <Icon icon="ant-design:comment-outlined" class="text-2xl text-black" />
+            </button>
             <span>{commentCount}</span>
-
+            <CommentsComponent 
+            tripID={tripID} 
+            iDcheckpoint={IDCheckpoint} 
+            bind:showCommentPopup={showCommentPopup}
+            canSend={canSend}
+            />
             <!-- Unread Badge -->
-            {#if unRead > 0}
+            {#if unRead > 0 && join}
                 <span class="absolute top-[-8px] right-[5px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {unRead}
                 </span>
