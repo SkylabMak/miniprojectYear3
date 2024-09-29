@@ -83,4 +83,4 @@ const formattedTime = !isNaN(date.getTime()) ?
 
 <BookCust tripID={message.IDTrip} bind:showBookPopup={showBookPopup} 
 currentStatus={(message.bookDone == "D")?"BE":"BI"} custID={message.IDAccount} bind:message={message}/>
-<DateChange tripID={message.IDTrip} bind:stringISOString={message.startTime} bind:isDatePopup={datePopup}/>
+<DateChange tripID={message.IDTripCust} bind:stringISOString={message.startTime} bind:isDatePopup={datePopup}/>

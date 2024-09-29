@@ -79,7 +79,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 // console.log(tripDetail?.IDTrip+" date is " + tripDetail?.checkpoint?.[0]?.time ?? "")
                 const latestChat = await getLatestChatFromlist(m.Chat??null)
                 return {
-                    IDTrip: tripDetail?.IDTrip,
+                    IDTrip: m.IDTrip,
+                    IDTripCust:tripDetail?.IDTrip,
                     IDAccount: m.IDAccount,
                     tripname:m.tripName,
                     IDOriginTrip:m.IDTrip,

@@ -37,7 +37,8 @@ interface profile {
 }
 
 interface orgChat {
-    IDTrip: string,// ของลูกค้า
+    IDTrip: string,// ของที่พัก
+    IDTripCust: string,// ของลูกค้า
     IDAccount: string,
     tripname: string
     IDOriginTrip: string,

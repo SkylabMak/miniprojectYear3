@@ -64,7 +64,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                             },
                         });
 
-                        console.log(`Updated checkpoint ID ${checkpoint.IDCheckpoint} with new time ${updatedTimeISO}`);
+                        // console.log(`Updated checkpoint ID ${checkpoint.IDCheckpoint} with new time ${updatedTimeISO}`);
                     }
                 }
             }
