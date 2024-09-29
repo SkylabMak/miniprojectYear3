@@ -77,7 +77,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     const booking = tripDetail?.Booking
     const cust = ((booking === 'BE'&&tripDetail?.IDAccount === uuid) || (booking === 'BI' && tripDetail?.IDAccount !== uuid))
     let unread = !(cust === lastChat?.readed);
+    // console.log("unread1",unread)
     unread = (booking === 'BI' && tripDetail?.IDAccount === uuid)?false:unread // if res will can't select cust
+    // console.log("unread2",unread)
+    unread = (lastChat == null)?false:true
+    // console.log("unread3",unread)
     // console.log("cust is "+cust)
     const checkpointDetail = await getCheckpointDetail(tripID, uuid)
     
@@ -100,10 +104,13 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
     // const checkPointMixSorted = checkPointMix?.sort((e1, e2) => (e1.orderC ?? 0) - (e2.orderC ?? 0))
     const startDate = checkPointMix?.[0]?.time || null;
+    const orgTripDetaill = (tripDetail?.Booking === "BE")?await getOrgDetail(tripDetail?.IDOriginTrip??""):null
     const result = {
         Trip: {
             tripID: tripDetail?.IDTrip,
-            head:(tripDetail?.Booking === "BE")?((await getOrgDetail(tripDetail.IDOriginTrip??"")).name):tripDetail?.account?.name,
+            tripIDOrigin:tripDetail?.IDOriginTrip,
+            head:(tripDetail?.Booking === "BE")?(orgTripDetaill?.name??""):tripDetail?.account?.name,
+            ownOrgTrip:(orgTripDetaill!=null),
             name: tripDetail?.TripName,
             detail: tripDetail?.Detail,
             startDate: startDate,

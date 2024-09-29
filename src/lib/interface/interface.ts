@@ -52,29 +52,31 @@ interface orgChat {
 
 interface tripPageData {
     tripID: string
+    tripIDOrigin: string
     head: string
-    name: string,
-    detail: string,
+    ownOrgTrip:boolean
+    name: string
+    detail: string
     startDate: string
-    preparation: string,
-    booking: string,
-    org:string,
-    lastEdit: string,
-    private: string,
-    maxJoiner: string,
-    started: boolean,
-    me: Boolean,
-    unread: Boolean,
-    count: number,
-    join: Boolean,
-    imageURL:string,
+    preparation: string
+    booking: string
+    org:string
+    lastEdit: string
+    private: string
+    maxJoiner: string
+    started: boolean
+    me: Boolean
+    unread: Boolean
+    count: number
+    join: Boolean
+    imageURL:string
     hasToken:boolean
     checkpoint: {
-        IDCheckpoint: string,
+        IDCheckpoint: string
         time: string,
-        locationName: string,
+        locationName: string
         type: string
-        commentCount: number,
+        commentCount: number
         unRead: number
         orderC: number
         progress: progress[]

@@ -130,35 +130,51 @@ export async function copyTrip(
 }
 
 export async function deleateBETrip(tripID:string,IDAccount:string) {
-    await prismaMySQL.joiner.delete({
-        where: {
-            IDTrip_IDAccount: {
-                IDTrip: tripID as string,
-                IDAccount: IDAccount as string,
+    try {
+        await prismaMySQL.joiner.delete({
+            where: {
+                IDTrip_IDAccount: {
+                    IDTrip: tripID as string,
+                    IDAccount: IDAccount as string,
+                },
             },
-        },
-    })
-    const userIDTrip = await prismaMySQL.trip.findFirst({
-        where: {
-            IDOriginTrip: tripID,
-            IDAccount: IDAccount,
-            Booking: 'BE'
-        },
-        select: {
-            IDTrip: true
-        }
-    })
-    console.log("userIDTrip is "+userIDTrip?.IDTrip)
-    await prismaMySQL.checkpoint.deleteMany({
-        where: {
-            IDTrip: userIDTrip?.IDTrip
-        }
-    });
-    await prismaMySQL.trip.delete({
-        where: {
-            IDTrip: userIDTrip?.IDTrip
-        }
-    })
+        })
+    } catch (error) {
+        console.log("can not delete joiner")
+    }
+    
+        const userIDTrip = await prismaMySQL.trip.findFirst({
+            where: {
+                IDOriginTrip: tripID,
+                IDAccount: IDAccount,
+                Booking: 'BE'
+            },
+            select: {
+                IDTrip: true
+            }
+        })
+        console.log("userIDTrip is "+userIDTrip?.IDTrip)
+
+    try {
+        await prismaMySQL.checkpoint.deleteMany({
+            where: {
+                IDTrip: userIDTrip?.IDTrip
+            }
+        });
+    } catch (error) {
+        console.log("can not delete checkpoint")
+    }
+    
+    try {
+        await prismaMySQL.trip.delete({
+            where: {
+                IDTrip: userIDTrip?.IDTrip
+            }
+        })
+    } catch (error) {
+        console.log("can not delete trip")
+    }
+   
 
     //No sql deleate 
     // await prismaMongo.orgChat.deleteMany({
@@ -167,12 +183,17 @@ export async function deleateBETrip(tripID:string,IDAccount:string) {
     //         IDAccount:IDAccount
     //     }
     // })
-
-    await prismaMongo.checkpointNSQL.deleteMany({
-        where:{
-            IDTrip:userIDTrip?.IDTrip
-        }
-    })
+    try {
+        await prismaMongo.checkpointNSQL.deleteMany({
+            where:{
+                IDTrip:userIDTrip?.IDTrip
+            }
+        })
+    } catch (error) {
+        console.log("can not delete checkpointNSQL")
+    }
+   
+    
 }
 
 export async function checkExistTrip(uuid: string) {

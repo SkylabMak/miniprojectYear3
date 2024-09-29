@@ -25,6 +25,15 @@ export default {
         accent2: {
           DEFAULT: '#1A385A',
         },
+        error: {
+          DEFAULT: '#D0474C',
+        },
+        warning: {
+          DEFAULT: '#ffcc00',
+        },
+        success: {
+          DEFAULT: '#BACA6B',
+        },
       },
       textColor: {
         'green': 'text-green-600', // Custom class 'greee'

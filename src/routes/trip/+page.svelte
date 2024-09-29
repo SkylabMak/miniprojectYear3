@@ -119,7 +119,7 @@
     <!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
     {#if (dataTrip.booking !== "NM")}
     <div class={`border-l h-12 mx-4 border-black `}></div>
-        <BookBtn can={Boolean(dataTrip.me || dataTrip.join)}/>
+        <BookBtn tripOriginID={dataTrip.tripIDOrigin} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} can={Boolean(dataTrip.me||dataTrip.ownOrgTrip)}/>
         <ChatBtn can={Boolean(dataTrip.me)} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} unRead={Boolean(dataTrip.unread)}/>
     {/if}
     

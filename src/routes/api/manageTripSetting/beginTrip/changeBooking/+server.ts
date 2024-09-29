@@ -9,35 +9,59 @@ import { deleateBETrip } from "$lib/myAPI/tripUtils";
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID, book, IDAccount } = await request.json();
+        //tripID is rest trip
         checkMissingInput(tripID, book, IDAccount )
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
+        let countToRemove = 0;
         console.log("uuid is changeBooking " + uuid)
-        const trip = await prismaMySQL.trip.findFirst({
-            where: {
-                IDTrip: tripID
-            },
-            select: {
-                joiner: {
-
+        // console.log("IDAccount : ",(IDAccount as string).length == 0)
+        if(IDAccount != ""){
+            const trip = await prismaMySQL.trip.findFirst({
+                where: {
+                    IDTrip: tripID
                 },
-                TripName: true,
-                maxJoiner: true,
-                IDAccount: true
-
+                select: {
+                    TripName: true,
+                    maxJoiner: true,
+                    IDAccount: true
+    
+                }
+            })
+            if (trip?.IDAccount != uuid) {
+                console.log("false not own")
+                return resFalse()
             }
-        })
-        if (trip?.IDAccount != uuid) {
-            console.log("false not own")
-            return resFalse()
         }
+        else{
+            const joinDetail = await prismaMySQL.joiner.findUnique({
+                where:{
+                    IDTrip_IDAccount:{
+                        IDAccount:uuid as string,
+                        IDTrip:tripID
+                    }
+                }
+            })
+            if(joinDetail == null){
+                console.log("false not join")
+                return resFalse()
+            }
+            countToRemove = ((await prismaMySQL.trip.findFirst({
+                where:{
+                    IDOriginTrip:tripID,
+                    IDAccount:uuid as string
+                }
+            }))?.count)??0
+            console.log(countToRemove)
+        }
+
         // console.log("")
         if (book === true) {
             await prismaMySQL.joiner.update({
                 where: {
                     IDTrip_IDAccount: { //compound unique key
                         IDTrip: tripID as string,
-                        IDAccount: IDAccount as string,
+                        IDAccount: (IDAccount!= "")?IDAccount:uuid as string,
                     },
                 },
                 data: {
@@ -47,7 +71,18 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
         else if (book === false) {
             // deleate trip
-            await deleateBETrip(tripID,IDAccount)
+            await deleateBETrip(tripID,(IDAccount!= "")?IDAccount:uuid as string)
+            
+            await prismaMySQL.trip.update({
+                where:{
+                    IDTrip: tripID
+                },
+                data:{
+                    count:{
+                        decrement:countToRemove
+                    }
+                }
+            })
         }
         else {
             return resFalse()
