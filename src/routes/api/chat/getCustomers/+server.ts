@@ -40,26 +40,26 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         const messageWithTrip = await Promise.all(
             flattenedAllMessage.map(async m => {
                 const tripDetail = await prismaMySQL.trip.findFirst({
-                        where: {
-                            IDOriginTrip: m.IDTrip,
-                            IDAccount:m.IDAccount
+                    where: {
+                      IDOriginTrip: m.IDTrip,
+                      IDAccount: m.IDAccount,
+                    },
+                    select: {
+                      IDAccount: true,
+                      IDTrip: true,
+                      IDOriginTrip: true,
+                      TripName: true,
+                      checkpoint: {
+                        orderBy: {
+                          time: 'asc',  // Sorting by time in ascending order
                         },
+                        take: 1,
                         select: {
-                            IDAccount: true,
-                            IDTrip: true,
-                            IDOriginTrip: true,
-                            TripName:true,
-                            checkpoint: {
-                                orderBy: {
-                                    OrderC: 'asc'
-                                },
-                                take: 1,
-                                select: {
-                                    time: true
-                                }
-                            },
-                        }
-                    });
+                          time: true,
+                        },
+                      },
+                    },
+                  });                  
 
                 const acccount = await prismaMySQL.account.findUnique({
                     where:{

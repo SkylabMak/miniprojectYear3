@@ -9,20 +9,30 @@
 	import GoBtn from "$lib/components/trip/button/GoBtn.svelte";
 	import JoinBtn from "$lib/components/trip/button/JoinBtn.svelte";
 	import Checkpoint from "$lib/components/trip/Checkpoint.svelte";
+	import CheckpointEdit from "$lib/components/trip/CheckpointEdit.svelte";
+	import EditTripBtn from "$lib/components/trip/EditTripBtn.svelte";
+	// import EditTripBtn from "$lib/components/trip/EditTripBtn.svelte";
     import Go from "$lib/components/trip/Go.svelte";
+	import TripFooter from "$lib/components/trip/TripFooter.svelte";
+	import TripHeader from "$lib/components/trip/TripHeader.svelte";
     import { tripData } from "$lib/store/store";
     import Icon from "@iconify/svelte";
     import { onDestroy } from "svelte";
 
-    let showChatPopup = false
+    let canEdit = false;
+    let editMode = false;
     let dataTrip: tripPageData;
     let indexPass = -1;
+    let showEditPopup = false
     const unsubscribe = tripData.subscribe(value => {
+        console.log(value);
         dataTrip = value;
+        if(value){
+            canEdit = Boolean(value.me || value.ownOrgTrip)
+        }
         if (value) {
             indexPass = value.checkpoint.findIndex(e => e.me === true);
         }
-        console.log(dataTrip);
     });
     
     onDestroy(() => {
@@ -36,32 +46,12 @@
 </script>
     
 <div class="w-full mx-auto p-4 rounded-lg text-black">
-    <!-- Image Section -->
-    <div class="image-placeholder bg-gray-300 w-full h-32 rounded-lg mb-4">
-        {#if dataTrip}
-            {#if dataTrip.imageURL}
-                <img src={dataTrip.imageURL} alt={dataTrip.tripID} class="w-full h-full rounded-lg object-cover" />
-            {:else}
-                <div class="text-center pt-6">Image goes here</div>
-            {/if}
+    <div class="w-full flex justify-end">
+        {#if canEdit}
+            <EditTripBtn bind:editMode={editMode}/>
         {/if}
     </div>
-
-    <!-- Title and Description -->
-    <h2 class="font-bold text-xl mb-1">{dataTrip?.name}</h2>
-    <p class="text-black mb-4">{dataTrip?.detail}</p>
-
-    <!-- Preparation Section -->
-    <h3 class="font-bold text-sm mb-2">สิ่งที่ต้องเตรียม</h3>
-    <p class="text-sm text-black mb-4">{dataTrip?.preparation}</p>
-
-    <!-- Date -->
-    <div class="flex justify-center text-sm text-black">
-        <div class="flex items-center">
-            <Icon icon="mingcute:time-line" class="text-2xl text-black mr-2" />
-            <span>{formatDate(dataTrip?.startDate)}</span>
-        </div>
-    </div>
+    <TripHeader bind:editMode={editMode}/>
 
     <!-- Checkpoints Section -->
     <div class="flex justify-center flex-col text-sm text-black my-4">
@@ -88,41 +78,52 @@
                     join={Boolean(dataTrip.join)}
                     canSend={Boolean(dataTrip.join) || Boolean(dataTrip.me)}
                     canCheckpoint={(Boolean(dataTrip.join) || Boolean(dataTrip.me))&&Boolean(dataTrip.started)}
-                    orderC={checkpoint.orderC}
                     me={checkpoint.me}
+                    bind:editMode={editMode}
                 />
             {/each}
-            <Go type={"end"} />
+            {#if !editMode && dataTrip.checkpoint.length >0}
+                <Go type={"end"} /> 
+            {/if}
         {:else}
             <span>No checkpoints available</span>
         {/if}
+        {#if editMode}
+                <div class="flex flex-col items-center text-xl">
+                    <div class={`text-blue-500 text-3xl flex items-center justify-center`}>
+                        <Icon icon={"basil:arrow-down-solid"} />
+                    </div>
+                    <button 
+                    on:click={() => { showEditPopup = true }} 
+                    class="border rounded-full shadow-lg p-2 bg-white">
+                    <Icon icon="charm:plus" class="text-4xl text-black" />
+                    </button>
+                    <CheckpointEdit
+                        bind:showEditPopup={showEditPopup}
+                        tripID={dataTrip.tripID}
+                        checkPointID={""}
+                        locationName={""}
+                        typeCK={"D"}
+                        timeISOString={new Date(
+                            dataTrip.checkpoint.length > 0 && dataTrip.checkpoint[dataTrip.checkpoint.length - 1]?.time
+                            ? new Date(dataTrip.checkpoint[dataTrip.checkpoint.length - 1].time).getTime() + 1 * 60 * 60 * 1000
+                            : new Date().getTime() // Fallback to the current date's timestamp
+                            ).toISOString()}
+                        newCK={true}
+                        />
+                </div>
+            {/if}
     </div>
+    {#if !editMode}
     <div class="flex justify-end w-full">
         <button class="mt-[-80px] flex flex-col justify-center items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none">
             <MapCicleIcon />
             <span class="mt-1">AllMap</span>
         </button>
     </div>
-
-</div>
-
-{#if dataTrip}
-<div class="flex items-center justify-center flex-wrap">
-    <div>
-        <!-- Icon Buttons -->
-        <JoinBtn hasToken={dataTrip.hasToken} joined={Boolean(dataTrip.join)} visbleBtn={dataTrip.booking !== "NM" || Boolean(dataTrip.me) } 
-        can={Boolean(dataTrip.me)} tripID={dataTrip.tripID}/>
-        <CopyBtn hasToken={dataTrip.hasToken} can={Boolean(dataTrip.me)} tripID={dataTrip.tripID}/>
-        <GoBtn tripID={dataTrip.tripID} status={dataTrip.started} can={Boolean(dataTrip.me)}/>
-
-    </div>
-    <!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
-    {#if (dataTrip.booking !== "NM")}
-    <div class={`border-l h-12 mx-4 border-black `}></div>
-        <BookBtn tripOriginID={dataTrip.tripIDOrigin} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} can={Boolean(dataTrip.me||dataTrip.ownOrgTrip)}/>
-        <ChatBtn can={Boolean(dataTrip.me)} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} unRead={Boolean(dataTrip.unread)}/>
     {/if}
-    
+
 </div>
-{/if}
+
+<TripFooter bind:editMode={editMode}/>
 

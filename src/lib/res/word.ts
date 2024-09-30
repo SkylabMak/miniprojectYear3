@@ -4,3 +4,9 @@ export const checkpointTypeText = new Map<string, string>([
     ['G', "รวมตัว"],
     ['A', "กิจกรรม"]
 ]);
+
+export const checkpointTypeIcon = new Map<string, string>([
+    ['D', "solar:point-on-map-linear"],
+    ['G', "clarity:group-solid"],
+    ['A', "mingcute:target-line"]
+]);

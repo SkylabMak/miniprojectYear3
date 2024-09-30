@@ -23,21 +23,27 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 IDAccount: true,
                 IDOriginTrip: true,
                 Booking: true,
-                joiner:{
-                    select:{
-                        IDAccount:true
+                joiner: {
+                    select: {
+                        IDAccount: true
                     }
                 },
-                checkpoint:{
-                    where:{
-                        IDCheckpoint:iDcheckpoint
+                checkpoint: {
+                    where: {
+                        IDCheckpoint: iDcheckpoint
                     },
-                    select:{
-                        OrderC:true
+                    orderBy: {
+                        time: 'asc'  // Sorting by time in ascending order
+                    },
+                    select: {
+                        OrderC: true,
+                        IDCheckpoint: true,
+                        time: true  // Assuming 'time' is nullable, Prisma will return 'null' where applicable
                     }
                 }
             }
-        })
+        });
+        
         console.log(tripDetail)
 
 
@@ -85,7 +91,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                     select: {
                         checkpoint: {
                             where: {
-                                OrderC: tripDetail.checkpoint[0].OrderC
+                                OrderC: tripDetail.checkpoint[0].OrderC,
+                                time: tripDetail.checkpoint[0].time
                             },
                             select: {
                                 IDCheckpoint: true

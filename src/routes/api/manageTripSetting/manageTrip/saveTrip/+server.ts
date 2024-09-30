@@ -3,12 +3,12 @@ import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import { decrypt } from "$lib/security/jwtUtils";
 import type { RequestHandler } from "@sveltejs/kit";
 import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
-import { getCurrentIsoDate } from "$lib/myAPI/tripUtils";
+import { deleateBETrip, deleateNMTrip, getCurrentIsoDate } from "$lib/myAPI/tripUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate } = await request.json();
-        checkMissingInput( tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate )
+        const { tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate,remove } = await request.json();
+        checkMissingInput( tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate,remove )
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         const isoDate = getCurrentIsoDate()
@@ -26,23 +26,30 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             if(oldTrip?.IDAccount !== uuid){
                 return resFalse()
             }
-            await prismaMySQL.trip.update({
-                where: {
-                    IDTrip: tripID as string
-                }, data: {
-                    TripName: tripName,
-                    Detail: detail,
-                    Booking: booking,
-                    Preparation: preparation,
-                    maxJoiner: maxJoiner,
-                    private: tripPrivate,
-                    lastEdit: isoDate
-                }
-            })
+            if(remove){
+                deleateNMTrip(tripID)
 
+                return resTrue()
+            }
+            else{
+                await prismaMySQL.trip.update({
+                    where: {
+                        IDTrip: tripID as string
+                    }, data: {
+                        TripName: tripName,
+                        Detail: detail,
+                        Booking: booking,
+                        Preparation: preparation,
+                        maxJoiner: maxJoiner,
+                        private: tripPrivate,
+                        lastEdit: isoDate
+                    }
+                })
 
-
-            return resTrue()
+    
+                return resTrue()
+            }
+            
         } catch (error) {
             console.log(error)
             return resFalse()

@@ -102,8 +102,15 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         }
     })
 
-    // const checkPointMixSorted = checkPointMix?.sort((e1, e2) => (e1.orderC ?? 0) - (e2.orderC ?? 0))
-    const startDate = checkPointMix?.[0]?.time || null;
+    const checkPointMixSorted = checkPointMix?.sort((e1, e2) => {
+        // Handle null time by using a default fallback date, such as the current time or a fixed point in the past
+        const time1 = e1.time ? new Date(e1.time).getTime() : 0; // Fallback to a default timestamp
+        const time2 = e2.time ? new Date(e2.time).getTime() : 0; // Fallback to a default timestamp
+    
+        return time1 - time2;
+    });
+    
+    const startDate = checkPointMixSorted?.[0]?.time || null;
     const orgTripDetaill = (tripDetail?.Booking === "BE")?await getOrgDetail(tripDetail?.IDOriginTrip??""):null
     const result = {
         Trip: {
@@ -127,7 +134,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             hasToken:(uuid)?true:false,
             join:tripDetail?.joiner.some(e=>{ if(e.IDAccount === uuid ) return e.IDAccount === uuid }),
             unread:(uuid === "")?false:unread,
-            checkpoint:checkPointMix,
+            checkpoint:checkPointMixSorted,
         }
     }
     return new Response(JSON.stringify(result), {

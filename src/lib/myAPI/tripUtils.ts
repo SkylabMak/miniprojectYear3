@@ -130,6 +130,7 @@ export async function copyTrip(
 }
 
 export async function deleateBETrip(tripID:string,IDAccount:string) {
+    //origin trip
     try {
         await prismaMySQL.joiner.delete({
             where: {
@@ -187,6 +188,43 @@ export async function deleateBETrip(tripID:string,IDAccount:string) {
         await prismaMongo.checkpointNSQL.deleteMany({
             where:{
                 IDTrip:userIDTrip?.IDTrip
+            }
+        })
+    } catch (error) {
+        console.log("can not delete checkpointNSQL")
+    }
+   
+    
+}
+
+export async function deleateNMTrip(tripID:string) {
+
+    try {
+        await prismaMySQL.checkpoint.deleteMany({
+            where: {
+                IDTrip: tripID
+            }
+        });
+    } catch (error) {
+        console.log("can not delete checkpoint")
+    }
+    
+    try {
+        await prismaMySQL.trip.delete({
+            where: {
+                IDTrip: tripID
+            }
+        })
+    } catch (error) {
+        console.log("can not delete trip")
+    }
+   
+
+    //No sql deleate 
+    try {
+        await prismaMongo.checkpointNSQL.deleteMany({
+            where:{
+                IDTrip:tripID
             }
         })
     } catch (error) {

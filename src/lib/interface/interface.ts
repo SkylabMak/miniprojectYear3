@@ -62,8 +62,8 @@ interface tripPageData {
     booking: string
     org:string
     lastEdit: string
-    private: string
-    maxJoiner: string
+    private: boolean
+    maxJoiner: number
     started: boolean
     me: Boolean
     unread: Boolean
@@ -105,3 +105,15 @@ interface chat{
     time:string;
     my: boolean;
 }
+
+interface checkpoint {
+    IDCheckpoint: string
+    time: string,
+    locationName: string
+    type: string
+    commentCount: number
+    unRead: number
+    orderC: number
+    progress: progress[]
+    me: boolean
+}[]

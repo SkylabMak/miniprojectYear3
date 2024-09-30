@@ -10,6 +10,7 @@ import { MISSING_INPUT } from "$lib/constants/errorCodes";
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
         const { tripID, locationName, time, detail, type } = await request.json();
+        console.log("tripID",tripID)
         checkMissingInput(tripID, locationName, time, detail, type)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
@@ -19,10 +20,22 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 IDTrip: tripID
             },
             select: {
-                checkpoint: true,
-                IDAccount: true
+                IDAccount: true,
+                checkpoint: {
+                    orderBy: {
+                        time: 'asc'  // Sort by 'time' in ascending order
+                    },
+                    select: {
+                        IDCheckpoint: true,
+                        time: true,
+                        OrderC: true,
+                        locationName: true,
+                        type: true
+                    }
+                }
             }
-        })
+        });
+        
         console.log("data VVVVV")
         console.log(checkpointList)
         if (checkpointList?.IDAccount !== uuid) {
@@ -34,11 +47,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
             const newCKID = await getCheckpointID()
             let last = checkpointList.checkpoint.length
+            const lastOrderC = (checkpointList.checkpoint[last-1]?.OrderC??last)+1
             await prismaMySQL.checkpoint.create({
                 data: {
                     IDCheckpoint: newCKID,
                     IDTrip: tripID,
-                    OrderC: (checkpointList.checkpoint[last-1].OrderC??last)+1,
+                    OrderC: lastOrderC??0,
                     createTime: getCurrentIsoDate(),
                     time: time,
                     locationName: locationName,
@@ -56,7 +70,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
             })
 
 
-            return resTrue()
+            return  new Response(JSON.stringify({ 
+                checkpoint: {
+                    IDCheckpoint: newCKID,
+                    time: time,
+                    locationName: locationName,
+                    type: type,
+                    commentCount: 0,
+                    unRead: 0,
+                    orderC: lastOrderC,
+                    progress: [],
+                    me: false
+                } 
+            }), {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
         } catch (error) {
             console.log(error)
             return resFalse()

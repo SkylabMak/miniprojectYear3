@@ -42,9 +42,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 IDOriginTrip: true,
                 checkpoint: {
                     orderBy: {
-                        OrderC: 'asc'
+                        time: 'asc'  // Sort by 'time' in ascending order
                     },
-                    take: 1, // This ensures you get the checkpoint with the minimum OrderC
+                    take: 1, // This ensures you get the checkpoint with the minimum time
                     select: {
                         time: true
                     }
@@ -58,8 +58,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 _count: {
                     select: {
                         checkpoint: {
-                            where:{
-                                type:"D"
+                            where: {
+                                type: "D"
                             }
                         }
                     }
@@ -82,12 +82,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         started: true,
                         imageURL: true,
                         Booking: true,
-                        IDOriginTrip:true,
+                        IDOriginTrip: true,
                         checkpoint: {
                             orderBy: {
-                                OrderC: 'asc'
+                                time: 'asc' // Sort by 'time' in ascending order
                             },
-                            take: 1, // This ensures you get the checkpoint with the minimum OrderC
+                            take: 1, // This ensures you get the checkpoint with the earliest time
                             select: {
                                 time: true
                             }
@@ -103,11 +103,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                                 checkpoint: true // Count of checkpoints
                             }
                         }
-                    },
-
+                    }
                 }
-            },
+            }
         });
+        
         const joinTripsFilted = joinTrips.filter(e => (e.trip.Booking != "BI"))
         // console.log("join",joinTripsFilted)
         const formattedOwnTrips = await Promise.all(ownTrips.map(async trip => {
