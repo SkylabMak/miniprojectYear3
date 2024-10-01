@@ -105,7 +105,7 @@ async function saveChanges() {
         }),
     });
     if (!response.ok) {
-            console.log("checkpoint error at ");
+            console.log("tripFooter ");
             throw new Error('Failed to fetch messages');
     }
     tripData.update(data => {
@@ -142,17 +142,16 @@ $: amountInputClass = amount !== amountChanged ? "border-2 border-warning" : "bo
 <div class="flex items-center justify-center flex-wrap">
     <div>
         <!-- Icon Buttons -->
-        <JoinBtn hasToken={dataTrip.hasToken} joined={Boolean(dataTrip.join)} visbleBtn={dataTrip.booking !== "NM" || Boolean(dataTrip.me) } 
-        can={Boolean(dataTrip.me)} tripID={dataTrip.tripID}/>
-        <CopyBtn hasToken={dataTrip.hasToken} can={Boolean(dataTrip.me)} tripID={dataTrip.tripID}/>
-        <GoBtn tripID={dataTrip.tripID} status={dataTrip.started} can={Boolean(dataTrip.me)}/>
-
+        <JoinBtn hasToken={dataTrip.hasToken} joined={dataTrip.join} visbleBtn={dataTrip.booking !== "NM" || dataTrip.me } 
+        can={dataTrip.me} tripID={dataTrip.tripID}/>
+        <CopyBtn hasToken={dataTrip.hasToken} can={true} tripID={dataTrip.tripID}/>
+        <GoBtn tripID={dataTrip.tripID} status={dataTrip.started} can={dataTrip.me}/>
     </div>
     <!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
     {#if (dataTrip.booking !== "NM")}
     <div class={`border-l h-12 mx-4 border-black `}></div>
-        <BookBtn tripOriginID={dataTrip.tripIDOrigin} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} can={Boolean(dataTrip.me||dataTrip.ownOrgTrip)}/>
-        <ChatBtn can={Boolean(dataTrip.me)} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} unRead={Boolean(dataTrip.unread)}/>
+        <BookBtn tripOriginID={dataTrip.tripIDOrigin} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} can={!(dataTrip.ownOrgTrip&&dataTrip.booking == "BI")} aleardy={(dataTrip.booking == "BE")||dataTrip.join}/>
+        <ChatBtn can={!(dataTrip.ownOrgTrip&&dataTrip.booking == "BI")} tripID={dataTrip.tripID} hasToken={dataTrip.hasToken} unRead={dataTrip.unread}/>
     {/if}
     
 </div>

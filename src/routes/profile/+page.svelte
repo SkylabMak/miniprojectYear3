@@ -8,7 +8,10 @@ import {
 import {
     onMount
 } from "svelte";
-	import NotYetLogin from "$lib/components/NotYetLogin.svelte";
+import NotYetLogin from "$lib/components/NotYetLogin.svelte";
+import CreateTripPopup from "$lib/components/trip/CreateTripPopup.svelte";
+import ImageInput from "$lib/components/ImageInput.svelte";
+import ButtonMine from "$lib/components/ButtonMine.svelte";
 
 export let data: {
     userToken: string
@@ -17,12 +20,15 @@ export let data: {
 };
 
 // console.log('Data passed to the page:', data.userToken);
+let isImageError = false;
 let originalName = "";
+let originIMG = ""
 let isModified = false;
 if (data.userToken) {
     originalName = data.data.name
+    originIMG = data.data.imgURL
 }
-$: isModified = data.data && data.data.name !== originalName;
+$: isModified = data.data && (data.data.name !== originalName || data.data.imgURL !== originIMG);
 
 // $: console.log(isModified, data.data.name )
 async function changeName() {
@@ -50,72 +56,92 @@ async function changeName() {
 }
 
 let showPopup = false;
+let inputIMGOpen = false
 
 function openPopup() {
     showPopup = true;
+}
+
+function reset() {
+    data.data.name = originalName
+    data.data.imgURL = originIMG
+    isImageError = false
 }
 </script>
 
 {#if data.userToken}
 <!-- Parent Container for Flex Column Layout -->
-<div class="min-h-screen flex flex-col items-center p-4 space-y-4text-xl	">
+<div class="max-h-screen flex flex-col items-center gap-8">
 
     <!-- Profile Icon or Image -->
-    <div class="flex flex-col items-center ">
-        <div class="w-1/4 h-1/4	rounded-full flex items-center justify-center border-2 border-black p-4 mb-8">
-            {#if data.data.imgURL}
-            <img src={data.data.imgURL} alt={data.data.name} class="w-full h-full rounded-full object-cover" />
+    <div class="flex items-center ">
+        <div class="flex flex-col items-center">
+            <button class="w-28 h-28 rounded-full flex items-center justify-center border-2 border-black mb-8" on:click={() => inputIMGOpen = true}>
+                {#if !isImageError && data.data.imgURL && data.data.imgURL !== ""}
+                    <img
+                        src={data.data.imgURL}
+                        alt={data.data.name}
+                        class="w-full h-full rounded-full object-cover"
+                        on:error={() => { isImageError = true }}
+                    />
+                {:else}
+                    <span>click me to add image</span>
+                {/if}
+            </button>
+            
+
+            <!-- User's Name Input -->
+            <div class="flex items-center min-w-3/4">
+                <span class="w-fit whitespace-nowrap">ชื่อ :</span>
+                <input
+                    type="text"
+                    bind:value={data.data.name}
+                    class="border rounded px-4 py-1 text-black w-9/12 mx-4 grow-0"
+                    />
+
+            </div>
+        </div>
+        {#if isModified}
+        <div class="flex flex-col gap-2 h-full whitespace-nowrap flex-none">
+            <button on:click={reset}>
+                <ButtonMine>
+                    <Icon icon="radix-icons:cross-2" />
+                </ButtonMine>
+            </button>
+            <button on:click={changeName}>
+                <ButtonMine>
+                    <Icon icon="ic:sharp-save-alt" />
+                </ButtonMine>
+            </button>
+        </div>
+        {/if}
+    </div>
+
+    {#if data.data.Org && data.orgChat}
+    <div>
+        <span>แชทลูกค้า : </span>
+        <button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={openPopup}>
+            ยังไม่อ่าน {data.orgChat.filter(chat => chat.readed === false).length} จาก {data.orgChat.length}
+        </button>
+    </div>
+    {/if}
+    <!-- Confirm Organization Button -->
+    <button disabled={data.data.Org} class={`${(data.data.Org)?"bg-gray-500	":"bg-accent1"}  text-white px-4 py-2 rounded-lg`}>{(data.data.Org)?"ยืนยันเป็นองค์กรเป็นองค์กรแล้ว":"ยืนยันเป็นองค์กร"}</button>
+
+    <!-- Delete Account Button -->
+    <button class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg">logout</button>
+
+    <CreateTripPopup orgUser={data.data.Org}/>
+        <ImageInput bind:inputIMGOpen={inputIMGOpen} bind:inputText={data.data.imgURL} originText={originIMG} bind:isImageError = {isImageError}/>
+            <Popup bind:isOpen={showPopup}>
+                {#if data.orgChat}
+                {#each data.orgChat as message}
+                <!-- {console.log("date ",message.startTime)} -->
+                <OrgChat message={message}></OrgChat>
+                {/each}
+                {/if}
+            </Popup>
+            </div>
             {:else}
-            <span class="iconify text-5xl" data-icon="mdi:account-outline"></span>
-            {/if}
-        </div>
-
-        <!-- User's Name Input -->
-        <div class="flex items-center min-w-3/4">
-            <span>ชื่อ :</span>
-            <input
-                type="text"
-                bind:value={data.data.name}
-                class="border rounded px-4 py-1 text-black w-9/12 mx-4"
-                />
-            {#if isModified}
-            <button on:click={changeName} >
-                <Icon icon="ic:sharp-save-alt" />
-            </button>
-            {/if}
-        </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="flex flex-col items-center space-y-4 mt-4">
-        <!-- Confirm Organization Button -->
-
-        <button disabled={data.data.Org} class={`${(data.data.Org)?"bg-gray-500	":"bg-accent1"}  text-white px-4 py-2 rounded-lg`}>{(data.data.Org)?"ยืนยันเป็นองค์กรเป็นองค์กรแล้ว":"ยืนยันเป็นองค์กร"}</button>
-
-        <!-- Create Trip Button -->
-        <button class="bg-accent2 text-white px-4 py-2 rounded-lg">สร้าง ทริป</button>
-
-        {#if data.orgChat}
-        <div>
-            <span>ลูกค้า : </span>
-            <button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={openPopup}>
-                ยังไม่อ่าน {data.orgChat.filter(chat => chat.readed === false).length} จาก {data.orgChat.length}
-            </button>
-        </div>
-        {/if}
-
-        <!-- Delete Account Button -->
-        <button class="bg-accent1 text-white px-4 py-2 rounded-lg">ลบบัญชี</button>
-    </div>
-    <Popup bind:isOpen={showPopup}>
-        {#if data.orgChat}
-        {#each data.orgChat as message}
-        <!-- {console.log("date ",message.startTime)} -->
-        <OrgChat message={message}></OrgChat>
-        {/each}
-        {/if}
-    </Popup>
-</div>
-{:else}
-<NotYetLogin/>
-{/if}
+            <NotYetLogin/>
+                {/if}

@@ -43,7 +43,7 @@ interface orgChat {
     tripname: string
     IDOriginTrip: string,
     Lastmessage: string,
-    readed: Boolean,
+    readed: boolean,
     custImgUrl: string,
     custName: string,
     bookDone: string,
@@ -53,7 +53,7 @@ interface orgChat {
 interface tripPageData {
     tripID: string
     tripIDOrigin: string
-    head: string
+    head: boolean
     ownOrgTrip:boolean
     name: string
     detail: string
@@ -65,23 +65,13 @@ interface tripPageData {
     private: boolean
     maxJoiner: number
     started: boolean
-    me: Boolean
-    unread: Boolean
+    me: boolean
+    unread: boolean
     count: number
-    join: Boolean
+    join: boolean
     imageURL:string
     hasToken:boolean
-    checkpoint: {
-        IDCheckpoint: string
-        time: string,
-        locationName: string
-        type: string
-        commentCount: number
-        unRead: number
-        orderC: number
-        progress: progress[]
-        me: boolean
-    }[]
+    checkpoint:checkpoint[]
 }
 interface progress {
     IDAccount: string,
@@ -116,4 +106,4 @@ interface checkpoint {
     orderC: number
     progress: progress[]
     me: boolean
-}[]
+}

@@ -7,32 +7,69 @@ import { getCurrentIsoDate, getTripID } from "$lib/myAPI/tripUtils";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripName,booking } = await request.json();
-        checkMissingInput(tripName,booking)
+        const { tripName, booking } = await request.json();
+        checkMissingInput(tripName, booking)
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         const isoDate = getCurrentIsoDate()
         console.log("uuid is " + uuid)
         let newTripID = await getTripID()
+        const tripDataBody = {
+            IDTrip: newTripID as string,
+            IDAccount: uuid as string,
+            imageURL :"",
+            TripName: tripName as string,
+            Detail: "",
+            Preparation:"",
+            Booking: (booking) ? 'BI' : 'NM',
+            createDate: isoDate as string,
+            lastEdit: isoDate as string,
+            private: true,
+            maxJoiner: 10,
+            started: false,
+            count: 0,
+
+        }
+        const userInfo = await prismaMySQL.account.findUnique({
+            where: {
+                IDAccount: uuid as string
+            }
+        })
         try {
             await prismaMySQL.trip.create({
-                data: {
-                    IDTrip: newTripID as string,
-                    IDAccount: uuid as string,
-                    TripName: tripName as string,
-                    Detail: tripName,
-                    Booking: (booking)?'BI':'NM',
-                    createDate: isoDate as string,
-                    lastEdit: isoDate as string,
+                data: tripDataBody
+            });
+
+            return new Response(JSON.stringify({
+                newTrip: {
+                    tripID: newTripID,
+                    tripIDOrigin: "",
+                    head: true,
+                    ownOrgTrip: userInfo?.Org,
+                    name: userInfo?.name,
+                    detail: "",
+                    startDate: "",
+                    preparation: "",
+                    booking: booking,
+                    org: userInfo?.Org,
+                    lastEdit: isoDate,
                     private: true,
                     maxJoiner: 10,
                     started: false,
+                    me: true,
+                    unread: false,
                     count: 0,
+                    join: true,
+                    imageURL: "",
+                    hasToken: true,
+                    checkpoint: []
                 }
+            }), {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
-    
-    
-            return resTrue()
         } catch (error) {
             return resFalse()
         }

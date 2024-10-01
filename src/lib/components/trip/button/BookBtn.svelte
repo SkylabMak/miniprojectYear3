@@ -6,6 +6,7 @@ import Popup from "$lib/components/Popup.svelte";
 	import { tripData } from "$lib/store/store";
 
 export let can: boolean;
+export let aleardy: boolean;
 export let tripID: string;
 export let hasToken: boolean;
 export let tripOriginID : string;
@@ -129,8 +130,8 @@ $: {
 }
 </script>
 
-<button class="m-1 focus:outline-none" disabled={can} on:click={() => {showBookPopup = true}}>
-    <IconContainer iconName="medical-icon:i-registration" yes={can} />
+<button class="m-1 focus:outline-none" disabled={!can} on:click={() => {showBookPopup = true}}>
+    <IconContainer iconName="medical-icon:i-registration" yes={aleardy} />
 </button>
 
 <Popup bind:isOpen={showBookPopup}>

@@ -21,6 +21,7 @@
     export let canCheckpoint: boolean;
     export let me: boolean;
     export let editMode: boolean;
+    export let tripType : string
 
     let showCommentPopup = false;
     let showDetailPopup = false;
@@ -106,7 +107,7 @@
         </div>
     </button>
 </div>
-{#if editMode}
+{#if editMode && tripType != "BE"}
 <div class="flex items-center text-xl">
     <button 
     on:click={() => { showEditPopup = true }} 

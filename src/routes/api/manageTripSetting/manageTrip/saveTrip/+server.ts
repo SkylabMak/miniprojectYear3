@@ -7,8 +7,8 @@ import { deleateBETrip, deleateNMTrip, getCurrentIsoDate } from "$lib/myAPI/trip
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     try {
-        const { tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate,remove } = await request.json();
-        checkMissingInput( tripID, tripName, detail, booking, preparation, maxJoiner, tripPrivate,remove )
+        const { tripID,imageURL, tripName, detail, booking, preparation, maxJoiner, tripPrivate,remove } = await request.json();
+        checkMissingInput( tripID,imageURL, tripName, detail, booking, preparation, maxJoiner, tripPrivate,remove )
         const token = cookies.get('token');
         const uuid = decrypt(token as string)
         const isoDate = getCurrentIsoDate()
@@ -39,6 +39,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                         TripName: tripName,
                         Detail: detail,
                         Booking: booking,
+                        imageURL: imageURL,
                         Preparation: preparation,
                         maxJoiner: maxJoiner,
                         private: tripPrivate,

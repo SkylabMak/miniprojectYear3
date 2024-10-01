@@ -28,7 +28,7 @@
         console.log(value);
         dataTrip = value;
         if(value){
-            canEdit = Boolean(value.me || value.ownOrgTrip)
+            canEdit = value.me || value.ownOrgTrip
         }
         if (value) {
             indexPass = value.checkpoint.findIndex(e => e.me === true);
@@ -58,11 +58,13 @@
         {#if dataTrip && dataTrip.checkpoint && Array.isArray(dataTrip.checkpoint)}
             {#each dataTrip.checkpoint as checkpoint, index}
                 {#if index === 0}
-                    <Go type={"start"} />
+                    {#if !editMode}
+                        <Go type={"start"} index={index} checkpointList={dataTrip.checkpoint}/>
+                    {/if}
                 {:else if checkpoint.type === "D"}
-                    <Go type={"large"} />
+                    <Go type={"large"} index={index} checkpointList={dataTrip.checkpoint}/>
                 {:else}
-                    <Go type={"mini"} />
+                    <Go type={"mini"} index={index} checkpointList={dataTrip.checkpoint}/>
                 {/if}
                 <Checkpoint
                     tripID={dataTrip.tripID}
@@ -75,20 +77,21 @@
                     unRead={checkpoint.unRead}
                     pass={index > indexPass}
                     started={dataTrip.started}
-                    join={Boolean(dataTrip.join)}
-                    canSend={Boolean(dataTrip.join) || Boolean(dataTrip.me)}
-                    canCheckpoint={(Boolean(dataTrip.join) || Boolean(dataTrip.me))&&Boolean(dataTrip.started)}
+                    join={dataTrip.join}
+                    canSend={dataTrip.join || dataTrip.me}
+                    canCheckpoint={(dataTrip.join || dataTrip.me)&&dataTrip.started}
                     me={checkpoint.me}
+                    tripType={dataTrip.booking}
                     bind:editMode={editMode}
                 />
             {/each}
             {#if !editMode && dataTrip.checkpoint.length >0}
-                <Go type={"end"} /> 
+                <Go type={"end"} index={dataTrip.checkpoint.length-1} checkpointList={dataTrip.checkpoint}/> 
             {/if}
         {:else}
             <span>No checkpoints available</span>
         {/if}
-        {#if editMode}
+        {#if editMode && dataTrip.booking != "BE"}
                 <div class="flex flex-col items-center text-xl">
                     <div class={`text-blue-500 text-3xl flex items-center justify-center`}>
                         <Icon icon={"basil:arrow-down-solid"} />

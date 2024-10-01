@@ -11,12 +11,17 @@ import {
     formatDate
 } from "$lib/utilsFn/Date";
 import ButtonMine from "../ButtonMine.svelte";
+	import ImageInput from "../ImageInput.svelte";
 
 export let editMode: boolean
+let inputIMGOpen = false
+
 let dataTrip: tripPageData;
 let originalName: string;
 let originalDetail: string;
 let originalPreparation: string;
+let originalIMGURL : string = ""
+let isImageError = false;
 
 let editedName: string;
 let editedDetail: string;
@@ -31,13 +36,14 @@ let canEdit = false
 const unsubscribe = tripData.subscribe(value => {
     dataTrip = value;
     if(value){
-        canEdit = Boolean(value.me || value.ownOrgTrip)
+        canEdit = value.me || value.ownOrgTrip
         originalName = value.name;
         originalDetail = value.detail;
         originalPreparation = value.preparation;
         editedName = value.name;
         editedDetail = value.detail;
         editedPreparation = value.preparation;
+        originalIMGURL = value.imageURL
     }
 
     console.log(dataTrip);
@@ -65,12 +71,19 @@ async function saveChanges() {
                 tripName: editedName, //edit
                 detail: editedDetail, //edit
                 booking: dataTrip.booking,
+                imageURL: dataTrip.imageURL,//edit
                 preparation: editedPreparation, //edit   
                 maxJoiner: dataTrip.maxJoiner,
-                tripPrivate: dataTrip.private
+                tripPrivate: dataTrip.private,
+                remove: false
             }),
         });
-        const newComment = (await response.json()) as chat;
+        if (!response.ok) {
+            console.log("tripHeader error at ");
+            throw new Error('Failed to fetch messages');
+
+        }
+            // const newComment = (await response.json()) as chat;
         tripData.update(data => {
             
             return {
@@ -81,8 +94,9 @@ async function saveChanges() {
             };
         })
         
+        
     }
-    // editMode = false
+    editMode = false
 }
 
 function cancelEdit() {
@@ -90,29 +104,39 @@ function cancelEdit() {
     editedName = originalName;
     editedDetail = originalDetail;
     editedPreparation = originalPreparation;
+    dataTrip.imageURL = originalIMGURL
+    isImageError = true
 }
 
 onDestroy(() => {
     unsubscribe();
 });
+$:if(dataTrip)isEdited(originalIMGURL,dataTrip.imageURL)
 </script>
 
 <div class="w-full flex justify-end">
 
 </div>
 <!-- Image Section -->
-<div class="image-placeholder bg-gray-300 w-full h-32 rounded-lg mb-4">
+<div class="image-placeholder bg-gray-300 w-full h-32 rounded-lg mb-4 overflow-hidden">
     {#if dataTrip}
-    {#if dataTrip.imageURL}
-    <img src={dataTrip.imageURL} alt={dataTrip.tripID} class="w-full h-full rounded-lg object-cover" />
+    {#if dataTrip.imageURL && !isImageError}
+    <button disabled={!editMode} on:click={()=>{inputIMGOpen = true}}>
+        <img src={dataTrip.imageURL} alt={dataTrip.tripID} 
+        class="w-full h-full rounded-lg object-cover" 
+        on:error={() => { isImageError = true}}
+        />
+    </button>
     {:else}
-    <div class="text-center pt-6">Image goes here</div>
+    <div class="text-center pt-6">No image</div>
     {/if}
     {/if}
 </div>
-
+{#if dataTrip}
+<ImageInput bind:inputIMGOpen={inputIMGOpen} bind:inputText={dataTrip.imageURL} originText={originalIMGURL} bind:isImageError = {isImageError}/>
+{/if}
 <div class="mb-4">
-    {#if editMode&&dataTrip}
+    {#if editMode&&dataTrip&&dataTrip.booking!="BE"}
     <span class="text-lg"> ชื่อทริป </span>
     <input
         type="text"
@@ -129,7 +153,7 @@ onDestroy(() => {
 
 <!-- Detail Section -->
 <div class="mb-4">
-    {#if editMode}
+    {#if editMode&&dataTrip.booking!="BE"}
     <span class="text-lg"> คำอธิบาย </span>
     <textarea
         bind:value={editedDetail}
@@ -145,7 +169,7 @@ onDestroy(() => {
 
 <!-- Preparation Section -->
 <div class="mb-4">
-    {#if editMode}
+    {#if editMode&&dataTrip.booking!="BE"}
     <span class="text-lg"> สิ่งที่ต้องเตียมตัว </span>
     <textarea
         bind:value={editedPreparation}

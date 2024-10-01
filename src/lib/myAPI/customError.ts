@@ -41,7 +41,10 @@ export async function checkErrorAndRes(error: any) {
 }
 
 export function checkMissingInput(...params: any[]) {
-    if (params.some(val => val === null || val === undefined)) {
-        throw new CustomError(MISSING_INPUT)
-    }
+    params.forEach((val, index) => {
+        if (val === null || val === undefined) {
+            console.error(`Missing input at position ${index + 1}`);
+            throw new CustomError(MISSING_INPUT);
+        }
+    });
 }

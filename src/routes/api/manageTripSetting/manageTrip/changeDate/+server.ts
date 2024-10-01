@@ -1,5 +1,6 @@
 import { checkErrorAndRes, checkMissingInput } from "$lib/myAPI/customError";
 import { resFalse, resTrue } from "$lib/myAPI/resTrueFalse";
+import { getCurrentIsoDate } from "$lib/myAPI/tripUtils";
 import { decrypt } from "$lib/security/jwtUtils";
 import { prismaMySQL } from "$lib/utils/database/sqlDB";
 import type { RequestHandler } from "@sveltejs/kit";
@@ -63,6 +64,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                                 time: updatedTimeISO,
                             },
                         });
+
+                        await prismaMySQL.trip.update({
+                            where:{
+                                IDTrip:tripID
+                            },data:{
+                                lastEdit:getCurrentIsoDate()
+                            }
+                        })
 
                         // console.log(`Updated checkpoint ID ${checkpoint.IDCheckpoint} with new time ${updatedTimeISO}`);
                     }

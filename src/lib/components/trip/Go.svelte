@@ -1,6 +1,7 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
 	import MapCicleIcon from '../MapCicleIcon.svelte';
+	import { findFirstOrLastTypeD, findTypeDClosest, genGoogleMapsURL} from '$lib/utilsFn/assistance';
 
     // Define the structure of each option
     interface goOption {
@@ -53,6 +54,19 @@
 
     // Accept a 'type' prop from the parent component
     export let type: string;
+    export let checkpointList : checkpoint[]
+    export let index:number
+
+    function getRoute(){
+        console.log(index)
+        console.log(genGoogleMapsURL(findTypeDClosest(checkpointList,index)))
+        console.log(findTypeDClosest(checkpointList,index))
+    }
+
+    function getSingleRoute(){
+        const locationList =  findFirstOrLastTypeD(checkpointList,(type == "start"))
+        console.log(locationList)
+    }
 
     // Determine the arrow icon based on the type
     const arrowIcon = type === "large" ? "lets-icons:arrow-down-long-light" : "basil:arrow-down-solid";
@@ -68,17 +82,22 @@
     
     {#if options[type]?.label}
         <!-- Label with background and icon (if label is defined) -->
-        <div class="flex items-center bg-accent2 text-white rounded-lg px-4 py-2 space-x-2">
+        <button on:click={getSingleRoute}
+         class="flex items-center bg-accent2 text-white rounded-lg px-4 py-2 space-x-2" >
             <span>{options[type]?.label}</span>
             <!-- Show icon if hideIcon is not true -->
             {#if !options[type]?.hideIcon}
-            <MapCicleIcon/>
+                
+                    <MapCicleIcon/>
+                
             {/if}
-        </div>
+        </button>
     {:else if !options[type]?.hideIcon}
         <!-- Icon in vertical layout if no label -->
         <div class="rounded-full ml-[-20px] p-2 border-2 border-gray-300 w-12 h-12 flex justify-center items-center">
+            <button on:click={getRoute}>
             <Icon icon={options[type]?.icon} class="text-3xl" />
+            </button>
         </div>
     {/if}
     
