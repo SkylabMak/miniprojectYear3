@@ -11,3 +11,5 @@ error when prisma work with SvelteKit
 The error "exports is not defined" occurs because SvelteKit and Vite bundle both client-side and server-side code, and Prisma is designed to run only on the server. When Prisma is generated outside of node_modules, Vite mistakenly tries to include Prisma’s client in the browser bundle, which causes the error since browser environments don’t support Node.js-specific exports.
 
 By placing the Prisma client inside node_modules, Vite treats it as a server-side package, ensuring it doesn’t get bundled for the client, solving the issue.
+
+npx prettier --write . # v3

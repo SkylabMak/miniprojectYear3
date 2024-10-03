@@ -1,375 +1,338 @@
-[{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f77"
-  },
-  "IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "310db747-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [
-    "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-    "0e51d858-6cd2-11ef-9f47-04421a0238fa"
-  ],
-  "Comments": [
-    {
-      "sender": "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-      "message": "This was a perfect first destination.",
-      "time": {
-        "$date": "2024-09-07T08:00:00.000Z"
-      },
-      "readed": [
-        "0e51d858-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    },
-    {
-      "sender": "0e51d858-6cd2-11ef-9f47-04421a0238fa",
-      "message": "I really enjoyed the architecture of this place.",
-      "time": {
-        "$date": "2024-09-07T08:15:00.000Z"
-      },
-      "readed": [
-        "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d673-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f78"
-  },
-  "IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "310dc3a6-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [
-    "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"
-  ],
-  "Comments": [
-    {
-      "sender": "0e51d8aa-6cd2-11ef-9f47-04421a0238fa",
-      "message": "This was a fantastic activity.",
-      "time": {
-        "$date": "2024-09-07T08:30:00.000Z"
-      },
-      "readed": [
-        "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d858-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f79"
-  },
-  "IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "310dc734-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [
-    "0e51d673-6cd2-11ef-9f47-04421a0238fa"
-  ],
-  "Comments": [
-    {
-      "sender": "0e51d673-6cd2-11ef-9f47-04421a0238fa",
-      "message": "I enjoyed the peaceful atmosphere here.",
-      "time": {
-        "$date": "2024-09-07T09:30:00.000Z"
-      },
-      "readed": [
-        "0e51d858-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f7a"
-  },
-  "IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "b9529f6c-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [
-    "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-    "0e51d858-6cd2-11ef-9f47-04421a0238fa"
-  ],
-  "Comments": [
-    {
-      "sender": "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-      "message": "This was a peaceful start to the trip.",
-      "time": {
-        "$date": "2024-09-07T08:00:00.000Z"
-      },
-      "readed": [
-        "0e51d858-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f7b"
-  },
-  "IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "b952a008-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [
-    "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"
-  ],
-  "Comments": [
-    {
-      "sender": "0e51d8aa-6cd2-11ef-9f47-04421a0238fa",
-      "message": "The activity was very engaging.",
-      "time": {
-        "$date": "2024-09-07T09:30:00.000Z"
-      },
-      "readed": [
-        "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d858-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f7c"
-  },
-  "IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "b952a037-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [
-    "0e51d673-6cd2-11ef-9f47-04421a0238fa"
-  ],
-  "Comments": [
-    {
-      "sender": "0e51d673-6cd2-11ef-9f47-04421a0238fa",
-      "message": "I felt very relaxed here.",
-      "time": {
-        "$date": "2024-09-07T10:30:00.000Z"
-      },
-      "readed": [
-        "0e51d858-6cd2-11ef-9f47-04421a0238fa",
-        "0e51d7f7-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f7d"
-  },
-  "IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "82d4ffee-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": [
-    {
-      "sender": "0e51d94e-6cd2-11ef-9f47-04421a0238fa",
-      "message": "Amazing views to start the trip.",
-      "time": {
-        "$date": "2024-09-08T09:00:00.000Z"
-      },
-      "readed": [
-        "0e51d94e-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd5d16eb373e4f50ba3f7e"
-  },
-  "IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",
-  "IDCheckpoint": "82d50a1d-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": [
-    {
-      "sender": "0e51d94e-6cd2-11ef-9f47-04421a0238fa",
-      "message": "I loved this part of the trip.",
-      "time": {
-        "$date": "2024-09-08T09:45:00.000Z"
-      },
-      "readed": [
-        "0e51d94e-6cd2-11ef-9f47-04421a0238fa"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e522"
-  },
-  "IDCheckpoint": "9c75ec62-b73b-4649-aedb-5b6238f92826",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e523"
-  },
-  "IDCheckpoint": "0556d6ee-a714-4f20-b7df-0facafe0f44d",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e524"
-  },
-  "IDCheckpoint": "fcc65189-088f-4fa5-a34a-269d6f833463",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e525"
-  },
-  "IDCheckpoint": "a5f3c6b3-3ab7-4c67-95ec-11315f7a2c72",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e526"
-  },
-  "IDCheckpoint": "5f4f3d39-b308-41ff-9f88-5db554eb40f6",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e527"
-  },
-  "IDCheckpoint": "6507fd43-6614-40ba-8b75-1245bf733028",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e528"
-  },
-  "IDCheckpoint": "33ecfdfa-be0b-44b2-b29a-8ccebba46800",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd615f6fadb39ef588e529"
-  },
-  "IDCheckpoint": "bc2bf38e-20fc-47f5-90b2-ffe60a11cda3",
-  "IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef401405"
-  },
-  "IDCheckpoint": "a95ef75b-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef401406"
-  },
-  "IDCheckpoint": "a95ef8fb-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef401407"
-  },
-  "IDCheckpoint": "a95ef98f-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef401408"
-  },
-  "IDCheckpoint": "a95efa05-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef401409"
-  },
-  "IDCheckpoint": "a95efac2-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef40140a"
-  },
-  "IDCheckpoint": "a95efb2e-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef40140b"
-  },
-  "IDCheckpoint": "a95efba2-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd89afaeb84678ef40140c"
-  },
-  "IDCheckpoint": "a95efc08-6cd2-11ef-9f47-04421a0238fa",
-  "IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
-  "progress": [],
-  "Comments": []
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9663"
-  },
-  "IDCheckpoint": "8b0b28bd-3649-492b-93a7-b1e84dca5993",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9664"
-  },
-  "IDCheckpoint": "48cd764f-04bc-4e3b-9497-07aabcf8b861",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9665"
-  },
-  "IDCheckpoint": "92de7ebe-05ee-4d2a-b330-584d5b4f487b",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9666"
-  },
-  "IDCheckpoint": "31f81b52-eaab-4201-9dc7-6377de9c8d26",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9667"
-  },
-  "IDCheckpoint": "05e8ef06-511f-42a5-92ba-a54a3f7ec8f7",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9668"
-  },
-  "IDCheckpoint": "b171cb10-836c-41e1-b0fb-0ed6bfb2be1a",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc9669"
-  },
-  "IDCheckpoint": "bf75dbb6-7a39-4826-8928-84ee8f5159ee",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-},
-{
-  "_id": {
-    "$oid": "66dd8bd28671e9742bdc966a"
-  },
-  "IDCheckpoint": "7836f29e-3a0c-4995-8f85-705de64fb404",
-  "IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
-}]
+[
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f77"
+		},
+		"IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "310db747-6cd2-11ef-9f47-04421a0238fa",
+		"progress": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"],
+		"Comments": [
+			{
+				"sender": "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
+				"message": "This was a perfect first destination.",
+				"time": {
+					"$date": "2024-09-07T08:00:00.000Z"
+				},
+				"readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"]
+			},
+			{
+				"sender": "0e51d858-6cd2-11ef-9f47-04421a0238fa",
+				"message": "I really enjoyed the architecture of this place.",
+				"time": {
+					"$date": "2024-09-07T08:15:00.000Z"
+				},
+				"readed": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d673-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f78"
+		},
+		"IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "310dc3a6-6cd2-11ef-9f47-04421a0238fa",
+		"progress": ["0e51d8aa-6cd2-11ef-9f47-04421a0238fa"],
+		"Comments": [
+			{
+				"sender": "0e51d8aa-6cd2-11ef-9f47-04421a0238fa",
+				"message": "This was a fantastic activity.",
+				"time": {
+					"$date": "2024-09-07T08:30:00.000Z"
+				},
+				"readed": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f79"
+		},
+		"IDTrip": "267d09a5-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "310dc734-6cd2-11ef-9f47-04421a0238fa",
+		"progress": ["0e51d673-6cd2-11ef-9f47-04421a0238fa"],
+		"Comments": [
+			{
+				"sender": "0e51d673-6cd2-11ef-9f47-04421a0238fa",
+				"message": "I enjoyed the peaceful atmosphere here.",
+				"time": {
+					"$date": "2024-09-07T09:30:00.000Z"
+				},
+				"readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f7a"
+		},
+		"IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "b9529f6c-6cd2-11ef-9f47-04421a0238fa",
+		"progress": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"],
+		"Comments": [
+			{
+				"sender": "0e51d7f7-6cd2-11ef-9f47-04421a0238fa",
+				"message": "This was a peaceful start to the trip.",
+				"time": {
+					"$date": "2024-09-07T08:00:00.000Z"
+				},
+				"readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d8aa-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f7b"
+		},
+		"IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "b952a008-6cd2-11ef-9f47-04421a0238fa",
+		"progress": ["0e51d8aa-6cd2-11ef-9f47-04421a0238fa"],
+		"Comments": [
+			{
+				"sender": "0e51d8aa-6cd2-11ef-9f47-04421a0238fa",
+				"message": "The activity was very engaging.",
+				"time": {
+					"$date": "2024-09-07T09:30:00.000Z"
+				},
+				"readed": ["0e51d7f7-6cd2-11ef-9f47-04421a0238fa", "0e51d858-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f7c"
+		},
+		"IDTrip": "afcb0f08-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "b952a037-6cd2-11ef-9f47-04421a0238fa",
+		"progress": ["0e51d673-6cd2-11ef-9f47-04421a0238fa"],
+		"Comments": [
+			{
+				"sender": "0e51d673-6cd2-11ef-9f47-04421a0238fa",
+				"message": "I felt very relaxed here.",
+				"time": {
+					"$date": "2024-09-07T10:30:00.000Z"
+				},
+				"readed": ["0e51d858-6cd2-11ef-9f47-04421a0238fa", "0e51d7f7-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f7d"
+		},
+		"IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "82d4ffee-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": [
+			{
+				"sender": "0e51d94e-6cd2-11ef-9f47-04421a0238fa",
+				"message": "Amazing views to start the trip.",
+				"time": {
+					"$date": "2024-09-08T09:00:00.000Z"
+				},
+				"readed": ["0e51d94e-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd5d16eb373e4f50ba3f7e"
+		},
+		"IDTrip": "7c6ad9a0-6cd2-11ef-9f47-04421a0238fa",
+		"IDCheckpoint": "82d50a1d-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": [
+			{
+				"sender": "0e51d94e-6cd2-11ef-9f47-04421a0238fa",
+				"message": "I loved this part of the trip.",
+				"time": {
+					"$date": "2024-09-08T09:45:00.000Z"
+				},
+				"readed": ["0e51d94e-6cd2-11ef-9f47-04421a0238fa"]
+			}
+		]
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e522"
+		},
+		"IDCheckpoint": "9c75ec62-b73b-4649-aedb-5b6238f92826",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e523"
+		},
+		"IDCheckpoint": "0556d6ee-a714-4f20-b7df-0facafe0f44d",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e524"
+		},
+		"IDCheckpoint": "fcc65189-088f-4fa5-a34a-269d6f833463",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e525"
+		},
+		"IDCheckpoint": "a5f3c6b3-3ab7-4c67-95ec-11315f7a2c72",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e526"
+		},
+		"IDCheckpoint": "5f4f3d39-b308-41ff-9f88-5db554eb40f6",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e527"
+		},
+		"IDCheckpoint": "6507fd43-6614-40ba-8b75-1245bf733028",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e528"
+		},
+		"IDCheckpoint": "33ecfdfa-be0b-44b2-b29a-8ccebba46800",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd615f6fadb39ef588e529"
+		},
+		"IDCheckpoint": "bc2bf38e-20fc-47f5-90b2-ffe60a11cda3",
+		"IDTrip": "d4f85fe8-5a6f-4446-a50d-eb725705546b"
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef401405"
+		},
+		"IDCheckpoint": "a95ef75b-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef401406"
+		},
+		"IDCheckpoint": "a95ef8fb-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef401407"
+		},
+		"IDCheckpoint": "a95ef98f-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef401408"
+		},
+		"IDCheckpoint": "a95efa05-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef401409"
+		},
+		"IDCheckpoint": "a95efac2-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef40140a"
+		},
+		"IDCheckpoint": "a95efb2e-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef40140b"
+		},
+		"IDCheckpoint": "a95efba2-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd89afaeb84678ef40140c"
+		},
+		"IDCheckpoint": "a95efc08-6cd2-11ef-9f47-04421a0238fa",
+		"IDTrip": "9d785a08-6cd2-11ef-9f47-04421a0238fa",
+		"progress": [],
+		"Comments": []
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9663"
+		},
+		"IDCheckpoint": "8b0b28bd-3649-492b-93a7-b1e84dca5993",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9664"
+		},
+		"IDCheckpoint": "48cd764f-04bc-4e3b-9497-07aabcf8b861",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9665"
+		},
+		"IDCheckpoint": "92de7ebe-05ee-4d2a-b330-584d5b4f487b",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9666"
+		},
+		"IDCheckpoint": "31f81b52-eaab-4201-9dc7-6377de9c8d26",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9667"
+		},
+		"IDCheckpoint": "05e8ef06-511f-42a5-92ba-a54a3f7ec8f7",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9668"
+		},
+		"IDCheckpoint": "b171cb10-836c-41e1-b0fb-0ed6bfb2be1a",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc9669"
+		},
+		"IDCheckpoint": "bf75dbb6-7a39-4826-8928-84ee8f5159ee",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	},
+	{
+		"_id": {
+			"$oid": "66dd8bd28671e9742bdc966a"
+		},
+		"IDCheckpoint": "7836f29e-3a0c-4995-8f85-705de64fb404",
+		"IDTrip": "c7311a8a-e57a-48af-8bcc-448bba7ae35e"
+	}
+]
