@@ -33,7 +33,7 @@
 		<input
 			type="text"
 			bind:value={inputText}
-			class={`rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500`}
+			class={`rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-accent2-100`}
 		/>
 		<div class="flex items-center gap-4 justify-center mt-4">
 			<button on:click={closeReset}>

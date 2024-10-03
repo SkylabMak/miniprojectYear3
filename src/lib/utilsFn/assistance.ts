@@ -1,3 +1,7 @@
+export function filterDest(checkpoints: checkpoint[]): checkpoint[] {
+	return checkpoints.filter((e) => e.type == 'D');
+}
+
 export function findTypeDClosest(checkpoints: checkpoint[], index: number): (checkpoint | null)[] {
 	let result: (checkpoint | null)[] = [];
 
@@ -95,6 +99,23 @@ export function genGoogleMapsURL(checkpoints: (checkpoint | null)[]): string {
 	// Handle null checkpoints and null locationName by replacing with an empty string
 	const formattedLocations = checkpoints.map((checkpoint) =>
 		checkpoint && checkpoint.locationName ? encodeURIComponent(checkpoint.locationName.trim()) : ''
+	);
+
+	const fullUrl = `${baseUrl}${formattedLocations.join('/')}`;
+
+	return fullUrl;
+}
+
+export function genGoogleMapsURL_WithText(checkpoints: (string | null)[]): string {
+	if (checkpoints.length === 0) {
+		throw new Error('Checkpoint list is empty.');
+	}
+
+	const baseUrl = 'https://www.google.com/maps/dir/';
+
+	// Handle null checkpoints and null locationName by replacing with an empty string
+	const formattedLocations = checkpoints.map((checkpoint) =>
+		checkpoint && checkpoint ? encodeURIComponent(checkpoint.trim()) : ''
 	);
 
 	const fullUrl = `${baseUrl}${formattedLocations.join('/')}`;

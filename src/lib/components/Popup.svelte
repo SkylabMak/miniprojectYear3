@@ -9,7 +9,7 @@
 </script>
 
 {#if isOpen}
-	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+	<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
 		<!-- Popup Content -->
 		<div
 			class={`${background} rounded-lg p-6 max-h-10/12 max-w-10/12 space-y-4 relative shadow-lg flex flex-col items-center overflow-y-auto`}

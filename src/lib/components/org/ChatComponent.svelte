@@ -112,11 +112,7 @@
 								</div>
 								<p class="font-bold text-gray-900">{message.name}</p>
 							</div>
-							<div
-								class="bg-gray-100 rounded-lg p-2 max-w-lg {message.my
-									? 'bg-blue-100'
-									: 'bg-gray-100'}"
-							>
+							<div class="rounded-lg p-2 max-w-lg {message.my ? 'bg-chat-my' : 'bg-chat-none'}">
 								<p class="mt-1 text-gray-700">{message.text}</p>
 							</div>
 							<span>{formatDate(message.time)} {formatTime(message.time)}</span>
@@ -131,11 +127,11 @@
 					type="text"
 					placeholder="พิมพ์ข้อความ"
 					bind:value={inputMessage}
-					class="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+					class="flex-1 p-2 border border-grayfocus rounded-md focus:outline-none focus:ring-2 focus:ring-ringblue"
 				/>
 				<button
 					on:click={sendMessage}
-					class="ml-2 bg-accent2 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+					class="ml-2 bg-accent2 text-white px-4 py-2 rounded-md hover:bg-ringblue"
 				>
 					ส่ง
 				</button>

@@ -71,7 +71,7 @@
 				</button>
 			{/if}
 		</div>
-		<hr class="border-gray-300 mb-2 w-full" />
+		<hr class="border-grayfocus mb-2 w-full" />
 		<div class="flex flex-col items-start">
 			<span>แจ้งเตือน : ระวังในการยกเลิกทริปที่ส่งผลให้ลูกค้าไม่พอใจ</span>
 			<div class="my-2"></div>

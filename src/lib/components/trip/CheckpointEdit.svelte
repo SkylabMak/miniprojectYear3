@@ -236,9 +236,9 @@
 </script>
 
 <Popup bind:isOpen={showEditPopup} hideCloseBtn={true} background={'secondary4'}>
-	<div class="bg-blue-100 p-6 rounded-xl w-full shadow-lg flex flex-col items-center gap-4">
+	<div class="bg-secondary4 p-6 rounded-xl w-full shadow-lg flex flex-col items-center gap-4">
 		<div
-			class={`flex items-center bg-blue-200 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
+			class={`flex items-center bg-secondary4 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
 		>
 			<Icon
 				icon={checkpointTypeIcon.get(typeCKEdit) ?? 'carbon:location-current'}
@@ -259,7 +259,7 @@
 			</div>
 		</div>
 
-		<hr class="border-gray-400 w-full" />
+		<hr class="border-grayfocus w-full" />
 
 		<div class="flex flex-col w-full">
 			<div class="flex items-center mb-2">
@@ -267,7 +267,7 @@
 				<input
 					type="text"
 					bind:value={editedName}
-					class={`${nameInputClass} rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500`}
+					class={`${nameInputClass} rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-accent2-500`}
 				/>
 			</div>
 			<span class="text-xs text-gray-500"
@@ -279,7 +279,7 @@
 			<span class="mb-2">รายละเอียดสถานที่</span>
 			<textarea
 				bind:value={editedDetail}
-				class={`${detailInputClass} font-normal rounded-md w-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+				class={`${detailInputClass} font-normal rounded-md w-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-accent2-500`}
 			/>
 		</div>
 
@@ -291,7 +291,7 @@
 					type="date"
 					bind:value={selectedDate}
 					on:input={handleDateEdit}
-					class="border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					class="border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-accent2-500"
 				/>
 			</div>
 
@@ -302,7 +302,7 @@
 					type="time"
 					bind:value={selectedTime}
 					on:input={handleTimeEdit}
-					class="border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					class="border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-accent2-500"
 				/>
 			</div>
 		</div>
@@ -319,7 +319,7 @@
 				</button>
 			{/if}
 			<button
-				class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all"
+				class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-accent2-500 transition-all"
 				on:click={() => {
 					showEditPopup = false;
 				}}
@@ -328,7 +328,7 @@
 			</button>
 
 			<button
-				class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all"
+				class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-accent2-500 transition-all"
 				on:click={savecheckpoint}
 			>
 				บันทึก

@@ -61,7 +61,7 @@
 			<input
 				type="text"
 				bind:value={tripName}
-				class={`${nameInputClass} rounded-lg px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500`}
+				class={`${nameInputClass} rounded-lg px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-accent2-500`}
 			/>
 		</div>
 

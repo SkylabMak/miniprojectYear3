@@ -80,9 +80,9 @@
 </script>
 
 <Popup bind:isOpen={showDetailPopup} hideCloseBtn={true} background={'secondary4'}>
-	<div class="bg-blue-100 p-4 rounded-lg w-64 shadow-md">
+	<div class="bg-secondary4 p-4 rounded-lg w-64 shadow-md">
 		<h2 class="font-bold text-gray-800 mb-2">{checkpointTypeText.get(typeCK)}</h2>
-		<hr class="border-gray-300 mb-2" />
+		<hr class="border-grayfocus mb-2" />
 
 		<span>
 			{checkpointDetail}
@@ -90,7 +90,7 @@
 
 		<div class="flex gap-4 justify-center mt-4">
 			<button
-				class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+				class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-accent2-500"
 				on:click={() => {
 					showDetailPopup = false;
 				}}
@@ -100,7 +100,7 @@
 
 			{#if canCheckpoint}
 				<button
-					class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+					class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-accent2-500"
 					on:click={checkPoint}
 				>
 					check point

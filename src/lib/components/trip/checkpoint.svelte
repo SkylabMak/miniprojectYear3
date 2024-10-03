@@ -49,12 +49,12 @@
 				</div>
 
 				<!-- Location Name with Background -->
-				<div class="flex-1 bg-blue-200 p-2 rounded-lg flex justify-between items-center">
+				<div class="flex-1 bg-secondary4 p-2 rounded-lg flex justify-between items-center">
 					<span>{locationName}</span>
 					{#if started && canCheckpoint}
 						<Icon
 							icon="icon-park-outline:check-one"
-							class={`text-2xl ${pass ? 'text-black' : 'text-emerald-600'}`}
+							class={`text-2xl ${pass ? 'text-black' : 'text-green'}`}
 						/>
 					{/if}
 				</div>
@@ -77,7 +77,7 @@
 					<!-- Unread Badge -->
 					{#if unRead > 0 && join}
 						<span
-							class="absolute top-[-8px] right-[5px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+							class="absolute top-[-8px] right-[5px] bg-error text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
 						>
 							{unRead}
 						</span>

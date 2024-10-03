@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Header from './Header.svelte';
 	import '../app.css';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
 	import SearchBar from '$lib/components/layout/SearchBar.svelte';

@@ -108,7 +108,7 @@
 <div class={`flex ${type === 'large' ? 'justify-center items-center' : 'flex-col items-center'}`}>
 	{#if options[type]?.showArrowAbove || options[type]?.verticalLayout}
 		<!-- Arrow Above -->
-		<div class={`text-blue-500 ${options[type]?.arrowSize} flex items-center justify-center`}>
+		<div class={`text-accent2-500 ${options[type]?.arrowSize} flex items-center justify-center`}>
 			<Icon icon={arrowIcon} />
 		</div>
 	{/if}
@@ -128,7 +128,7 @@
 	{:else if !options[type]?.hideIcon}
 		<!-- Icon in vertical layout if no label -->
 		<div
-			class="rounded-full ml-[-20px] p-2 border-2 border-gray-300 w-12 h-12 flex justify-center items-center"
+			class="rounded-full ml-[-20px] p-2 border-2 border-grayfocus w-12 h-12 flex justify-center items-center"
 		>
 			<button on:click={setOpenMapOption}>
 				<Icon icon={options[type]?.icon} class="text-3xl" />

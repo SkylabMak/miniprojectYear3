@@ -37,7 +37,7 @@
 <div
 	class="border-2 rounded-lg p-4 mb-4 space-y-2 {message.readed === false
 		? 'border-accent1'
-		: 'border-gray-300'}"
+		: 'border-grayfocus'}"
 >
 	<!-- Top row with title, date, and time -->
 	<button
@@ -68,7 +68,7 @@
 			/>
 			<div>
 				<span class="font-bold">{message.custName}</span>
-				<p class="text-sm text-gray-600">{message.Lastmessage}</p>
+				<p class="text-sm text-text-gray">{message.Lastmessage}</p>
 			</div>
 		</div>
 	</button>

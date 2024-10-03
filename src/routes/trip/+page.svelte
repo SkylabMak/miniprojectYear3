@@ -88,7 +88,7 @@
 		{/if}
 		{#if editMode && dataTrip.booking != 'BE'}
 			<div class="flex flex-col items-center text-xl">
-				<div class={`text-blue-500 text-3xl flex items-center justify-center`}>
+				<div class={`text-accent2-500 text-3xl flex items-center justify-center`}>
 					<Icon icon={'basil:arrow-down-solid'} />
 				</div>
 				<button

@@ -42,7 +42,7 @@
 	<div class="flex justify-end items-center text-sm mb-2">
 		<span class="pr-2">{organization}</span>
 		{#if verified}
-			<Icon icon="icon-park-outline:check-one" class="text-2xl text-green-500" />
+			<Icon icon="icon-park-outline:check-one" class="text-2xl text-green" />
 		{/if}
 	</div>
 

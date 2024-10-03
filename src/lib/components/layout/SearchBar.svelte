@@ -34,8 +34,8 @@
 <div class="flex items-center space-x-2 w-full p-4">
 	<!-- Parent div with dynamic focus styling -->
 	<div
-		class="text-xl w-full rounded-full border bg-white border-gray-300 flex justify-between py-2 pr-4 px-8
-         {isFocused ? 'ring-2 ring-blue-500' : ''}"
+		class="text-xl w-full rounded-full border bg-white border-grayfocus flex justify-between py-2 pr-4 px-8
+         {isFocused ? 'ring-2 ring-ringblue' : ''}"
 	>
 		<input
 			type="text"

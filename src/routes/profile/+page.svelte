@@ -123,13 +123,13 @@
 		{/if}
 		<!-- Confirm Organization Button -->
 		{#if data.data.Org == 'true'}
-			<button disabled={true} class={`bg-gray-500 text-white px-4 py-2 rounded-lg`}
+			<button disabled={true} class={`bg-grayfocus-500 text-white px-4 py-2 rounded-lg`}
 				>ยืนยันเป็นองค์กรเป็นองค์กรแล้ว</button
 			>
 		{:else if data.data.Org == 'false'}
 			<button class={`bg-accent1 text-white px-4 py-2 rounded-lg`}>ยืนยันเป็นองค์กร"</button>
 		{:else}
-			<button disabled={true} class={`bg-gray-500 text-white px-4 py-2 rounded-lg`}
+			<button disabled={true} class={`bg-grayfocus-500 text-white px-4 py-2 rounded-lg`}
 				>อยู่ระหว่างดำเนินการ</button
 			>
 		{/if}

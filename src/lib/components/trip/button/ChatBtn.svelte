@@ -20,7 +20,7 @@
 	<IconContainer iconName="ant-design:comment-outlined" yes={false} />
 	{#if unRead}
 		<span
-			class="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full p-1 flex items-center justify-center"
+			class="absolute top-[-8px] right-[-8px] bg-error text-white text-xs rounded-full p-1 flex items-center justify-center"
 		>
 			un read
 		</span>

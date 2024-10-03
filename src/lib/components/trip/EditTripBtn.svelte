@@ -36,7 +36,7 @@
 				editMode = !editMode;
 				showEditTripPopup = false;
 			}}
-			class="absolute left-[-120px] bottom-[-40px] bg-blue-900 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2"
+			class="absolute left-[-120px] bottom-[-40px] bg-accent2 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2"
 		>
 			<span class={'text-lg'}>แก้ไขทริป</span>
 			<Icon icon={'material-symbols-light:draw-outline'} class={'text-4xl'} />

@@ -85,7 +85,7 @@
 				type="date"
 				bind:value={selectedDate}
 				on:input={handleDateEdit}
-				class={`border rounded px-4 py-2 ${isDateEdited ? 'border-warning' : 'border-gray-300'}`}
+				class={`border rounded px-4 py-2 ${isDateEdited ? 'border-warning' : 'border-grayfocus'}`}
 				disabled={!can}
 			/>
 		</div>
