@@ -31,7 +31,7 @@ interface tripCard {
 
 interface profile {
     name: string,
-    Org: boolean,
+    Org: string,
     imgURL: string,
 
 }

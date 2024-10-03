@@ -117,7 +117,7 @@ function reset() {
         {/if}
     </div>
 
-    {#if data.data.Org && data.orgChat}
+    {#if data.data.Org == "true" && data.orgChat}
     <div>
         <span>แชทลูกค้า : </span>
         <button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={openPopup}>
@@ -126,12 +126,17 @@ function reset() {
     </div>
     {/if}
     <!-- Confirm Organization Button -->
-    <button disabled={data.data.Org} class={`${(data.data.Org)?"bg-gray-500	":"bg-accent1"}  text-white px-4 py-2 rounded-lg`}>{(data.data.Org)?"ยืนยันเป็นองค์กรเป็นองค์กรแล้ว":"ยืนยันเป็นองค์กร"}</button>
-
+    {#if data.data.Org == "true"}
+    <button disabled={true} class={`bg-gray-500 text-white px-4 py-2 rounded-lg`}>ยืนยันเป็นองค์กรเป็นองค์กรแล้ว</button>
+    {:else if data.data.Org == "false"}
+    <button class={`bg-accent1 text-white px-4 py-2 rounded-lg`}>ยืนยันเป็นองค์กร"</button>
+    {:else}
+    <button disabled={true}  class={`bg-gray-500 text-white px-4 py-2 rounded-lg`}>อยู่ระหว่างดำเนินการ</button>
+    {/if}
     <!-- Delete Account Button -->
     <button class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg">logout</button>
 
-    <CreateTripPopup orgUser={data.data.Org}/>
+    <CreateTripPopup orgUser={data.data.Org == "true"}/>
         <ImageInput bind:inputIMGOpen={inputIMGOpen} bind:inputText={data.data.imgURL} originText={originIMG} bind:isImageError = {isImageError}/>
             <Popup bind:isOpen={showPopup}>
                 {#if data.orgChat}

@@ -9,7 +9,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         const uuid = decrypt(token as string)
         console.log("uuid is " + uuid)
 
-        
+        const waitStatus = await prismaMySQL.orgwaitq.findUnique({
+            where:{
+                IDAccount:uuid as string
+            }
+        })
         const userInfo = await prismaMySQL.account.findUnique({
             where:{
                 IDAccount:uuid as string
@@ -21,7 +25,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
                 Email:true
             }
         })
-        return new Response(JSON.stringify(  userInfo ), {
+        return new Response(JSON.stringify(  {
+            name : userInfo?.name,
+            imgURL : userInfo?.imgURL,
+            Org: (waitStatus == null)?"wait":`${userInfo?.Org}`,
+            Email: userInfo?.Email
+        } ), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',

@@ -2,6 +2,7 @@
     import Icon from '@iconify/svelte';
 	import MapCicleIcon from '../MapCicleIcon.svelte';
 	import { findFirstOrLastTypeD, findTypeDClosest, genGoogleMapsURL} from '$lib/utilsFn/assistance';
+	import MapOption from './MapOption.svelte';
 
     // Define the structure of each option
     interface goOption {
@@ -55,6 +56,8 @@
     // Accept a 'type' prop from the parent component
     export let type: string;
     export let checkpointList : checkpoint[]
+    let checkpointListSelected : (checkpoint | null)[]
+    let checkpointOptionOpen : boolean = false
     export let index:number
 
     function getRoute(){
@@ -66,6 +69,29 @@
     function getSingleRoute(){
         const locationList =  findFirstOrLastTypeD(checkpointList,(type == "start"))
         console.log(locationList)
+    }
+
+    function openMapOption(ckList : (checkpoint | null)[]){
+        // console.log("cklist is ",ckList)
+        checkpointListSelected = ckList
+        checkpointOptionOpen = true
+    }
+    function setOpenMapOption(){
+        if(type == "large"){
+            const locationList : (checkpoint | null)[] =  findTypeDClosest(checkpointList,index)
+            openMapOption(locationList)
+        }
+        else{
+            const location : checkpoint | null =  findFirstOrLastTypeD(checkpointList,(type == "start"))
+            if(type == "start"){
+                const modifyListCK = [null,location]
+                openMapOption(modifyListCK)
+            }
+            else{
+                const modifyListCK = [location,null]
+                openMapOption(modifyListCK)
+            }
+        }
     }
 
     // Determine the arrow icon based on the type
@@ -82,7 +108,7 @@
     
     {#if options[type]?.label}
         <!-- Label with background and icon (if label is defined) -->
-        <button on:click={getSingleRoute}
+        <button on:click={setOpenMapOption}
          class="flex items-center bg-accent2 text-white rounded-lg px-4 py-2 space-x-2" >
             <span>{options[type]?.label}</span>
             <!-- Show icon if hideIcon is not true -->
@@ -95,7 +121,7 @@
     {:else if !options[type]?.hideIcon}
         <!-- Icon in vertical layout if no label -->
         <div class="rounded-full ml-[-20px] p-2 border-2 border-gray-300 w-12 h-12 flex justify-center items-center">
-            <button on:click={getRoute}>
+            <button on:click={setOpenMapOption}>
             <Icon icon={options[type]?.icon} class="text-3xl" />
             </button>
         </div>
@@ -108,3 +134,5 @@
         </div>
     {/if}
 </div>
+
+<MapOption bind:checkPointList={checkpointListSelected} bind:mapOptionOpen={checkpointOptionOpen}/>
