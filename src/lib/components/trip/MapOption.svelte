@@ -58,7 +58,7 @@
 </script>
 
 <Popup bind:isOpen={mapOptionOpen} background="bg-secondary4">
-	<div class="bg-secondary4">
+	<div class="bg-secondary4 flex flex-col items-center">
 		<div class="flex flex-col gap-2 items-center">
 			<!-- First checkpoint dropdown -->
 			<div

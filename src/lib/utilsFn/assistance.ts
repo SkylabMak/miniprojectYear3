@@ -2,64 +2,59 @@ export function filterDest(checkpoints: checkpoint[]): checkpoint[] {
 	return checkpoints.filter((e) => e.type == 'D');
 }
 
+export function getAllDest(checkpoints: checkpoint[]) {
+	return checkpoints
+		.filter((cp) => cp.type === 'D')
+		.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+}
+
 export function findTypeDClosest(checkpoints: checkpoint[], index: number): (checkpoint | null)[] {
 	let result: (checkpoint | null)[] = [];
+	let leftCheckpoint: checkpoint | null = null;
+	let rightCheckpoint: checkpoint | null = null;
 
-	if (index === -1) {
-		// Return all checkpoints with type "D" and sort by time
-		result = checkpoints
-			.filter((cp) => cp.type === 'D')
-			.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-	} else {
-		let leftCheckpoint: checkpoint | null = null;
-		let rightCheckpoint: checkpoint | null = null;
+	// If the current index is type "D", add the current item and search only the left
+	if (checkpoints[index].type === 'D') {
+		result.push(checkpoints[index]);
 
-		// If the current index is type "D", add the current item and search only the left
-		if (checkpoints[index].type === 'D') {
-			result.push(checkpoints[index]);
-
-			// Search left side for the next closest "D" type
-			let leftIndex = index - 1;
-			while (leftIndex >= 0) {
-				if (checkpoints[leftIndex].type === 'D') {
-					leftCheckpoint = checkpoints[leftIndex];
-					break;
-				}
-				leftIndex--;
+		// Search left side for the next closest "D" type
+		let leftIndex = index - 1;
+		while (leftIndex >= 0) {
+			if (checkpoints[leftIndex].type === 'D') {
+				leftCheckpoint = checkpoints[leftIndex];
+				break;
 			}
-
-			// Add left checkpoint or null
-			result.unshift(leftCheckpoint); // Left side remains at the start of the list
-		} else {
-			// Search left and right sides if the current index is not "D"
-			let leftIndex = index - 1;
-			let rightIndex = index + 1;
-
-			// Search left side
-			while (leftIndex >= 0) {
-				if (checkpoints[leftIndex].type === 'D') {
-					leftCheckpoint = checkpoints[leftIndex];
-					break;
-				}
-				leftIndex--;
-			}
-
-			// Search right side
-			while (rightIndex < checkpoints.length) {
-				if (checkpoints[rightIndex].type === 'D') {
-					rightCheckpoint = checkpoints[rightIndex];
-					break;
-				}
-				rightIndex++;
-			}
-
-			// Add left and right checkpoints (or null if not found)
-			result.push(leftCheckpoint); // Left checkpoint or null
-			result.push(rightCheckpoint); // Right checkpoint or null
+			leftIndex--;
 		}
 
-		// Sort the result, but keep null values in place
-		result;
+		// Add left checkpoint or null
+		result.unshift(leftCheckpoint); // Left side remains at the start of the list
+	} else {
+		// Search left and right sides if the current index is not "D"
+		let leftIndex = index - 1;
+		let rightIndex = index + 1;
+
+		// Search left side
+		while (leftIndex >= 0) {
+			if (checkpoints[leftIndex].type === 'D') {
+				leftCheckpoint = checkpoints[leftIndex];
+				break;
+			}
+			leftIndex--;
+		}
+
+		// Search right side
+		while (rightIndex < checkpoints.length) {
+			if (checkpoints[rightIndex].type === 'D') {
+				rightCheckpoint = checkpoints[rightIndex];
+				break;
+			}
+			rightIndex++;
+		}
+
+		// Add left and right checkpoints (or null if not found)
+		result.push(leftCheckpoint); // Left checkpoint or null
+		result.push(rightCheckpoint); // Right checkpoint or null
 	}
 
 	return result;

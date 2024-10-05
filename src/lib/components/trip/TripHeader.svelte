@@ -14,7 +14,7 @@
 	let originalName: string;
 	let originalDetail: string;
 	let originalPreparation: string;
-	let originalIMGURL: string = '';
+	let originalIMGURL: string ;
 	let isImageError = false;
 
 	let editedName: string;
@@ -93,7 +93,8 @@
 		editedName = originalName;
 		editedDetail = originalDetail;
 		editedPreparation = originalPreparation;
-		dataTrip.imageURL = originalIMGURL;
+		// dataTrip.imageURL = originalIMGURL;
+		console.log(dataTrip.imageURL)
 		isImageError = true;
 	}
 
@@ -107,7 +108,7 @@
 <!-- Image Section -->
 <div class="image-placeholder bg-gray-300 w-full h-32 rounded-lg mb-4 overflow-hidden">
 	{#if dataTrip}
-		{#if dataTrip.imageURL && !isImageError}
+		{#if dataTrip.imageURL }
 			<button
 				disabled={!editMode}
 				on:click={() => {

@@ -7,6 +7,7 @@
 	import TripFooter from '$lib/components/trip/TripFooter.svelte';
 	import TripHeader from '$lib/components/trip/TripHeader.svelte';
 	import { tripData } from '$lib/store/store';
+	import { genGoogleMapsURL, getAllDest } from '$lib/utilsFn/assistance';
 	import Icon from '@iconify/svelte';
 	import { onDestroy } from 'svelte';
 
@@ -33,6 +34,12 @@
 	function formatDate(dateString: string): string {
 		const date = new Date(dateString);
 		return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+	}
+
+	function openGoogleMap(){
+		const allDest = getAllDest(dataTrip.checkpoint)
+		const mapURL = genGoogleMapsURL(allDest)
+		window.open(mapURL, '_blank');
 	}
 </script>
 
@@ -121,7 +128,8 @@
 		<div class="flex justify-end w-full">
 			<button
 				class="mt-[-80px] flex flex-col justify-center items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none"
-			>
+				on:click={openGoogleMap}
+				>
 				<MapCicleIcon />
 				<span class="mt-1">AllMap</span>
 			</button>

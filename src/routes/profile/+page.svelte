@@ -60,6 +60,17 @@
 		data.data.imgURL = originIMG;
 		isImageError = false;
 	}
+
+	async function deleteCookieAndGoHome() {
+		const response = await fetch('/api/account/logout'); // Replace with the actual endpoint URL
+		if (response.ok) {
+			// Refresh the page if the request was successful
+			window.location.reload();
+		} else {
+			// Handle the error if needed
+			console.error('Logout failed:', response.statusText);
+		}
+	}
 </script>
 
 {#if data.userToken}
@@ -135,6 +146,7 @@
 		{/if}
 		<!-- Delete Account Button -->
 		<button class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg"
+		on:click={deleteCookieAndGoHome}
 			>logout</button
 		>
 

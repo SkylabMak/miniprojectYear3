@@ -29,7 +29,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			JSON.stringify({
 				name: userInfo?.name,
 				imgURL: userInfo?.imgURL,
-				Org: waitStatus == null ? 'wait' : `${userInfo?.Org}`,
+				Org: waitStatus == null ? `${userInfo?.Org}` : `wait`,
 				Email: userInfo?.Email
 			}),
 			{

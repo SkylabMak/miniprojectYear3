@@ -150,10 +150,10 @@
 	});
 </script>
 
-<Popup bind:isOpen={showCommentPopup}>
-	<div class="flex flex-col gap-4 h-full">
+<Popup bind:isOpen={showCommentPopup} cusWeight="w-[90%]" cusHeight="h-[90%]">
+	<div class="flex flex-col gap-2 h-full w-full">
 		<div
-			class="flex-col overflow-y-auto p-4 max-h-80 gap-4"
+			class="flex-col overflow-y-auto max-h-[100%] gap-4 w-full"
 			bind:this={messagesContainer}
 			id="messagesContainer"
 		>
@@ -165,12 +165,16 @@
 				{#each messages as message, index}
 					<div class="flex flex-col gap-1 my-4 {message.my ? 'items-end' : 'items-start'}">
 						<div class="flex gap-2 {message.my ? 'justify-end' : 'justify-start'}  items-center">
-							<div class="w-4 h-4 rounded-full border-black border-2 shadow-sm">
+							<div class="w-4 h-4 rounded-full border-black border-2 shadow-sm overflow-hidden">
 								<img src={message.imgUrl} alt="User Avatar" class="rounded-full" />
 							</div>
 							<p class="font-bold text-gray-900">{message.name}</p>
 						</div>
-						<div class=" rounded-lg p-2 max-w-lg {message.my ? 'bg-chat-my' : 'bg-chat-none'}">
+						<div
+							class=" rounded-lg p-2 max-w-lg {message.my
+								? 'bg-chat-my'
+								: 'bg-chat-none'}"
+						>
 							<p class="mt-1 text-black">{message.text}</p>
 						</div>
 						<span>{formatDate(message.time)} {formatTime(message.time)}</span>
@@ -178,17 +182,19 @@
 				{/each}
 			{/if}
 		</div>
+		<div class="border border-grayfocus rounded-lg "></div>
 		{#if canSend}
-			<div class="grow flex items-center mt-4">
+			<div class="grow flex items-center ">
+				
 				<input
 					type="text"
 					placeholder="พิมพ์ข้อความ"
 					bind:value={inputMessage}
-					class="flex-1 p-2 border border-grayfocus rounded-md focus:outline-none focus:ring-2 focus:ring-accent2-500"
+					class="m-1 flex-1 p-2 border border-grayfocus rounded-md focus:outline-none focus:ring-2 focus:ring-accent2-500"
 				/>
 				<button
 					on:click={sendMessage}
-					class="ml-2 bg-accent2 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+					class="ml-2 bg-accent2 text-white px-4 py-2 rounded-md hover:bg-accent2-500"
 				>
 					ส่ง
 				</button>

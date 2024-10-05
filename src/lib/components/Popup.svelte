@@ -2,6 +2,9 @@
 	export let isOpen = false;
 	export let hideCloseBtn = false;
 	export let background = 'bg-primary';
+	export let cusWeight = "max-w-[90%]"
+	export let cusHeight = "max-h-[83.33%]"
+	export let cusClass = ""
 	// Function to close the popup
 	function closePopup() {
 		isOpen = false;
@@ -12,10 +15,9 @@
 	<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
 		<!-- Popup Content -->
 		<div
-			class={`${background} rounded-lg p-6 max-h-10/12 max-w-10/12 space-y-4 relative shadow-lg flex flex-col items-center overflow-y-auto`}
+			class={`${background} rounded-lg p-6 ${cusHeight} ${cusWeight} space-y-4 relative shadow-lg flex flex-col items-center overflow-y-auto ${cusClass}`}
 		>
-			<!-- Slot for custom content, which will scroll if overflowed -->
-			<div class="w-full overflow-y-auto max-h-[500px]">
+			<div class={`w-full overflow-y-auto `}>
 				<slot />
 			</div>
 			<!-- Close Button -->

@@ -63,6 +63,7 @@ export default {
 				},
 				grayfocus: {
 					DEFAULT: '#d1d5db',
+					100:'#F8F9FA',
 					500: '#6b7280'
 				},
 				ringblue: {

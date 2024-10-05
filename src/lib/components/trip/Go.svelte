@@ -68,16 +68,16 @@
 	let checkpointOptionOpen: boolean = false;
 	export let index: number;
 
-	function getRoute() {
-		console.log(index);
-		console.log(genGoogleMapsURL(findTypeDClosest(checkpointList, index)));
-		console.log(findTypeDClosest(checkpointList, index));
-	}
+	// function getRoute() {
+	// 	console.log(index);
+	// 	console.log(genGoogleMapsURL(findTypeDClosest(checkpointList, index)));
+	// 	console.log(findTypeDClosest(checkpointList, index));
+	// }
 
-	function getSingleRoute() {
-		const locationList = findFirstOrLastTypeD(checkpointList, type == 'start');
-		console.log(locationList);
-	}
+	// function getSingleRoute() {
+	// 	const locationList = findFirstOrLastTypeD(checkpointList, type == 'start');
+	// 	console.log(locationList);
+	// }
 
 	function openMapOption(ckList: (checkpoint | null)[]) {
 		// console.log("cklist is ",ckList)
