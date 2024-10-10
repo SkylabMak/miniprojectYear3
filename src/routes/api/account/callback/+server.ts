@@ -5,7 +5,7 @@ import { prismaMySQL } from '$lib/utils/database/sqlDB.js';
 import { encrypt } from '$lib/security/jwtUtils';
 import { getUUID } from '$lib/utils/uuidUtils.js';
 import { CAN_NOT_INSERT_ACCOUNT } from '$lib/constants/errorCodes';
-import { resError } from '$lib/myAPI/customError';
+import { resCustomError, resCustomErrorCode, resError } from '$lib/myAPI/customError';
 import type { RequestHandler } from '@sveltejs/kit';
 
 const client = oauth2Client;
@@ -63,13 +63,13 @@ async function addNewUsre(info: googleInfo, IDAccount: string) {
 				IDGoogle: info.Google_ID,
 				Email: info.Email,
 				Org: false,
-				imgURL: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
+				imgURL: info.url,
 				name: info.name
 			}
 		});
 		return senResponse(IDAccount, 302);
 	} catch (error) {
-		return resError(CAN_NOT_INSERT_ACCOUNT);
+		return resCustomErrorCode(CAN_NOT_INSERT_ACCOUNT);
 	}
 }
 

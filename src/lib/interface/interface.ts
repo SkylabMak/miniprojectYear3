@@ -11,6 +11,7 @@ interface googleInfo {
 	Google_ID: string;
 	Email: string;
 	name: string;
+	url: string;
 }
 
 interface customError {

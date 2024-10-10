@@ -6,7 +6,8 @@
 	import CreateTripPopup from '$lib/components/trip/CreateTripPopup.svelte';
 	import ImageInput from '$lib/components/ImageInput.svelte';
 	import ButtonMine from '$lib/components/ButtonMine.svelte';
-
+	import ImageInputFile from '$lib/components/ImageInputFile.svelte';
+	let change = false; // Ensure `change` is reactive and used properly.
 	export let data: {
 		userToken: string;
 		data: profile;
@@ -14,15 +15,15 @@
 	};
 
 	// console.log('Data passed to the page:', data.userToken);
-	let isImageError = false;
 	let originalName = '';
 	let originIMG = '';
 	let isModified = false;
 	if (data.userToken) {
 		originalName = data.data.name;
 		originIMG = data.data.imgURL;
+		console.log(data.data.imgURL);
 	}
-	$: isModified = data.data && (data.data.name !== originalName || data.data.imgURL !== originIMG);
+	$: isModified = data.data && (data.data.name !== originalName || change);
 
 	// $: console.log(isModified, data.data.name )
 	async function changeName() {
@@ -45,11 +46,13 @@
 			const result = await response.json(); // Assuming the API sends a JSON response
 			console.log('Name changed successfully:', result);
 		}
-		isModified = false;
+		change = false;
 	}
 
 	let showPopup = false;
 	let inputIMGOpen = false;
+
+	$: console.log(isModified);
 
 	function openPopup() {
 		showPopup = true;
@@ -58,7 +61,7 @@
 	function reset() {
 		data.data.name = originalName;
 		data.data.imgURL = originIMG;
-		isImageError = false;
+		change = false;
 	}
 
 	async function deleteCookieAndGoHome() {
@@ -83,14 +86,11 @@
 					class="w-28 h-28 rounded-full flex items-center justify-center border-2 border-black mb-8"
 					on:click={() => (inputIMGOpen = true)}
 				>
-					{#if !isImageError && data.data.imgURL && data.data.imgURL !== ''}
+					{#if data.data.imgURL && data.data.imgURL !== ''}
 						<img
 							src={data.data.imgURL}
 							alt={data.data.name}
 							class="w-full h-full rounded-full object-cover"
-							on:error={() => {
-								isImageError = true;
-							}}
 						/>
 					{:else}
 						<span>click me to add image</span>
@@ -145,17 +145,18 @@
 			>
 		{/if}
 		<!-- Delete Account Button -->
-		<button class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg"
-		on:click={deleteCookieAndGoHome}
-			>logout</button
+		<button
+			class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg"
+			on:click={deleteCookieAndGoHome}>logout</button
 		>
 
 		<CreateTripPopup orgUser={data.data.Org == 'true'} />
-		<ImageInput
+		<ImageInputFile
 			bind:inputIMGOpen
 			bind:inputText={data.data.imgURL}
 			originText={originIMG}
-			bind:isImageError
+			id=""
+			folder={'profile'}
 		/>
 		<Popup bind:isOpen={showPopup}>
 			{#if data.orgChat}

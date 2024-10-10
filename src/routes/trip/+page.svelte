@@ -36,9 +36,9 @@
 		return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 	}
 
-	function openGoogleMap(){
-		const allDest = getAllDest(dataTrip.checkpoint)
-		const mapURL = genGoogleMapsURL(allDest)
+	function openGoogleMap() {
+		const allDest = getAllDest(dataTrip.checkpoint);
+		const mapURL = genGoogleMapsURL(allDest);
 		window.open(mapURL, '_blank');
 	}
 </script>
@@ -129,7 +129,7 @@
 			<button
 				class="mt-[-80px] flex flex-col justify-center items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none"
 				on:click={openGoogleMap}
-				>
+			>
 				<MapCicleIcon />
 				<span class="mt-1">AllMap</span>
 			</button>

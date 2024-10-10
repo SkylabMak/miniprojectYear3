@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { tripData } from '$lib/store/store';
 	import { onDestroy } from 'svelte';
-	import EditTripBtn from './EditTripBtn.svelte';
 	import Icon from '@iconify/svelte';
 	import { formatDate } from '$lib/utilsFn/Date';
 	import ButtonMine from '../ButtonMine.svelte';
-	import ImageInput from '../ImageInput.svelte';
+	import ImageInputFile from '../ImageInputFile.svelte';
 
 	export let editMode: boolean;
 	let inputIMGOpen = false;
@@ -14,18 +13,13 @@
 	let originalName: string;
 	let originalDetail: string;
 	let originalPreparation: string;
-	let originalIMGURL: string ;
-	let isImageError = false;
+	let originalIMGURL: string;
 
 	let editedName: string;
 	let editedDetail: string;
 	let editedPreparation: string;
 
 	let isEdit = false;
-	// let isEditingName = false;
-	// let isEditingDetail = false;
-	// let isEditingPreparation = false;
-	// let indexPass = -1;
 	let canEdit = false;
 	const unsubscribe = tripData.subscribe((value) => {
 		dataTrip = value;
@@ -94,8 +88,7 @@
 		editedDetail = originalDetail;
 		editedPreparation = originalPreparation;
 		// dataTrip.imageURL = originalIMGURL;
-		console.log(dataTrip.imageURL)
-		isImageError = true;
+		console.log(dataTrip.imageURL);
 	}
 
 	onDestroy(() => {
@@ -108,7 +101,7 @@
 <!-- Image Section -->
 <div class="image-placeholder bg-gray-300 w-full h-32 rounded-lg mb-4 overflow-hidden">
 	{#if dataTrip}
-		{#if dataTrip.imageURL }
+		{#if dataTrip.imageURL}
 			<button
 				disabled={!editMode}
 				on:click={() => {
@@ -119,9 +112,6 @@
 					src={dataTrip.imageURL}
 					alt={dataTrip.tripID}
 					class="w-full h-full rounded-lg object-cover"
-					on:error={() => {
-						isImageError = true;
-					}}
 				/>
 			</button>
 		{:else}
@@ -130,11 +120,13 @@
 	{/if}
 </div>
 {#if dataTrip}
-	<ImageInput
+	<ImageInputFile
 		bind:inputIMGOpen
 		bind:inputText={dataTrip.imageURL}
 		originText={originalIMGURL}
-		bind:isImageError
+		id={dataTrip.tripID}
+		folder={'trip'}
+		bind:editMode
 	/>
 {/if}
 <div class="mb-4">

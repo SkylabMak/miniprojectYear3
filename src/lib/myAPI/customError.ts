@@ -1,6 +1,15 @@
 import { MISSING_INPUT } from '$lib/constants/errorCodes';
 
-export async function resError(cusE: customError): Promise<Response> {
+export async function resCustomErrorCode(cusE: customError): Promise<Response> {
+	return new Response(JSON.stringify(cusE), {
+		status: 500,
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+}
+
+export async function resError(cusE: Error): Promise<Response> {
 	return new Response(JSON.stringify(cusE), {
 		status: 500,
 		headers: {

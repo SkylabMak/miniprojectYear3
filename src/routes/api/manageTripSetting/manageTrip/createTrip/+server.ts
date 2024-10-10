@@ -17,7 +17,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const tripDataBody = {
 			IDTrip: newTripID as string,
 			IDAccount: uuid as string,
-			imageURL: '',
+			imageURL:
+				'https://di-uploads-pod5.dealerinspire.com/millsmotorsbuickgmc/uploads/2016/08/road-trip-1500x750.jpg',
 			TripName: tripName as string,
 			Detail: '',
 			Preparation: '',

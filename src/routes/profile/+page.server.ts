@@ -15,9 +15,9 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	if (!response.ok) {
 		return null;
 	}
-	console.log("data.Org",data.Org)
-	if (data.Org == "true") {
-		console.log("fetch get cust")
+	console.log('data.Org', data.Org);
+	if (data.Org == 'true') {
+		console.log('fetch get cust');
 		const orgResponse = await fetch('/api/chat/getCustomers ', {
 			method: 'POST',
 			headers: {
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		});
 		const orgData = await orgResponse.json();
 		orgChat = orgData as orgChat[];
-		console.log("orgData",orgData)
+		console.log('orgData', orgData);
 	}
 	//   console.log('Fetched Data:', data);
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { formatDate, formatTime } from '$lib/utilsFn/Date';
+	import { mockData } from '$lib/utilsFn/testData/mockupData';
 	import Popup from '../Popup.svelte';
 	import { afterUpdate, onMount } from 'svelte';
 
@@ -32,72 +33,6 @@
 		const data: comment[] = (await response.json()).comments;
 
 		// Mock data for testing
-		const mockData: comment[] = [
-			{
-				text: 'This is a mock message 1',
-				name: 'Mock User 1',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 2',
-				name: 'Mock User 2',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 3',
-				name: 'Mock User 3',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 4',
-				name: 'Mock User 4',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 5',
-				name: 'Mock User 5',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 6',
-				name: 'Mock User 6',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 7',
-				name: 'Mock User 7',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			},
-			{
-				text: 'This is a mock message 8',
-				name: 'Mock User 8',
-				time: '',
-				imgUrl: 'https://icons.veryicon.com/png/o/miscellaneous/administration/account-25.png',
-				readed: 0,
-				my: false
-			}
-		];
 
 		return [...data, ...mockData];
 	}
@@ -170,11 +105,7 @@
 							</div>
 							<p class="font-bold text-gray-900">{message.name}</p>
 						</div>
-						<div
-							class=" rounded-lg p-2 max-w-lg {message.my
-								? 'bg-chat-my'
-								: 'bg-chat-none'}"
-						>
+						<div class=" rounded-lg p-2 max-w-lg {message.my ? 'bg-chat-my' : 'bg-chat-none'}">
 							<p class="mt-1 text-black">{message.text}</p>
 						</div>
 						<span>{formatDate(message.time)} {formatTime(message.time)}</span>
@@ -182,10 +113,9 @@
 				{/each}
 			{/if}
 		</div>
-		<div class="border border-grayfocus rounded-lg "></div>
+		<div class="border border-grayfocus rounded-lg"></div>
 		{#if canSend}
-			<div class="grow flex items-center ">
-				
+			<div class="grow flex items-center">
 				<input
 					type="text"
 					placeholder="พิมพ์ข้อความ"

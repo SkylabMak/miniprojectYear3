@@ -29,7 +29,8 @@ export const getInfo = async (token: Token): Promise<googleInfo> => {
 		const info: googleInfo = {
 			Google_ID: data?.sub as string,
 			Email: data?.email as string,
-			name: data?.name as string
+			name: data?.name as string,
+			url: data?.picture as string
 		};
 		return info;
 	} catch (error) {
@@ -37,7 +38,8 @@ export const getInfo = async (token: Token): Promise<googleInfo> => {
 		const info: googleInfo = {
 			Google_ID: 'null',
 			Email: 'null',
-			name: 'null'
+			name: 'null',
+			url: 'null'
 		};
 		return info;
 	}

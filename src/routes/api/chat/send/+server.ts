@@ -1,16 +1,10 @@
-import {
-	checkErrorAndRes,
-	checkMissingInput,
-	CustomError,
-	resCustomError
-} from '$lib/myAPI/customError';
+import { checkErrorAndRes, checkMissingInput } from '$lib/myAPI/customError';
 import { prismaMySQL } from '$lib/utils/database/sqlDB';
 import { decrypt } from '$lib/security/jwtUtils';
 import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
 import { getCurrentIsoDate } from '$lib/myAPI/tripUtils';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
-import { MISSING_INPUT } from '$lib/constants/errorCodes';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
