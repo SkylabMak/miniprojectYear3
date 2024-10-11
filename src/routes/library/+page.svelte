@@ -1,6 +1,6 @@
 <script lang="ts">
 	import NotYetLogin from '$lib/components/NotYetLogin.svelte';
-	import TripCard from '$lib/components/TripCard.svelte';
+	import TripCard from '$lib/components/trip/TripCard.svelte';
 
 	export let data: {
 		data: tripCard[];
@@ -20,9 +20,11 @@
 					tripTitle={trip.name}
 					tripSubtitle={trip.detail}
 					tripDate={trip.startDate}
-					tripPeopleCount={trip.count}
 					verified={trip.org}
 					organization={trip.by}
+					tripPeopleCount={trip.people}
+					tripPeopleMax={trip.peopleMax}
+					destCount={trip.count}
 				/>
 			{/each}
 		</ul>

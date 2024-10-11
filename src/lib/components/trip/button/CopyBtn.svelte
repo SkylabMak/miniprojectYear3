@@ -30,12 +30,12 @@
 
 <button
 	class="m-1 focus:outline-none"
-	disabled={can}
+	disabled={!can}
 	on:click={() => {
 		copyPopupShow = true;
 	}}
 >
-	<IconContainer iconName="ic:round-save-alt" yes={can} />
+	<IconContainer iconName="ic:round-save-alt" yes={!can} />
 </button>
 
 <Popup bind:isOpen={copyPopupShow} hideCloseBtn={true}>
@@ -49,9 +49,11 @@
 					</h2>
 				</div>
 			{:else}
-				<h2>คุณต้องการ</h2>
-				<h2 class="font-bold italic">{`คัดลอกเป็นของตัวเองหรือไม่`}</h2>
-				<h2>หรือไม่</h2>
+				<div class="flex flex-col items-center">
+					<h2>คุณต้องการ</h2>
+					<h2 class="font-bold italic">{`คัดลอกเป็นของตัวเองหรือไม่`}</h2>
+					<h2>หรือไม่</h2>
+				</div>
 			{/if}
 		</div>
 		<div class="flex items-center gap-4 justify-center mt-4">

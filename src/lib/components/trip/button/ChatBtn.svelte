@@ -1,6 +1,6 @@
 <script lang="ts">
 	import IconContainer from '$lib/components/IconContainer.svelte';
-	import ChatComponent from '$lib/components/org/ChatComponent.svelte';
+	import ChatComponent from '$lib/components/org/AllChatComponent.svelte';
 	// export let visbleBtn: boolean = true;
 	export let can: boolean;
 	export let tripID: string;

@@ -69,7 +69,9 @@
 					bind:value={selectedFirstCheckpoint}
 				>
 					{#each allCheckPointList as ckt}
-						<option value={ckt.locationName}>{ckt.locationName}</option>
+						<option value={ckt.locationName}
+							>{ckt.locationName == 'Your location' ? 'ตำแหน่งของคุณ' : ckt.locationName}</option
+						>
 					{/each}
 				</select>
 			</div>
@@ -85,7 +87,9 @@
 					bind:value={selectedSecondCheckpoint}
 				>
 					{#each allCheckPointList as ckt}
-						<option value={ckt.locationName}>{ckt.locationName}</option>
+						<option value={ckt.locationName}
+							>{ckt.locationName == 'Your location' ? 'ตำแหน่งของคุณ' : ckt.locationName}</option
+						>
 					{/each}
 				</select>
 			</div>

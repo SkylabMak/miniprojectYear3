@@ -3,7 +3,7 @@ import { prismaMySQL } from '$lib/utils/database/sqlDB';
 import { decrypt } from '$lib/security/jwtUtils';
 import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
-import { deleateBETrip, deleateNMTrip, getCurrentIsoDate } from '$lib/myAPI/tripUtils';
+import { deleateBETrip, deleateTrip, getCurrentIsoDate } from '$lib/myAPI/tripUtils';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
@@ -47,7 +47,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				return resFalse();
 			}
 			if (remove) {
-				deleateNMTrip(tripID);
+				deleateTrip(tripID);
 
 				return resTrue();
 			} else {

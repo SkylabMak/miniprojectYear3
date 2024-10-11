@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TripCard from '$lib/components/TripCard.svelte';
+	import TripCard from '$lib/components/trip/TripCard.svelte';
 	import { searchedTrip } from '$lib/store/store';
 
 	let data: tripCard[];
@@ -20,9 +20,11 @@
 					tripTitle={trip.name}
 					tripSubtitle={trip.detail}
 					tripDate={trip.startDate}
-					tripPeopleCount={trip.count}
 					verified={trip.org}
 					organization={trip.by}
+					tripPeopleCount={trip.people}
+					destCount={trip.count}
+					tripPeopleMax={trip.peopleMax}
 				/>
 			{/each}
 		</ul>

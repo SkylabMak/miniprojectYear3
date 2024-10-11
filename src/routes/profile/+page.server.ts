@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		// body: JSON.stringify(requestBody), // Convert the body to JSON
 	});
 	const data = await response.json();
-	let orgChat: orgChat[] = [];
+	let chatData: orgChat[] = [];
 	if (!response.ok) {
 		return null;
 	}
@@ -24,15 +24,26 @@ export const load: PageServerLoad = async ({ fetch }) => {
 				'Content-Type': 'application/json'
 			}
 		});
-		const orgData = await orgResponse.json();
-		orgChat = orgData as orgChat[];
-		console.log('orgData', orgData);
+		const chat = await orgResponse.json();
+		chatData = chat as orgChat[];
+		console.log('chatData', chat);
+	} else {
+		console.log('fetch get rest');
+		const orgResponse = await fetch('/api/chat/getRest ', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		const chat = await orgResponse.json();
+		chatData = chat as orgChat[];
+		console.log('restData', chat);
 	}
 	//   console.log('Fetched Data:', data);
 
 	// Returning the data to the page component
 	return {
 		data,
-		orgChat
+		chatData
 	};
 };

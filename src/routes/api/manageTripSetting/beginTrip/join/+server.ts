@@ -19,18 +19,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				joiner: {},
 				TripName: true,
 				maxJoiner: true,
-				IDAccount: true
+				IDAccount: true,
+				count: true
 			}
 		});
-		if ((trip?.joiner.length ?? 0) + 1 >= (trip?.maxJoiner ?? 10)) {
-			return resFalse();
-		} else if (trip?.joiner.find((e) => e.IDAccount == uuid) && join) {
-			return resFalse();
-		} else if (trip?.IDAccount == uuid) {
-			return resFalse();
-		}
-		// console.log("")
-		else if (join == false) {
+
+		if (join == false) {
 			console.log('delete join');
 			await prismaMySQL.joiner.delete({
 				where: {
@@ -52,6 +46,17 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			});
 		} else {
+			if (!(trip?.count ?? 1 < (trip?.maxJoiner ?? 10))) {
+				console.log('false max');
+				return resFalse();
+			} else if (trip?.joiner.find((e) => e.IDAccount == uuid) && join) {
+				console.log('false join');
+				return resFalse();
+			} else if (trip?.IDAccount == uuid) {
+				console.log('false own');
+				return resFalse();
+			}
+
 			console.log('create join');
 			await prismaMySQL.joiner.create({
 				data: {

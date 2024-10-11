@@ -32,7 +32,8 @@
 			joinPopupShow = false;
 			return {
 				...data,
-				join: !joined
+				join: !joined,
+				count: !joined ? data.count + 1 : data.count - 1
 			};
 		});
 	}
@@ -45,7 +46,7 @@
 	class={`m-1 focus:outline-none ${visbleBtn ? 'hidden' : ''}`}
 	disabled={can}
 >
-	<IconContainer iconName="material-symbols:group-add-outline" yes={can} />
+	<IconContainer iconName="material-symbols:group-add-outline" yes={joined} />
 </button>
 
 <Popup bind:isOpen={joinPopupShow} hideCloseBtn={true}>

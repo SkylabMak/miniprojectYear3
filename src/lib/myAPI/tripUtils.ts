@@ -190,7 +190,7 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 	}
 }
 
-export async function deleateNMTrip(tripID: string) {
+export async function deleateTrip(tripID: string) {
 	try {
 		await prismaMySQL.checkpoint.deleteMany({
 			where: {
@@ -199,6 +199,16 @@ export async function deleateNMTrip(tripID: string) {
 		});
 	} catch (error) {
 		console.log('can not delete checkpoint');
+	}
+
+	try {
+		await prismaMongo.orgChat.deleteMany({
+			where: {
+				IDTrip: tripID
+			}
+		});
+	} catch (error) {
+		console.log('can not delete orgChat');
 	}
 
 	try {

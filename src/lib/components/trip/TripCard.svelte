@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { setActiveNavbarItem, tripData } from '$lib/store/store';
+	import { formatDate } from '$lib/utilsFn/Date';
 	import { getTripData } from '$lib/utilsFn/getTripData';
 	import Icon from '@iconify/svelte';
 
@@ -8,7 +9,9 @@
 	export let tripTitle: string;
 	export let tripSubtitle: string;
 	export let tripDate: string;
+	export let destCount: number;
 	export let tripPeopleCount: number;
+	export let tripPeopleMax: number;
 	export let imageUrl: string =
 		'https://di-uploads-pod5.dealerinspire.com/millsmotorsbuickgmc/uploads/2016/08/road-trip-1500x750.jpg'; // Placeholder for the image URL
 	export let organization: string = 'โดย กรมท่องเที่ยวชว.'; // Default organization
@@ -34,7 +37,7 @@
 			<img src={imageUrl} alt={tripTitle} class="w-full h-full rounded-lg object-cover" />
 		{:else}
 			<!-- Placeholder for missing image -->
-			<div class="text-center pt-6">Image goes here</div>
+			<div class="text-center pt-6">No Image</div>
 		{/if}
 	</div>
 
@@ -55,15 +58,15 @@
 		<div class="flex">
 			<div class="flex items-center mr-2">
 				<Icon icon="mingcute:time-line" class="text-2xl text-black" />
-				<span class="ml-2"
-					>{new Date(tripDate).getDate()}/{new Date(tripDate).getMonth() + 1}/{new Date(
-						tripDate
-					).getFullYear()}</span
-				>
+				<span class="ml-1">{formatDate(tripDate)}</span>
+			</div>
+			<div class="flex items-center mr-2">
+				<Icon icon="solar:point-on-map-linear" class="text-2xl text-black" />
+				<span class="ml-1">{destCount}</span>
 			</div>
 			<div class="flex items-center">
-				<Icon icon="solar:point-on-map-linear" class="text-2xl text-black" />
-				<span>{tripPeopleCount}</span>
+				<Icon icon="clarity:group-solid" class="text-2xl text-black" />
+				<span>{tripPeopleCount}/{tripPeopleMax}</span>
 			</div>
 		</div>
 

@@ -28,6 +28,8 @@ interface tripCard {
 	org: boolean;
 	imageURL: string;
 	count: number;
+	people: number;
+	peopleMax: number;
 }
 
 interface profile {

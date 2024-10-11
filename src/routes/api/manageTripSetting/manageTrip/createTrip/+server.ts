@@ -28,7 +28,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			private: true,
 			maxJoiner: 10,
 			started: false,
-			count: 0
+			count: 1
 		};
 		const userInfo = await prismaMySQL.account.findUnique({
 			where: {
@@ -59,9 +59,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						started: false,
 						me: true,
 						unread: false,
-						count: 0,
+						count: 1,
 						join: true,
-						imageURL: '',
+						imageURL:
+							'https://di-uploads-pod5.dealerinspire.com/millsmotorsbuickgmc/uploads/2016/08/road-trip-1500x750.jpg',
 						hasToken: true,
 						checkpoint: []
 					}

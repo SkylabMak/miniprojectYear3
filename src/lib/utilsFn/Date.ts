@@ -1,5 +1,6 @@
 export function formatDate(dateString: string): string {
 	const date = new Date(dateString);
+	if (dateString == '') return 'no date';
 	// Format date to Thai locale in UTC
 	return date.toLocaleDateString('th-TH', {
 		timeZone: 'UTC',
@@ -11,6 +12,7 @@ export function formatDate(dateString: string): string {
 
 export function formatTime(dateString: string): string {
 	const date = new Date(dateString);
+	if (dateString == '') return 'no time';
 	// Format time to Thai locale in UTC
 	return date.toLocaleTimeString('th-TH', {
 		timeZone: 'UTC',

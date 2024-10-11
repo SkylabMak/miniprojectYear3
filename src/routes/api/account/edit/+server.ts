@@ -39,7 +39,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			}
 		});
 
-		if (org !== null && org === true) {
+		if (org !== '' && org === true) {
 			console.log('wait org');
 			await prismaMySQL.orgwaitq.create({
 				data: {

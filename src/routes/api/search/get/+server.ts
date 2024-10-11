@@ -40,6 +40,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				imageURL: true,
 				Booking: true,
 				IDOriginTrip: true,
+				count: true,
+				maxJoiner: true,
 				checkpoint: {
 					orderBy: {
 						time: 'asc' // Sort by 'time' in ascending order
@@ -82,6 +84,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						imageURL: true,
 						Booking: true,
 						IDOriginTrip: true,
+						count: true,
+						maxJoiner: true,
 						checkpoint: {
 							orderBy: {
 								time: 'asc' // Sort by 'time' in ascending order
@@ -124,10 +128,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					started: trip.started,
 					imageURL: trip.imageURL,
 					booking: trip.Booking,
-					startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null,
+					startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : '',
 					by: book ? orgDetail?.name : trip.account?.name,
 					org: book ? orgDetail?.org : trip.account?.Org,
-					count: trip._count.checkpoint
+					count: trip._count.checkpoint,
+					people: trip.count,
+					peopleMax: trip.maxJoiner
 				};
 			})
 		);
@@ -139,10 +145,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			detail: trip.trip.Detail,
 			started: trip.trip.started,
 			booking: trip.trip.Booking,
-			startDate: trip.trip.checkpoint.length > 0 ? trip.trip.checkpoint[0].time : null,
+			startDate: trip.trip.checkpoint.length > 0 ? trip.trip.checkpoint[0].time : '',
 			by: trip.trip.account?.name,
 			org: trip.trip.account?.Org,
-			count: trip.trip._count.checkpoint
+			count: trip.trip._count.checkpoint,
+			people: trip.trip.count,
+			peopleMax: trip.trip.maxJoiner
 		}));
 		// console.log(formattedJoinTrips)
 

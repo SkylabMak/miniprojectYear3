@@ -6,6 +6,7 @@
 	export let currentStatus;
 	export let showBookPopup: boolean;
 	export let custID: string;
+	export let cust: boolean;
 	export let message: orgChat;
 
 	let confirmPoup = false;
@@ -13,6 +14,7 @@
 	let done = false;
 
 	async function bookAction() {
+		console.log(custID);
 		console.log('custID is ', custID);
 		const response = await fetch('/api/manageTripSetting/beginTrip/changeBooking', {
 			method: 'POST',
@@ -21,7 +23,7 @@
 			},
 			body: JSON.stringify({
 				tripID: tripID,
-				IDAccount: custID as string,
+				IDAccount: cust ? '' : (custID as string),
 				book: done
 			})
 		});
@@ -52,14 +54,19 @@
 	<div class="flex flex-col items-center">
 		<span class="text-xl">เลือกสถานะการจอง</span>
 		<div class="flex gap-8 my-10 text-lg">
-			<button
-				on:click={() => {
-					confirmPoup = true;
-					cancel = true;
-				}}
-			>
-				<ButtonMine background={'bg-error'}>ยกเลิก</ButtonMine>
-			</button>
+			{#if cust && currentStatus == 'BE'}
+				<span>คุณจองสำเร็จ หากต้องการ ยกเลิกโปรดติดที่พักโดยตรง</span>
+			{:else}
+				<button
+					on:click={() => {
+						confirmPoup = true;
+						cancel = true;
+					}}
+				>
+					<ButtonMine background={'bg-error'}>ยกเลิก</ButtonMine>
+				</button>
+			{/if}
+
 			{#if currentStatus != 'BE'}
 				<button
 					on:click={() => {
@@ -72,8 +79,9 @@
 			{/if}
 		</div>
 		<hr class="border-grayfocus mb-2 w-full" />
+
 		<div class="flex flex-col items-start">
-			<span>แจ้งเตือน : ระวังในการยกเลิกทริปที่ส่งผลให้ลูกค้าไม่พอใจ</span>
+			<span>{cust ? '' : 'แจ้งเตือน : ระวังในการยกเลิกทริปที่ส่งผลให้ลูกค้าไม่พอใจ'}</span>
 			<div class="my-2"></div>
 			<span class="text-xs">หมายเหตุ : ลูกค้าไม่สามารถยกเลิกได้เอง ถ้าจองสำเร็จ</span>
 		</div>

@@ -186,10 +186,22 @@
 	{/if}
 </div>
 
-<!-- Date -->
-<div class="flex justify-center text-sm text-black">
-	<div class="flex items-center">
-		<Icon icon="mingcute:time-line" class="text-2xl text-black mr-2" />
-		<span>{formatDate(dataTrip?.startDate)}</span>
+<div class="flex justify-center gap-16">
+	<!-- Count -->
+	{#if dataTrip && dataTrip.booking != 'BE'}
+		<div class="flex justify-center text-sm text-black">
+			<div class="flex items-center">
+				<Icon icon="clarity:group-solid" class="text-2xl text-black mr-2" />
+				<span>{dataTrip.count}/{dataTrip.maxJoiner}</span>
+			</div>
+		</div>
+	{/if}
+
+	<!-- Date -->
+	<div class="flex justify-center text-sm text-black">
+		<div class="flex items-center">
+			<Icon icon="mingcute:time-line" class="text-2xl text-black mr-2" />
+			<span>{formatDate(dataTrip?.startDate)}</span>
+		</div>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import OrgChat from '$lib/components/org/OrgChat.svelte';
+	import OrgChat from '$lib/components/org/Chat.svelte';
 	import Popup from '$lib/components/Popup.svelte';
 	import Icon from '@iconify/svelte';
 	import NotYetLogin from '$lib/components/NotYetLogin.svelte';
@@ -7,11 +7,14 @@
 	import ImageInput from '$lib/components/ImageInput.svelte';
 	import ButtonMine from '$lib/components/ButtonMine.svelte';
 	import ImageInputFile from '$lib/components/ImageInputFile.svelte';
+	import PrivateTrip from '$lib/components/trip/PrivateTrip.svelte';
+	let privateTripOpen = false;
+	let popupOrg = false;
 	let change = false; // Ensure `change` is reactive and used properly.
 	export let data: {
 		userToken: string;
 		data: profile;
-		orgChat: orgChat[];
+		chatData: orgChat[];
 	};
 
 	// console.log('Data passed to the page:', data.userToken);
@@ -21,7 +24,7 @@
 	if (data.userToken) {
 		originalName = data.data.name;
 		originIMG = data.data.imgURL;
-		console.log(data.data.imgURL);
+		// console.log(data.data.imgURL);
 	}
 	$: isModified = data.data && (data.data.name !== originalName || change);
 
@@ -52,7 +55,7 @@
 	let showPopup = false;
 	let inputIMGOpen = false;
 
-	$: console.log(isModified);
+	// $: console.log(isModified);
 
 	function openPopup() {
 		showPopup = true;
@@ -73,6 +76,27 @@
 			// Handle the error if needed
 			console.error('Logout failed:', response.statusText);
 		}
+	}
+	async function sendOrgAction() {
+		const response = await fetch('/api/account/edit', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name: data.data.name,
+				org: true,
+				imgURL: data.data.imgURL,
+				remove: false
+			})
+		});
+		if (!response.ok) {
+			const errorMessage = await response.text();
+			alert(`Error: ${errorMessage}`);
+		} else {
+			data.data.Org = 'true';
+		}
+		popupOrg = false;
 	}
 </script>
 
@@ -123,12 +147,20 @@
 			{/if}
 		</div>
 
-		{#if data.data.Org == 'true' && data.orgChat}
+		{#if data.data.Org == 'true' && data.chatData}
 			<div>
 				<span>แชทลูกค้า : </span>
 				<button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={openPopup}>
-					ยังไม่อ่าน {data.orgChat.filter((chat) => chat.readed === false).length} จาก {data.orgChat
-						.length}
+					ยังไม่อ่าน {data.chatData.filter((chat) => chat.readed === false).length} จาก {data
+						.chatData.length}
+				</button>
+			</div>
+		{:else}
+			<div>
+				<span>แชทจากที่พัก : </span>
+				<button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={openPopup}>
+					ยังไม่อ่าน {data.chatData.filter((chat) => chat.readed === false).length} จาก {data
+						.chatData.length}
 				</button>
 			</div>
 		{/if}
@@ -138,19 +170,32 @@
 				>ยืนยันเป็นองค์กรเป็นองค์กรแล้ว</button
 			>
 		{:else if data.data.Org == 'false'}
-			<button class={`bg-accent1 text-white px-4 py-2 rounded-lg`}>ยืนยันเป็นองค์กร"</button>
+			<button
+				on:click={() => {
+					popupOrg = true;
+				}}
+				class={`bg-accent1 text-white px-4 py-2 rounded-lg`}>ยืนยันเป็นองค์กร</button
+			>
 		{:else}
 			<button disabled={true} class={`bg-grayfocus-500 text-white px-4 py-2 rounded-lg`}
 				>อยู่ระหว่างดำเนินการ</button
 			>
 		{/if}
-		<!-- Delete Account Button -->
 		<button
 			class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg"
 			on:click={deleteCookieAndGoHome}>logout</button
 		>
+		<div class="flex gap-4">
+			<CreateTripPopup orgUser={data.data.Org == 'true'} />
+			<button
+				on:click={() => {
+					privateTripOpen = true;
+				}}
+			>
+				<ButtonMine>เข้าร่วมทริป</ButtonMine>
+			</button>
+		</div>
 
-		<CreateTripPopup orgUser={data.data.Org == 'true'} />
 		<ImageInputFile
 			bind:inputIMGOpen
 			bind:inputText={data.data.imgURL}
@@ -159,12 +204,28 @@
 			folder={'profile'}
 		/>
 		<Popup bind:isOpen={showPopup}>
-			{#if data.orgChat}
-				{#each data.orgChat as message}
+			{#if data.chatData}
+				{#each data.chatData as message}
 					<!-- {console.log("date ",message.startTime)} -->
-					<OrgChat {message}></OrgChat>
+					<OrgChat {message} cust={data.data.Org == 'false'}></OrgChat>
 				{/each}
 			{/if}
+		</Popup>
+		<PrivateTrip bind:privateTripOpen />
+		<Popup bind:isOpen={popupOrg} hideCloseBtn={true}>
+			<span>คุณต้องการร้องขอเปลียนบัญชีเป็นองค์กรหรือไม่</span>
+			<div class="flex items-center gap-4 justify-center mt-4">
+				<button
+					on:click={() => {
+						popupOrg = false;
+					}}
+				>
+					<ButtonMine>ปิด</ButtonMine>
+				</button>
+				<button on:click={sendOrgAction}>
+					<ButtonMine>ใช่</ButtonMine>
+				</button>
+			</div>
 		</Popup>
 	</div>
 {:else}

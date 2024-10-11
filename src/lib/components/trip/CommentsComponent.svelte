@@ -100,7 +100,9 @@
 				{#each messages as message, index}
 					<div class="flex flex-col gap-1 my-4 {message.my ? 'items-end' : 'items-start'}">
 						<div class="flex gap-2 {message.my ? 'justify-end' : 'justify-start'}  items-center">
-							<div class="w-4 h-4 rounded-full border-black border-2 shadow-sm overflow-hidden">
+							<div
+								class="w-4 h-4 rounded-full border-black border-2 shadow-sm overflow-hidden flex justify-center items-center"
+							>
 								<img src={message.imgUrl} alt="User Avatar" class="rounded-full" />
 							</div>
 							<p class="font-bold text-gray-900">{message.name}</p>

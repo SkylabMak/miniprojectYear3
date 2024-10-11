@@ -62,6 +62,7 @@
 			},
 			body: JSON.stringify({
 				tripID: dataTrip.tripID,
+				imageURL: '',
 				tripName: '',
 				detail: '',
 				booking: '',
@@ -72,7 +73,8 @@
 			})
 		});
 		if (!response.ok) {
-			console.log('checkpoint error at ');
+			console.log('remove trip error ');
+			console.log(await response.json());
 			throw new Error('Failed to fetch messages');
 		}
 
@@ -133,6 +135,7 @@
 {#if dataTrip}
 	{#if !editMode}
 		<div class="flex items-center justify-center flex-wrap">
+			<!-- friend section-->
 			<div>
 				<!-- Icon Buttons -->
 				<JoinBtn
@@ -146,6 +149,7 @@
 				<GoBtn tripID={dataTrip.tripID} status={dataTrip.started} can={dataTrip.me} />
 			</div>
 			<!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
+			<!-- business section-->
 			{#if dataTrip.booking !== 'NM'}
 				<div class={`border-l h-12 mx-4 border-black `}></div>
 				<BookBtn
@@ -157,7 +161,7 @@
 				/>
 				<ChatBtn
 					can={!(dataTrip.ownOrgTrip && dataTrip.booking == 'BI')}
-					tripID={dataTrip.tripID}
+					tripID={dataTrip.tripIDOrigin == '' ? dataTrip.tripID : dataTrip.tripIDOrigin}
 					hasToken={dataTrip.hasToken}
 					unRead={dataTrip.unread}
 				/>

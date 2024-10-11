@@ -1,9 +1,10 @@
 <script lang="ts">
 	import BookCust from './BookCust.svelte';
-	import ChatComponent from './ChatComponent.svelte';
+	import ChatComponent from './AllChatComponent.svelte';
 	import DateChange from './DateChange.svelte';
 
 	export let message: orgChat;
+	export let cust: boolean;
 	let showBookPopup = false;
 	let showCustPopup = false;
 	let datePopup = false;
@@ -47,7 +48,7 @@
 		}}
 	>
 		<div class="flex justify-between">
-			<h3 class="font-bold text-lg">{message.tripname}</h3>
+			<h3 class="font-bold text-lg text-start">{message.tripname}</h3>
 			<div class="flex flex-col items-end">
 				<span>{formattedDate}</span>
 				<span>{formattedTime}</span>
@@ -82,9 +83,12 @@
 				}}
 			>
 			</button>
-			<button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={handleDayClick}>
-				วัน
-			</button>
+			{#if !cust}
+				<button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={handleDayClick}>
+					วัน
+				</button>
+			{/if}
+
 			<button
 				class={`${message.bookDone === 'D' ? 'bg-accent1' : 'bg-accent2'} text-white px-4 py-2 rounded-lg`}
 				on:click={handleStatusClick}
@@ -108,6 +112,7 @@
 	currentStatus={message.bookDone == 'D' ? 'BE' : 'BI'}
 	custID={message.IDAccount}
 	bind:message
+	{cust}
 />
 <DateChange
 	tripID={message.IDTripCust}

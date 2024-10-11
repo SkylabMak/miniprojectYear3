@@ -120,6 +120,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		});
 
 		const startDate = checkPointMixSorted?.[0]?.time || null;
+		// console.log("startDate",startDate)
 		const orgTripDetaill =
 			tripDetail?.Booking === 'BE' ? await getOrgDetail(tripDetail?.IDOriginTrip ?? '') : null;
 		const result = {
@@ -131,7 +132,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				ownOrgTrip: orgTripDetaill != null,
 				name: tripDetail?.TripName,
 				detail: tripDetail?.Detail,
-				startDate: startDate,
+				startDate: startDate ?? '',
 				preparation: tripDetail?.Preparation,
 				booking: tripDetail?.Booking,
 				lastEdit: tripDetail?.lastEdit,

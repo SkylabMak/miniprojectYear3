@@ -23,6 +23,8 @@ export const POST: RequestHandler = async ({ request }) => {
 				TripName: true,
 				Detail: true,
 				imageURL: true,
+				count: true,
+				maxJoiner: true,
 				account: {
 					select: {
 						name: true,
@@ -57,8 +59,10 @@ export const POST: RequestHandler = async ({ request }) => {
 			imageURL: trip.imageURL,
 			org: trip.account?.Org,
 			by: trip.account?.name,
-			startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : null,
-			count: trip._count.checkpoint
+			startDate: trip.checkpoint.length > 0 ? trip.checkpoint[0].time : '',
+			count: trip._count.checkpoint,
+			people: trip.count,
+			peopleMax: trip.maxJoiner
 		}));
 		// console.log("search => "+formattedTrips)
 		return new Response(JSON.stringify({ Trip: formattedTrips }), {
