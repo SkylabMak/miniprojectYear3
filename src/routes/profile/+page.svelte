@@ -1,5 +1,5 @@
 <script lang="ts">
-	import OrgChat from '$lib/components/org/Chat.svelte';
+	import ChatCard from '$lib/components/org/ChatCard.svelte';
 	import Popup from '$lib/components/Popup.svelte';
 	import Icon from '@iconify/svelte';
 	import NotYetLogin from '$lib/components/NotYetLogin.svelte';
@@ -181,10 +181,7 @@
 				>อยู่ระหว่างดำเนินการ</button
 			>
 		{/if}
-		<button
-			class="fixed bg-accent1 bottom-32 right-4 text-white px-4 py-2 rounded-lg"
-			on:click={deleteCookieAndGoHome}>logout</button
-		>
+		
 		<div class="flex gap-4">
 			<CreateTripPopup orgUser={data.data.Org == 'true'} />
 			<button
@@ -195,6 +192,11 @@
 				<ButtonMine>เข้าร่วมทริป</ButtonMine>
 			</button>
 		</div>
+		
+		<button
+			class="bg-accent1 mt-10 text-white px-4 py-2 rounded-lg"
+			on:click={deleteCookieAndGoHome}>logout</button
+		>
 
 		<ImageInputFile
 			bind:inputIMGOpen
@@ -207,7 +209,7 @@
 			{#if data.chatData}
 				{#each data.chatData as message}
 					<!-- {console.log("date ",message.startTime)} -->
-					<OrgChat {message} cust={data.data.Org == 'false'}></OrgChat>
+					<ChatCard bind:message={message} cust={data.data.Org != 'true'}></ChatCard>
 				{/each}
 			{/if}
 		</Popup>

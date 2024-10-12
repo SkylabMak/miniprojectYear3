@@ -91,6 +91,7 @@
 			body: JSON.stringify({
 				tripID: dataTrip.tripID,
 				tripName: dataTrip.name,
+				imageURL:dataTrip.imageURL,
 				detail: dataTrip.detail,
 				booking: bookingChoice ? 'BI' : 'NM', //edit
 				preparation: dataTrip.preparation,
@@ -123,7 +124,7 @@
 	}
 
 	onDestroy(() => {
-		console.log('trip footer run');
+		// console.log('trip footer run');
 		unsubscribe();
 	});
 	$: publicInputClass = publicChoice !== publicOrigin ? 'border-2 border-warning' : '';
@@ -156,12 +157,12 @@
 					tripOriginID={dataTrip.tripIDOrigin}
 					tripID={dataTrip.tripID}
 					hasToken={dataTrip.hasToken}
-					can={!(dataTrip.ownOrgTrip && dataTrip.booking == 'BI')}
+					can={!((dataTrip.ownOrgTrip || dataTrip.me) && dataTrip.booking == 'BI')}
 					aleardy={dataTrip.booking == 'BE' || dataTrip.join}
 				/>
 				<ChatBtn
-					can={!(dataTrip.ownOrgTrip && dataTrip.booking == 'BI')}
-					tripID={dataTrip.tripIDOrigin == '' ? dataTrip.tripID : dataTrip.tripIDOrigin}
+					can={!((dataTrip.ownOrgTrip || dataTrip.me) && dataTrip.booking == 'BI')}
+					tripID={dataTrip.tripIDOrigin == null ? dataTrip.tripID : dataTrip.tripIDOrigin}
 					hasToken={dataTrip.hasToken}
 					unRead={dataTrip.unread}
 				/>

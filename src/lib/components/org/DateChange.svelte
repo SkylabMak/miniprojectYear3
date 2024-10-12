@@ -40,8 +40,6 @@
 		stringISOString = resultISOString;
 		isDateEdited = false;
 		isTimeEdited = false;
-
-
 	}
 
 	// State to track if an input is edited

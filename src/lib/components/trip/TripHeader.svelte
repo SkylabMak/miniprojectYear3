@@ -24,7 +24,7 @@
 	let isEdit = false;
 	let canEdit = false;
 	let isJoinerPopup = false;
-	let datePopup = false
+	let datePopup = false;
 	const unsubscribe = tripData.subscribe((value) => {
 		dataTrip = value;
 		if (value) {
@@ -38,7 +38,7 @@
 			originalIMGURL = value.imageURL;
 		}
 
-		console.log(dataTrip);
+		// console.log(dataTrip);
 	});
 
 	function isEdited(original: string, edited: string): boolean {
@@ -97,7 +97,7 @@
 
 	function openJoiner() {
 		// console.log(dataTrip.booking != "BI" || dataTrip.ownOrgTrip)
-		if (dataTrip.booking != 'BI' || dataTrip.me || dataTrip.join) {
+		if (dataTrip.booking != 'BI' || dataTrip.me || (dataTrip.join && dataTrip.booking != 'BI')) {
 			isJoinerPopup = true;
 		}
 	}
@@ -110,7 +110,7 @@
 
 <div class="w-full flex justify-end"></div>
 <!-- Image Section -->
-<div class="image-placeholder bg-gray-300 w-full h-32 rounded-lg mb-4 overflow-hidden">
+<div class="image-placeholder bg-gray-300 w-full max-h-32 rounded-lg mb-4 overflow-hidden">
 	{#if dataTrip}
 		{#if dataTrip.imageURL}
 			<button
@@ -126,7 +126,14 @@
 				/>
 			</button>
 		{:else}
-			<div class="text-center pt-6">No image</div>
+		<button class="w-full h-full"
+				disabled={!editMode}
+				on:click={() => {
+					inputIMGOpen = true;
+				}}
+			>
+			<div class="text-center">No image</div>
+			</button>
 		{/if}
 	{/if}
 </div>
@@ -180,7 +187,11 @@
 			class:border-warning-500={isEdited(originalPreparation, editedPreparation)}
 		></textarea>
 		<div class="w-full flex justify-center my-4">
-			<button on:click={()=>{datePopup = true}}>
+			<button
+				on:click={() => {
+					datePopup = true;
+				}}
+			>
 				<ButtonMine>แก้ไขวัน</ButtonMine>
 			</button>
 		</div>
@@ -192,11 +203,11 @@
 	{/if}
 </div>
 {#if dataTrip}
-<DateChange
-	tripID={dataTrip.tripID}
-	bind:stringISOString={dataTrip.startDate}
-	bind:isDatePopup={datePopup}
-/>
+	<DateChange
+		tripID={dataTrip.tripID}
+		bind:stringISOString={dataTrip.startDate}
+		bind:isDatePopup={datePopup}
+	/>
 {/if}
 
 <!-- Save and Cancel Buttons -->

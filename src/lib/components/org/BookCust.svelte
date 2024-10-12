@@ -12,11 +12,11 @@
 	let confirmPoup = false;
 	let cancel = false;
 	let done = false;
+	let finish = false;
 
 	async function bookAction() {
 		console.log(custID);
 		console.log('custID is ', custID);
-		done = !(done && cancel);
 		const response = await fetch('/api/manageTripSetting/beginTrip/changeBooking', {
 			method: 'POST',
 			headers: {
@@ -77,12 +77,11 @@
 				>
 					<ButtonMine background={'bg-success'}>สำเร็จ</ButtonMine>
 				</button>
-			{:else}
+			{:else if currentStatus == 'BE' && !cust}
 				<button
 					on:click={() => {
 						confirmPoup = true;
-						done = true;
-						cancel = true;
+						finish = true
 					}}
 				>
 					<ButtonMine background={'bg-success'}>ปิดทริป</ButtonMine>
@@ -104,7 +103,7 @@
 <Popup bind:isOpen={confirmPoup} hideCloseBtn={true}>
 	<div class="flex gap-2 items-center text-xl mb-8">
 		<span>คุณยืนยันที่จะ</span>
-		{#if cancel && done}
+		{#if finish}
 			<h2 class="font-bold italic text-xl">ปิดทริป</h2>
 		{:else if cancel}
 			<h2 class="font-bold italic text-xl">ยกเลิก</h2>

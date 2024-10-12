@@ -28,7 +28,7 @@
 
 <button
 	type="button"
-	class="w-4/5 bg-secondary4 p-4 rounded-lg shadow-lg cursor-pointer text-left"
+	class="w-full bg-secondary4 p-4 rounded-lg shadow-lg cursor-pointer text-left"
 	on:click={handleClick}
 >
 	<!-- Image Section -->

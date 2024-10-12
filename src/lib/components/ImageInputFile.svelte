@@ -65,19 +65,6 @@
 		console.log('all set ');
 	}
 
-	// function checkImageURL(url: string) {
-	// 	if (browser) { // Ensure this code only runs in the browser
-	// 		const img = new Image();
-	// 		img.onload = () => {
-	// 			isImageError = false;
-	// 		};
-	// 		img.onerror = () => {
-	// 			isImageError = true;
-	// 		};
-	// 		img.src = url;
-	// 	}
-	// }
-
 	// Handle file selection and update preview image
 	async function onFileSelected(event: Event) {
 		isLoading = true;
@@ -116,7 +103,9 @@
 				class="relative w-[100%] h-32 rounded-xl flex items-center justify-center border-2 border-black overflow-hidden"
 				on:click={openDialog}
 			>
-				<img id="previewIMG" class="w-full h-full object-cover" src={previewIMGUrl} alt="Preview" />
+				{#if previewIMGUrl}
+					<img id="previewIMG" class="w-full h-full object-cover" src={previewIMGUrl} alt="Preview" />
+				{/if}
 				<div
 					class="absolute inset-0 flex items-center justify-center text-white text-sm font-medium"
 				>
@@ -139,12 +128,14 @@
 				class="relative w-32 h-32 rounded-full flex items-center justify-center border-2 border-black"
 				on:click={openDialog}
 			>
+			{#if previewIMGUrl}
 				<img
 					id="previewIMG"
 					class="w-full h-full rounded-full object-cover"
 					src={previewIMGUrl}
 					alt="Preview"
 				/>
+				{/if}
 				<div
 					class="absolute inset-0 flex items-center justify-center text-white text-sm font-medium"
 				>

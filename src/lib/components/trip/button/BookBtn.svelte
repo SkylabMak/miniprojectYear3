@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import ButtonMine from '$lib/components/ButtonMine.svelte';
 	import IconContainer from '$lib/components/IconContainer.svelte';
 	import NotYetLogin from '$lib/components/NotYetLogin.svelte';
 	import Popup from '$lib/components/Popup.svelte';
 	import { tripData } from '$lib/store/store';
+	import Go from '../Go.svelte';
 
 	export let can: boolean;
 	export let aleardy: boolean;
@@ -23,7 +25,7 @@
 	let maxCount = 1;
 
 	async function bookAction() {
-		if (count != 0) {
+		if (count > 0) {
 			if (book) {
 				const response = await fetch('/api/manageTripSetting/beginTrip/book', {
 					method: 'POST',
@@ -46,7 +48,8 @@
 					confirmPoup = false;
 					return {
 						...data,
-						join: book
+						join: book,
+						count:data.count+count
 					};
 				});
 			} else if (cancel || done) {
@@ -65,22 +68,18 @@
 					console.log('join error ');
 					throw new Error('Failed to fetch messages');
 				}
-				tripData.update((data) => {
-					showBookPopup = false;
+				showBookPopup = false;
 					cancel = false;
 					done = false;
 					confirmPoup = false;
-					return {
-						...data,
-						join: done
-					};
-				});
+				goto('/')
 			}
 		}
 	}
 
 	async function fetchStatus() {
 		if (hasToken) {
+			// console.log("tripID in book",tripID)
 			const response = await fetch('/api/getTrip/getStatusTrip', {
 				method: 'POST',
 				headers: {
@@ -100,7 +99,7 @@
 				status: string;
 				remaining: number;
 			};
-			console.log('status', dataRes);
+			// console.log('status', dataRes);
 			return dataRes;
 		}
 	}
@@ -109,8 +108,9 @@
 		fetchStatus()
 			.then((fetchedMessages) => {
 				currentStatus = fetchedMessages?.status ?? '';
-				maxCount = fetchedMessages?.remaining ?? 0;
+				maxCount = fetchedMessages?.remaining ?? 10;
 				isLoading = false;
+				// console.log("maxCount",maxCount)
 			})
 			.catch((error) => {
 				isLoading = false;
@@ -119,12 +119,13 @@
 	}
 
 	// Enforce the min and max values on the `count`
-	$: {
-		if (count < 0) {
-			count = 0;
-		} else if (count > maxCount) {
+	function validateCount() {
+		// console.log(maxCount)
+		// console.log(count)
+		if (count > maxCount) {
 			count = maxCount;
 		}
+		// console.log("count",count)
 	}
 </script>
 
@@ -207,7 +208,13 @@
 			<h2 class="font-bold italic text-xl">ยกเลิก</h2>
 		{:else if book}
 			<h2 class="font-bold italic text-xl">จอง</h2>
-			<input type="number" bind:value={count} class="border rounded px-4 py-1 text-black w-16" />
+			<input
+	type="number"
+	min={1}
+	bind:value={count}
+	on:input={validateCount}
+	class="border rounded px-4 py-1 text-black w-16"
+/>
 			คน
 		{:else}
 			<h2 class="font-bold italic text-xl">จองสำเร็จ</h2>

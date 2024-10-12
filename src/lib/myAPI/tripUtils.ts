@@ -12,6 +12,7 @@ export async function copyTrip(
 		Preparation: string | null;
 		Booking: string | null;
 		maxJoiner: number | null;
+		imageURL:string|null;
 		joiner: {
 			IDTrip: string;
 			IDAccount: string;
@@ -45,7 +46,8 @@ export async function copyTrip(
 				private: true,
 				maxJoiner: trip?.maxJoiner as number,
 				started: false,
-				count: count ?? 1
+				count: count ?? 1,
+				imageURL:trip.imageURL
 			}
 		});
 		//copy checkpoint
@@ -153,11 +155,14 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 	console.log('userIDTrip is ' + userIDTrip?.IDTrip);
 
 	try {
-		await prismaMySQL.checkpoint.deleteMany({
-			where: {
-				IDTrip: userIDTrip?.IDTrip
-			}
-		});
+		if(userIDTrip?.IDTrip != ""){
+			await prismaMySQL.checkpoint.deleteMany({
+				where: {
+					IDTrip: userIDTrip?.IDTrip
+				}
+			});
+		}
+		
 	} catch (error) {
 		console.log('can not delete checkpoint');
 	}
@@ -192,11 +197,13 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 
 export async function deleateTrip(tripID: string) {
 	try {
+		if(tripID != ""){
 		await prismaMySQL.checkpoint.deleteMany({
 			where: {
 				IDTrip: tripID
 			}
 		});
+		}
 	} catch (error) {
 		console.log('can not delete checkpoint');
 	}

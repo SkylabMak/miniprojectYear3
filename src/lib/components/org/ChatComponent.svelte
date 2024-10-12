@@ -124,7 +124,7 @@
 			</div>
 
 			<!-- Input and buttons -->
-			<div class="grow flex items-center mt-4">
+			<div class="grow flex items-center mt-4 p-1">
 				<input
 					type="text"
 					placeholder="พิมพ์ข้อความ"

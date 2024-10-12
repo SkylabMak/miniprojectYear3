@@ -65,7 +65,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					tripname: tripDetail?.TripName,
 					IDOriginTrip: m.IDTrip,
 					Lastmessage: latestChat?.message ?? '',
-					readed: latestChat?.orgReaded ?? '',
+					readed: latestChat?.readed ?? '',
 					custImgUrl: acccount?.imgURL,
 					custName: acccount?.name ?? '',
 					bookDone: bookStatus?.status ?? '',

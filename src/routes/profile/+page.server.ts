@@ -37,7 +37,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		});
 		const chat = await orgResponse.json();
 		chatData = chat as orgChat[];
-		console.log('restData', chat);
+		// console.log('restData', chat);
 	}
 	//   console.log('Fetched Data:', data);
 

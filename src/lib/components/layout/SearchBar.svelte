@@ -31,7 +31,7 @@
 	}
 </script>
 
-<div class="flex items-center space-x-2 w-full p-4">
+<div class="flex items-center space-x-2 w-full px-4 pt-4">
 	<!-- Parent div with dynamic focus styling -->
 	<div
 		class="text-xl w-full rounded-full border bg-white border-grayfocus flex justify-between py-2 pr-4 px-8
@@ -48,7 +48,7 @@
 			bind:this={inputRef}
 		/>
 		<button class="p-2 rounded-full" on:click={handleSearch}>
-			<Icon icon="ion:search" class="" />
+			<Icon icon="ion:search"/>
 		</button>
 	</div>
 </div>

@@ -17,7 +17,7 @@
 	let indexPass = -1;
 	let showEditPopup = false;
 	const unsubscribe = tripData.subscribe((value) => {
-		console.log(value);
+		// console.log(value);
 		dataTrip = value;
 		if (value) {
 			canEdit = value.me || value.ownOrgTrip;
@@ -83,6 +83,11 @@
 					bind:editMode
 				/>
 			{/each}
+			{#if dataTrip.checkpoint.length == 0 && !editMode}
+				<div class="my-10">
+
+				</div>
+			{/if}
 			{#if !editMode && dataTrip.checkpoint.length > 0}
 				<Go
 					type={'end'}

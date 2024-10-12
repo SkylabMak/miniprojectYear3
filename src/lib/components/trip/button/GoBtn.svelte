@@ -33,7 +33,7 @@
 		});
 		goPopupShow = false;
 	}
-	console.log('can  go ? ', can);
+	// console.log('can  go ? ', can);
 </script>
 
 <button

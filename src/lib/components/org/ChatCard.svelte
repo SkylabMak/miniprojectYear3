@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BookCust from './BookCust.svelte';
-	import ChatComponent from './AllChatComponent.svelte';
+	import ChatComponent from './ChatComponent.svelte';
 	import DateChange from './DateChange.svelte';
 	import { formatDate, formatTime } from '$lib/utilsFn/Date';
 
@@ -42,6 +42,7 @@
 		class="w-full"
 		on:click={() => {
 			showCustPopup = true;
+			message.readed = true
 		}}
 	>
 		<div class="flex justify-between">
@@ -55,6 +56,7 @@
 	<button
 		on:click={() => {
 			showCustPopup = true;
+			message.readed = true
 		}}
 	>
 		<!-- Middle row with user profile image, username, and message -->
@@ -77,6 +79,7 @@
 				class="grow"
 				on:click={() => {
 					showCustPopup = true;
+					message.readed = true
 				}}
 			>
 			</button>
@@ -96,6 +99,7 @@
 				class="grow"
 				on:click={() => {
 					showCustPopup = true;
+					message.readed = true
 				}}
 			>
 			</button>

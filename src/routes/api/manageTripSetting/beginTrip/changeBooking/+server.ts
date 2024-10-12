@@ -16,8 +16,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		console.log('token is ', token);
 		const uuid = decrypt(token as string);
 		let countToRemove = 0;
-		console.log('uuid is changeBooking ' + uuid);
-		// console.log("IDAccount : ",(IDAccount as string).length == 0)
+		// console.log('uuid is changeBooking ' + uuid);
+		// console.log("IDAccount : ",IDAccount)
+		// console.log("tripID",tripID)
 		if (IDAccount != '') {
 			const trip = await prismaMySQL.trip.findFirst({
 				where: {
@@ -60,6 +61,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		// console.log("")
 		if (book === true) {
+			console.log("bookDone Trip")
 			await prismaMySQL.joiner.update({
 				where: {
 					IDTrip_IDAccount: {
@@ -74,6 +76,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			});
 		} else if (book === false) {
 			// deleate trip
+			console.log("deleate Trip")
 			await deleateBETrip(tripID, IDAccount != '' ? IDAccount : (uuid as string));
 
 			await prismaMySQL.trip.update({
