@@ -9,7 +9,7 @@ import { MISSING_INPUT } from '$lib/constants/errorCodes';
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const { tripID, custID } = await request.json();
-		checkMissingInput(tripID)
+		checkMissingInput(tripID);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
 		console.log('uuid is ' + uuid);

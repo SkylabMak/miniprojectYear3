@@ -126,13 +126,14 @@
 				/>
 			</button>
 		{:else}
-		<button class="w-full h-full"
+			<button
+				class="w-full h-full"
 				disabled={!editMode}
 				on:click={() => {
 					inputIMGOpen = true;
 				}}
 			>
-			<div class="text-center">No image</div>
+				<div class="text-center">No image</div>
 			</button>
 		{/if}
 	{/if}

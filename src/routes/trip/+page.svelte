@@ -84,9 +84,7 @@
 				/>
 			{/each}
 			{#if dataTrip.checkpoint.length == 0 && !editMode}
-				<div class="my-10">
-
-				</div>
+				<div class="my-10"></div>
 			{/if}
 			{#if !editMode && dataTrip.checkpoint.length > 0}
 				<Go

@@ -127,7 +127,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const result = {
 			Trip: {
 				tripID: tripDetail?.IDTrip,
-				tripIDOrigin: tripDetail?.IDOriginTrip ,
+				tripIDOrigin: tripDetail?.IDOriginTrip,
 				head:
 					tripDetail?.Booking === 'BE' ? (orgTripDetaill?.name ?? '') : tripDetail?.account?.name,
 				ownOrgTrip: orgTripDetaill != null,

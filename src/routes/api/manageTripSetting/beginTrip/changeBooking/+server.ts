@@ -61,7 +61,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		// console.log("")
 		if (book === true) {
-			console.log("bookDone Trip")
+			console.log('bookDone Trip');
 			await prismaMySQL.joiner.update({
 				where: {
 					IDTrip_IDAccount: {
@@ -76,7 +76,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			});
 		} else if (book === false) {
 			// deleate trip
-			console.log("deleate Trip")
+			console.log('deleate Trip');
 			await deleateBETrip(tripID, IDAccount != '' ? IDAccount : (uuid as string));
 
 			await prismaMySQL.trip.update({

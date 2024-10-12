@@ -27,8 +27,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const canSee =
 			joiner[0].trip.Booking == 'NM' ||
 			joiner[0].trip.account?.IDAccount == uuid ||
-			(joiner.find((e) => e.account.IDAccount == uuid ) && joiner[0].trip.Booking == 'NM')||
-			company
+			(joiner.find((e) => e.account.IDAccount == uuid) && joiner[0].trip.Booking == 'NM') ||
+			company;
 		// let joinerCount
 		// if(company){
 		// 	joinerCount = await Promise.all( joiner.map(async e => {

@@ -91,7 +91,7 @@
 			body: JSON.stringify({
 				tripID: dataTrip.tripID,
 				tripName: dataTrip.name,
-				imageURL:dataTrip.imageURL,
+				imageURL: dataTrip.imageURL,
 				detail: dataTrip.detail,
 				booking: bookingChoice ? 'BI' : 'NM', //edit
 				preparation: dataTrip.preparation,

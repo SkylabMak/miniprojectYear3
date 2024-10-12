@@ -104,7 +104,12 @@
 				on:click={openDialog}
 			>
 				{#if previewIMGUrl}
-					<img id="previewIMG" class="w-full h-full object-cover" src={previewIMGUrl} alt="Preview" />
+					<img
+						id="previewIMG"
+						class="w-full h-full object-cover"
+						src={previewIMGUrl}
+						alt="Preview"
+					/>
 				{/if}
 				<div
 					class="absolute inset-0 flex items-center justify-center text-white text-sm font-medium"
@@ -128,13 +133,13 @@
 				class="relative w-32 h-32 rounded-full flex items-center justify-center border-2 border-black"
 				on:click={openDialog}
 			>
-			{#if previewIMGUrl}
-				<img
-					id="previewIMG"
-					class="w-full h-full rounded-full object-cover"
-					src={previewIMGUrl}
-					alt="Preview"
-				/>
+				{#if previewIMGUrl}
+					<img
+						id="previewIMG"
+						class="w-full h-full rounded-full object-cover"
+						src={previewIMGUrl}
+						alt="Preview"
+					/>
 				{/if}
 				<div
 					class="absolute inset-0 flex items-center justify-center text-white text-sm font-medium"

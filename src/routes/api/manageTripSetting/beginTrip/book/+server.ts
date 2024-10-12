@@ -26,10 +26,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				IDAccount: true,
 				Booking: true,
 				count: true,
-				imageURL:true
+				imageURL: true
 			}
 		});
-		if ((count + trip?.count > (trip?.maxJoiner ?? 10)) && book) {
+		if (count + trip?.count > (trip?.maxJoiner ?? 10) && book) {
 			console.log('false max');
 			return resFalse();
 		} else if (trip?.joiner.find((e) => e.IDAccount == uuid) && book) {

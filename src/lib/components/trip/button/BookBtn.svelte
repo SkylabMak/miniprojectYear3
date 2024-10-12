@@ -49,7 +49,7 @@
 					return {
 						...data,
 						join: book,
-						count:data.count+count
+						count: data.count + count
 					};
 				});
 			} else if (cancel || done) {
@@ -69,10 +69,10 @@
 					throw new Error('Failed to fetch messages');
 				}
 				showBookPopup = false;
-					cancel = false;
-					done = false;
-					confirmPoup = false;
-				goto('/')
+				cancel = false;
+				done = false;
+				confirmPoup = false;
+				goto('/');
 			}
 		}
 	}
@@ -209,12 +209,12 @@
 		{:else if book}
 			<h2 class="font-bold italic text-xl">จอง</h2>
 			<input
-	type="number"
-	min={1}
-	bind:value={count}
-	on:input={validateCount}
-	class="border rounded px-4 py-1 text-black w-16"
-/>
+				type="number"
+				min={1}
+				bind:value={count}
+				on:input={validateCount}
+				class="border rounded px-4 py-1 text-black w-16"
+			/>
 			คน
 		{:else}
 			<h2 class="font-bold italic text-xl">จองสำเร็จ</h2>

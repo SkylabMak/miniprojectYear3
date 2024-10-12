@@ -81,7 +81,7 @@
 				<button
 					on:click={() => {
 						confirmPoup = true;
-						finish = true
+						finish = true;
 					}}
 				>
 					<ButtonMine background={'bg-success'}>ปิดทริป</ButtonMine>

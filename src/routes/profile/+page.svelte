@@ -181,7 +181,7 @@
 				>อยู่ระหว่างดำเนินการ</button
 			>
 		{/if}
-		
+
 		<div class="flex gap-4">
 			<CreateTripPopup orgUser={data.data.Org == 'true'} />
 			<button
@@ -192,7 +192,7 @@
 				<ButtonMine>เข้าร่วมทริป</ButtonMine>
 			</button>
 		</div>
-		
+
 		<button
 			class="bg-accent1 mt-10 text-white px-4 py-2 rounded-lg"
 			on:click={deleteCookieAndGoHome}>logout</button
@@ -209,7 +209,7 @@
 			{#if data.chatData}
 				{#each data.chatData as message}
 					<!-- {console.log("date ",message.startTime)} -->
-					<ChatCard bind:message={message} cust={data.data.Org != 'true'}></ChatCard>
+					<ChatCard bind:message cust={data.data.Org != 'true'}></ChatCard>
 				{/each}
 			{/if}
 		</Popup>

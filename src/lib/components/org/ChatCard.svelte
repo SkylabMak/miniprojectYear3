@@ -42,7 +42,7 @@
 		class="w-full"
 		on:click={() => {
 			showCustPopup = true;
-			message.readed = true
+			message.readed = true;
 		}}
 	>
 		<div class="flex justify-between">
@@ -56,7 +56,7 @@
 	<button
 		on:click={() => {
 			showCustPopup = true;
-			message.readed = true
+			message.readed = true;
 		}}
 	>
 		<!-- Middle row with user profile image, username, and message -->
@@ -79,7 +79,7 @@
 				class="grow"
 				on:click={() => {
 					showCustPopup = true;
-					message.readed = true
+					message.readed = true;
 				}}
 			>
 			</button>
@@ -99,7 +99,7 @@
 				class="grow"
 				on:click={() => {
 					showCustPopup = true;
-					message.readed = true
+					message.readed = true;
 				}}
 			>
 			</button>

@@ -48,7 +48,7 @@
 			bind:this={inputRef}
 		/>
 		<button class="p-2 rounded-full" on:click={handleSearch}>
-			<Icon icon="ion:search"/>
+			<Icon icon="ion:search" />
 		</button>
 	</div>
 </div>
