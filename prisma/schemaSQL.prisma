@@ -1,7 +1,6 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/@prisma-app/clientMysql"
-  // relationMode    = "prisma" 
 }
 
 datasource mysql {
@@ -67,9 +66,12 @@ model trip {
   imageURL     String?      @mysql.VarChar(500)
   checkpoint   checkpoint[]
   joiner       joiner[]
+  trip         trip?        @relation("tripTotrip", fields: [IDOriginTrip], references: [IDTrip], onDelete: NoAction, onUpdate: NoAction, map: "fk_IDOriginTrip")
+  other_trip   trip[]       @relation("tripTotrip")
   account      account?     @relation(fields: [IDAccount], references: [IDAccount], onDelete: NoAction, onUpdate: NoAction, map: "trip_ibfk_1")
 
   @@index([IDAccount], map: "IDAccount")
+  @@index([IDOriginTrip], map: "fk_IDOriginTrip")
 }
 
 model orgwaitq {

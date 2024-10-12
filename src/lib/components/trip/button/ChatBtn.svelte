@@ -7,6 +7,7 @@
 	export let hasToken: boolean;
 	export let unRead: boolean;
 	let showChatPopup = false;
+	$: console.log(unRead);
 </script>
 
 <ChatComponent {tripID} custID={''} bind:showChatPopup {hasToken} />

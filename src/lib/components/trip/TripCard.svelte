@@ -55,7 +55,7 @@
 
 	<!-- Trip Info: Date and People Count -->
 	<div class="flex justify-between text-sm text-gray-700">
-		<div class="flex">
+		<div class="flex flex-wrap">
 			<div class="flex items-center mr-2">
 				<Icon icon="mingcute:time-line" class="text-2xl text-black" />
 				<span class="ml-1">{formatDate(tripDate)}</span>
@@ -70,7 +70,7 @@
 			</div>
 		</div>
 
-		<div>
+		<div class="ml-1">
 			<Icon icon="ic:round-save-alt" class="text-2xl text-black" />
 		</div>
 	</div>

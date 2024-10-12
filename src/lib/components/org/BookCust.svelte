@@ -16,6 +16,7 @@
 	async function bookAction() {
 		console.log(custID);
 		console.log('custID is ', custID);
+		done = !(done && cancel);
 		const response = await fetch('/api/manageTripSetting/beginTrip/changeBooking', {
 			method: 'POST',
 			headers: {
@@ -76,6 +77,16 @@
 				>
 					<ButtonMine background={'bg-success'}>สำเร็จ</ButtonMine>
 				</button>
+			{:else}
+				<button
+					on:click={() => {
+						confirmPoup = true;
+						done = true;
+						cancel = true;
+					}}
+				>
+					<ButtonMine background={'bg-success'}>ปิดทริป</ButtonMine>
+				</button>
 			{/if}
 		</div>
 		<hr class="border-grayfocus mb-2 w-full" />
@@ -83,7 +94,9 @@
 		<div class="flex flex-col items-start">
 			<span>{cust ? '' : 'แจ้งเตือน : ระวังในการยกเลิกทริปที่ส่งผลให้ลูกค้าไม่พอใจ'}</span>
 			<div class="my-2"></div>
-			<span class="text-xs">หมายเหตุ : ลูกค้าไม่สามารถยกเลิกได้เอง ถ้าจองสำเร็จ</span>
+			<span class="text-xs">หมายเหตุ :</span>
+			<span class="text-xs">- ลูกค้าไม่สามารถยกเลิกได้เอง ถ้าจองสำเร็จ</span>
+			<span class="text-xs">- ลูกค้าไม่สามารถขอจองได้อีก ถ้ายังไม่ปิดทริป</span>
 		</div>
 	</div>
 </Popup>
@@ -91,7 +104,9 @@
 <Popup bind:isOpen={confirmPoup} hideCloseBtn={true}>
 	<div class="flex gap-2 items-center text-xl mb-8">
 		<span>คุณยืนยันที่จะ</span>
-		{#if cancel}
+		{#if cancel && done}
+			<h2 class="font-bold italic text-xl">ปิดทริป</h2>
+		{:else if cancel}
 			<h2 class="font-bold italic text-xl">ยกเลิก</h2>
 		{:else}
 			<h2 class="font-bold italic text-xl">จองสำเร็จ</h2>

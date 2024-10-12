@@ -5,6 +5,7 @@
 	import { formatDate } from '$lib/utilsFn/Date';
 	import ButtonMine from '../ButtonMine.svelte';
 	import ImageInputFile from '../ImageInputFile.svelte';
+	import JoinerList from './JoinerList.svelte';
 
 	export let editMode: boolean;
 	let inputIMGOpen = false;
@@ -21,6 +22,7 @@
 
 	let isEdit = false;
 	let canEdit = false;
+	let isJoinerPopup = false;
 	const unsubscribe = tripData.subscribe((value) => {
 		dataTrip = value;
 		if (value) {
@@ -91,6 +93,13 @@
 		console.log(dataTrip.imageURL);
 	}
 
+	function openJoiner() {
+		// console.log(dataTrip.booking != "BI" || dataTrip.ownOrgTrip)
+		if (dataTrip.booking != 'BI' || dataTrip.me || dataTrip.join) {
+			isJoinerPopup = true;
+		}
+	}
+
 	onDestroy(() => {
 		unsubscribe();
 	});
@@ -128,6 +137,8 @@
 		folder={'trip'}
 		bind:editMode
 	/>
+
+	<JoinerList tripID={dataTrip.tripID} bind:showJoinerPopup={isJoinerPopup} />
 {/if}
 <div class="mb-4">
 	{#if editMode && dataTrip && dataTrip.booking != 'BE'}
@@ -189,12 +200,12 @@
 <div class="flex justify-center gap-16">
 	<!-- Count -->
 	{#if dataTrip && dataTrip.booking != 'BE'}
-		<div class="flex justify-center text-sm text-black">
+		<button class="flex justify-center text-sm text-black" on:click={openJoiner}>
 			<div class="flex items-center">
 				<Icon icon="clarity:group-solid" class="text-2xl text-black mr-2" />
 				<span>{dataTrip.count}/{dataTrip.maxJoiner}</span>
 			</div>
-		</div>
+		</button>
 	{/if}
 
 	<!-- Date -->

@@ -17,8 +17,8 @@
 
 	async function fetchMessages(): Promise<chat[]> {
 		if (hasToken) {
-			console.log('cust ID', custID);
-			console.log('trip ID', tripID);
+			// console.log('cust ID', custID);
+			// console.log('trip ID', tripID);
 			const response = await fetch('/api/chat/read', {
 				method: 'POST',
 				headers: {

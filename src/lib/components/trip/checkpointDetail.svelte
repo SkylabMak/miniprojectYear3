@@ -8,7 +8,6 @@
 	export let showDetailPopup: boolean;
 	export let typeCK: string;
 	export let canCheckpoint: boolean;
-	let isLoading: boolean = true;
 	let checkpointDetail = '';
 
 	async function fetchMessages(): Promise<string> {
@@ -35,10 +34,8 @@
 		fetchMessages()
 			.then((fetchedMessages) => {
 				checkpointDetail = fetchedMessages;
-				isLoading = false;
 			})
 			.catch((error) => {
-				isLoading = false;
 				console.error('Error fetching messages:', error);
 			});
 	}

@@ -7,6 +7,11 @@ type Token = {
 	expiry_date?: number;
 };
 
+interface joinerList {
+	name: string;
+	imgURL: string;
+}
+
 interface googleInfo {
 	Google_ID: string;
 	Email: string;

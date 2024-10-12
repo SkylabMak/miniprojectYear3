@@ -238,14 +238,14 @@
 <Popup bind:isOpen={showEditPopup} hideCloseBtn={true} background={'secondary4'}>
 	<div class="bg-secondary4 p-6 rounded-xl w-full shadow-lg flex flex-col items-center gap-4">
 		<div
-			class={`flex items-center bg-secondary4 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
+			class={`flex items-center bg-secondary3 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
 		>
 			<Icon
 				icon={checkpointTypeIcon.get(typeCKEdit) ?? 'carbon:location-current'}
 				class="text-xl"
 			/>
 			<!-- Wrap the select in a div for custom styling -->
-			<div class={`w-full ml-2 rounded-md`}>
+			<div class={`w-full ml-2 rounded-md `}>
 				<select
 					class="w-full bg-transparent text-gray-800 focus:outline-none text-base"
 					bind:value={typeCKEdit}
@@ -271,7 +271,7 @@
 				/>
 			</div>
 			<span class="text-xs text-gray-500"
-				>หมายเหตุ : สถานที่นี้จะนำเข้าไปค้นใน google map และแสดงให้เห็นอันดับแรก</span
+				>หมายเหตุ : สถานที่นี้จะนำเข้าไปค้นหาใน google map และแสดงให้เห็นอันดับแรก</span
 			>
 		</div>
 

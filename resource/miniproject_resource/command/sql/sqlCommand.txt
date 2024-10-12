@@ -70,3 +70,4 @@ CREATE TABLE orgWaitQ (
 
 ALTER TABLE trip
 ADD imageURL VARCHAR(500);
+
