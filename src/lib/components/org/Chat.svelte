@@ -2,6 +2,7 @@
 	import BookCust from './BookCust.svelte';
 	import ChatComponent from './AllChatComponent.svelte';
 	import DateChange from './DateChange.svelte';
+	import { formatDate, formatTime } from '$lib/utilsFn/Date';
 
 	export let message: orgChat;
 	export let cust: boolean;
@@ -17,14 +18,10 @@
 		showBookPopup = true;
 		console.log('Status button clicked');
 	}
-	const date = new Date(message.startTime);
-	const formattedDate = !isNaN(date.getTime())
-		? `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
-		: 'None';
+	// const date = new Date(message.startTime);
+	const formattedDate = formatDate(message.startTime);
 
-	const formattedTime = !isNaN(date.getTime())
-		? `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
-		: 'None';
+	const formattedTime = formatTime(message.startTime);
 </script>
 
 <ChatComponent

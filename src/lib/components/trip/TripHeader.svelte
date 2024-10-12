@@ -6,6 +6,7 @@
 	import ButtonMine from '../ButtonMine.svelte';
 	import ImageInputFile from '../ImageInputFile.svelte';
 	import JoinerList from './JoinerList.svelte';
+	import DateChange from '../org/DateChange.svelte';
 
 	export let editMode: boolean;
 	let inputIMGOpen = false;
@@ -23,6 +24,7 @@
 	let isEdit = false;
 	let canEdit = false;
 	let isJoinerPopup = false;
+	let datePopup = false
 	const unsubscribe = tripData.subscribe((value) => {
 		dataTrip = value;
 		if (value) {
@@ -177,6 +179,11 @@
 			class="border rounded w-full px-2 py-1 text-sm focus:outline-none"
 			class:border-warning-500={isEdited(originalPreparation, editedPreparation)}
 		></textarea>
+		<div class="w-full flex justify-center my-4">
+			<button on:click={()=>{datePopup = true}}>
+				<ButtonMine>แก้ไขวัน</ButtonMine>
+			</button>
+		</div>
 	{:else}
 		<h3 class="font-bold text-sm mb-2">สิ่งที่ต้องเตรียม</h3>
 		{#if dataTrip}
@@ -184,6 +191,13 @@
 		{/if}
 	{/if}
 </div>
+{#if dataTrip}
+<DateChange
+	tripID={dataTrip.tripID}
+	bind:stringISOString={dataTrip.startDate}
+	bind:isDatePopup={datePopup}
+/>
+{/if}
 
 <!-- Save and Cancel Buttons -->
 <div class="my-4 flex gap-4 justify-center">

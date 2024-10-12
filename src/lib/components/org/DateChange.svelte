@@ -2,6 +2,8 @@
 	import Popup from '$lib/components/Popup.svelte';
 	import { onMount } from 'svelte';
 	import ButtonMine from '../ButtonMine.svelte';
+	import { getTripData } from '$lib/utilsFn/getTripData';
+	import { tripData } from '$lib/store/store';
 
 	export let stringISOString: string;
 	export let isDatePopup: boolean;
@@ -14,9 +16,9 @@
 	async function dateAction() {
 		updateISOString();
 		// console.log("custID is ",custID)
-		console.log('stringISO', stringISOString);
-		console.log('resultISOString', resultISOString);
-		console.log('tripID', tripID);
+		// console.log('stringISO', stringISOString);
+		// console.log('resultISOString', resultISOString);
+		// console.log('tripID', tripID);
 		const response = await fetch('/api/manageTripSetting/manageTrip/changeDate', {
 			method: 'POST',
 			headers: {
@@ -31,11 +33,15 @@
 			console.log('join error ');
 			throw new Error('Failed to fetch messages');
 		}
-		console.log(await response.json());
+		// console.log(await response.json());
+		const tripDataFromCard: tripPageData = await getTripData(tripID);
+		tripData.set(tripDataFromCard);
 		isDatePopup = false;
 		stringISOString = resultISOString;
 		isDateEdited = false;
 		isTimeEdited = false;
+
+
 	}
 
 	// State to track if an input is edited
@@ -45,8 +51,8 @@
 	// Only run this once, when the component is mounted, to initialize the date and time from stringISOString
 	$: if (isDatePopup) {
 		if (stringISOString != '') {
-			console.log('stringISOString => ', stringISOString);
-			console.log('tripID => ', tripID);
+			// console.log('stringISOString => ', stringISOString);
+			// console.log('tripID => ', tripID);
 			const parsedDate = new Date(stringISOString);
 			selectedDate = parsedDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
 			selectedTime = parsedDate.toTimeString().slice(0, 5); // Format as HH:MM
@@ -76,7 +82,7 @@
 </script>
 
 <Popup bind:isOpen={isDatePopup}>
-	<div class="flex gap-4">
+	<div class="flex gap-4 flex-col mb-4">
 		<!-- Date Input -->
 		<div>
 			<label for="date">Select Date:</label>
