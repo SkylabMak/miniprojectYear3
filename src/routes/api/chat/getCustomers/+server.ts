@@ -43,13 +43,15 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				const tripDetail = await prismaMySQL.trip.findFirst({
 					where: {
 						IDOriginTrip: m.IDTrip,
-						IDAccount: m.IDAccount
+						IDAccount: m.IDAccount,
+						Booking: 'BE'
 					},
 					select: {
 						IDAccount: true,
 						IDTrip: true,
 						IDOriginTrip: true,
 						TripName: true,
+						maxJoiner: true,
 						checkpoint: {
 							orderBy: {
 								time: 'asc' // Sorting by time in ascending order
@@ -91,7 +93,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					custImgUrl: acccount?.imgURL,
 					custName: acccount?.name ?? '',
 					bookDone: bookStatus?.status ?? '',
-					startTime: tripDetail?.checkpoint?.[0]?.time ?? ''
+					startTime: tripDetail?.checkpoint?.[0]?.time ?? '',
+					count: tripDetail?.maxJoiner
 				};
 			})
 		);

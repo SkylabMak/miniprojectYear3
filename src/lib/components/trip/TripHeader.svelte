@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tripData } from '$lib/store/store';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
 	import { formatDate } from '$lib/utilsFn/Date';
 	import ButtonMine from '../ButtonMine.svelte';
@@ -25,6 +25,7 @@
 	let canEdit = false;
 	let isJoinerPopup = false;
 	let datePopup = false;
+	let statusBe = 'NM';
 	const unsubscribe = tripData.subscribe((value) => {
 		dataTrip = value;
 		if (value) {
@@ -101,7 +102,41 @@
 			isJoinerPopup = true;
 		}
 	}
+	async function fetchStatus() {
+		// console.log("tripID in book",tripID)
+		const response = await fetch('/api/getTrip/getStatusTrip', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				tripID: dataTrip.tripID
+			})
+		});
 
+		if (!response.ok) {
+			console.log(await response.json());
+			throw new Error('Failed to fetch messages');
+		}
+
+		const dataRes = (await response.json()).status as {
+			status: string;
+			remaining: number;
+		};
+		// console.log('status', dataRes);
+		return dataRes;
+	}
+	onMount(async () => {
+		if (dataTrip.booking == 'BE') {
+			fetchStatus()
+				.then((fetchedMessages) => {
+					statusBe = fetchedMessages?.status ?? '';
+				})
+				.catch((error) => {
+					console.error('Error fetching messages:', error);
+				});
+		}
+	});
 	onDestroy(() => {
 		unsubscribe();
 	});
@@ -224,6 +259,16 @@
 </div>
 
 <div class="flex justify-center gap-16">
+	{#if dataTrip && dataTrip.booking == 'BE'}
+		<div class="flex items-center">
+			<Icon icon="fluent:status-24-regular" class="text-2xl text-black mr-2" />
+			{#if (statusBe = 'BI')}
+				<span class="text-warning">กำลังจอง</span>
+			{:else}
+				<span class="text-success">จองเสร็จแล้ว</span>
+			{/if}
+		</div>
+	{/if}
 	<!-- Count -->
 	{#if dataTrip && dataTrip.booking != 'BE'}
 		<button class="flex justify-center text-sm text-black" on:click={openJoiner}>

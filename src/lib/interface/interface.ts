@@ -55,6 +55,7 @@ interface orgChat {
 	custName: string;
 	bookDone: string;
 	startTime: string;
+	count: number;
 }
 
 interface tripPageData {

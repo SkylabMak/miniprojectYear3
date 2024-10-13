@@ -3,6 +3,7 @@
 	import ChatComponent from './ChatComponent.svelte';
 	import DateChange from './DateChange.svelte';
 	import { formatDate, formatTime } from '$lib/utilsFn/Date';
+	import Icon from '@iconify/svelte';
 
 	export let message: orgChat;
 	export let cust: boolean;
@@ -48,8 +49,8 @@
 		<div class="flex justify-between">
 			<h3 class="font-bold text-lg text-start">{message.tripname}</h3>
 			<div class="flex flex-col items-end">
-				<span>{formattedDate}</span>
-				<span>{formattedTime}</span>
+				<span class="whitespace-nowrap">{formattedDate}</span>
+				<span class="whitespace-nowrap">{formattedTime}</span>
 			</div>
 		</div>
 	</button>
@@ -82,6 +83,10 @@
 					message.readed = true;
 				}}
 			>
+				<div class="flex items-center">
+					<Icon icon="clarity:group-solid" class="text-2xl text-black mr-2" />
+					<span>{message.count}</span>
+				</div>
 			</button>
 			{#if !cust}
 				<button class="bg-accent2 text-white px-4 py-2 rounded-lg" on:click={handleDayClick}>

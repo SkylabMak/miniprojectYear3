@@ -12,7 +12,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
 		console.log('uuid is ' + uuid);
-		const trip = await prismaMySQL.trip.findFirst({
+		const trip = await prismaMySQL.trip.findUnique({
 			where: {
 				IDTrip: tripID
 			},

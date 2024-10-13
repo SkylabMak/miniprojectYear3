@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		});
 		const chat = await orgResponse.json();
 		chatData = chat as orgChat[];
-		console.log('chatData', chat);
+		// console.log('chatData', chat);
 	} else {
 		console.log('fetch get rest');
 		const orgResponse = await fetch('/api/chat/getRest ', {

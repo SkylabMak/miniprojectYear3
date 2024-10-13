@@ -44,9 +44,9 @@ export async function copyTrip(
 				createDate: isoDate as string,
 				lastEdit: isoDate as string,
 				private: true,
-				maxJoiner: trip?.maxJoiner as number,
+				maxJoiner: count,
 				started: false,
-				count: count ?? 1,
+				count: 1,
 				imageURL: trip.imageURL
 			}
 		});
@@ -240,7 +240,7 @@ export async function deleateTrip(tripID: string) {
 }
 
 export async function checkExistTrip(uuid: string) {
-	const recordExists = await prismaMySQL.trip.findFirst({
+	const recordExists = await prismaMySQL.trip.findUnique({
 		where: {
 			IDTrip: uuid
 		}

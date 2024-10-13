@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// console.log("IDAccount : ",IDAccount)
 		// console.log("tripID",tripID)
 		if (IDAccount != '') {
-			const trip = await prismaMySQL.trip.findFirst({
+			const trip = await prismaMySQL.trip.findUnique({
 				where: {
 					IDTrip: tripID
 				},
@@ -52,10 +52,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					await prismaMySQL.trip.findFirst({
 						where: {
 							IDOriginTrip: tripID,
-							IDAccount: uuid as string
+							IDAccount: uuid as string,
+							Booking: 'BE'
 						}
 					})
-				)?.count ?? 0;
+				)?.maxJoiner ?? 0;
 			console.log(countToRemove);
 		}
 
