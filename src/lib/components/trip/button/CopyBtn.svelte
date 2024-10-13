@@ -16,7 +16,7 @@
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				tripID: tripID + ' (copy)'
+				tripID: tripID
 			})
 		});
 

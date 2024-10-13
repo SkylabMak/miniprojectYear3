@@ -147,7 +147,12 @@
 					tripID={dataTrip.tripID}
 				/>
 				<CopyBtn hasToken={dataTrip.hasToken} can={true} tripID={dataTrip.tripID} />
-				<GoBtn tripID={dataTrip.tripID} status={dataTrip.started} can={dataTrip.me} />
+				<GoBtn
+					tripID={dataTrip.tripID}
+					status={dataTrip.started}
+					can={dataTrip.me}
+					tripOriginID={dataTrip.tripIDOrigin}
+				/>
 			</div>
 			<!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
 			<!-- business section-->

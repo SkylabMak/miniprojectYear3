@@ -12,7 +12,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
 		console.log('uuid is changeBooking ' + uuid);
-		const trip = await prismaMySQL.trip.findUnique({
+		let trip = await prismaMySQL.trip.findUnique({
 			where: {
 				IDTrip: tripID
 			},
@@ -32,6 +32,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		if (trip?.IDAccount == uuid) {
 			console.log('false own');
 			return resFalse();
+		}
+		if (trip && trip.TripName) {
+			trip.TripName = trip.TripName + '(copy)';
 		}
 		await copyTrip(trip, uuid as string, 1, false);
 		return resTrue();

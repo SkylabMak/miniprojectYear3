@@ -110,7 +110,7 @@
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				tripID: dataTrip.tripID
+				tripID: dataTrip.tripIDOrigin
 			})
 		});
 
@@ -123,11 +123,11 @@
 			status: string;
 			remaining: number;
 		};
-		// console.log('status', dataRes);
+		console.log('status', dataRes);
 		return dataRes;
 	}
 	onMount(async () => {
-		if (dataTrip.booking == 'BE') {
+		if (dataTrip && dataTrip.booking == 'BE') {
 			fetchStatus()
 				.then((fetchedMessages) => {
 					statusBe = fetchedMessages?.status ?? '';
@@ -186,7 +186,7 @@
 	<JoinerList tripID={dataTrip.tripID} bind:showJoinerPopup={isJoinerPopup} />
 {/if}
 <div class="mb-4">
-	{#if editMode && dataTrip && dataTrip.booking != 'BE'}
+	{#if editMode}
 		<span class="text-lg"> ชื่อทริป </span>
 		<input
 			type="text"
@@ -201,7 +201,7 @@
 
 <!-- Detail Section -->
 <div class="mb-4">
-	{#if editMode && dataTrip.booking != 'BE'}
+	{#if editMode}
 		<span class="text-lg"> คำอธิบาย </span>
 		<textarea
 			bind:value={editedDetail}
@@ -215,22 +215,24 @@
 
 <!-- Preparation Section -->
 <div class="mb-4">
-	{#if editMode && dataTrip.booking != 'BE'}
+	{#if editMode}
 		<span class="text-lg"> สิ่งที่ต้องเตียมตัว </span>
 		<textarea
 			bind:value={editedPreparation}
 			class="border rounded w-full px-2 py-1 text-sm focus:outline-none"
 			class:border-warning-500={isEdited(originalPreparation, editedPreparation)}
 		></textarea>
-		<div class="w-full flex justify-center my-4">
-			<button
-				on:click={() => {
-					datePopup = true;
-				}}
-			>
-				<ButtonMine>แก้ไขวัน</ButtonMine>
-			</button>
-		</div>
+		{#if dataTrip && dataTrip.booking != 'BE'}
+			<div class="w-full flex justify-center my-4">
+				<button
+					on:click={() => {
+						datePopup = true;
+					}}
+				>
+					<ButtonMine>แก้ไขวัน</ButtonMine>
+				</button>
+			</div>
+		{/if}
 	{:else}
 		<h3 class="font-bold text-sm mb-2">สิ่งที่ต้องเตรียม</h3>
 		{#if dataTrip}
@@ -258,19 +260,19 @@
 	{/if}
 </div>
 
-<div class="flex justify-center gap-16">
+<div class={`flex justify-center ${dataTrip && dataTrip.booking == 'BE' ? 'gap-6' : 'gap-16'}`}>
 	{#if dataTrip && dataTrip.booking == 'BE'}
 		<div class="flex items-center">
 			<Icon icon="fluent:status-24-regular" class="text-2xl text-black mr-2" />
-			{#if (statusBe = 'BI')}
-				<span class="text-warning">กำลังจอง</span>
+			{#if statusBe == 'BI'}
+				<span class="text-warning whitespace-nowrap">กำลังจอง</span>
 			{:else}
-				<span class="text-success">จองเสร็จแล้ว</span>
+				<span class="text-success whitespace-nowrap">จองเสร็จแล้ว</span>
 			{/if}
 		</div>
 	{/if}
 	<!-- Count -->
-	{#if dataTrip && dataTrip.booking != 'BE'}
+	{#if dataTrip}
 		<button class="flex justify-center text-sm text-black" on:click={openJoiner}>
 			<div class="flex items-center">
 				<Icon icon="clarity:group-solid" class="text-2xl text-black mr-2" />

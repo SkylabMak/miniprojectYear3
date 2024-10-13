@@ -262,7 +262,7 @@ export async function getCheckpointID(): Promise<string> {
 	while (await checkExistCheckpoint(newIDCheckpoint)) {
 		newIDCheckpoint = getUUID();
 	}
-	console.log('newIDCheckpoint ' + newIDCheckpoint);
+	// console.log('newIDCheckpoint ' + newIDCheckpoint);
 	return newIDCheckpoint as string;
 }
 

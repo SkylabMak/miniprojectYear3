@@ -164,7 +164,7 @@
 						<ButtonMine background={'bg-accent2'}>ขอจอง</ButtonMine>
 					</button>
 				{/if}
-				{#if currentStatus == 'BI'}
+				<!-- {#if currentStatus == 'BI'}
 					<button
 						on:click={() => {
 							confirmPoup = true;
@@ -173,7 +173,7 @@
 					>
 						<ButtonMine background={'bg-success'}>สำเร็จ</ButtonMine>
 					</button>
-				{/if}
+				{/if} -->
 				{#if currentStatus == 'BE'}
 					<span>คุณจองสำเร็จ หากต้องการ ยกเลิกโปรดติดที่พักโดยตรง</span>
 				{/if}
