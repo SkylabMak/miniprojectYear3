@@ -39,13 +39,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						IDCheckpoint: checkpointID
 					}
 				});
-
-				await prismaMongo.checkpointNSQL.deleteMany({
-					where: {
-						IDCheckpoint: checkpointID,
-						IDTrip: tripID
-					}
-				});
+				if(checkpointID != '' && tripID != ''){
+					await prismaMongo.checkpointNSQL.deleteMany({
+						where: {
+							IDCheckpoint: checkpointID,
+							IDTrip: tripID
+						}
+					});
+				}
 			} else {
 				await prismaMySQL.checkpoint.update({
 					where: {

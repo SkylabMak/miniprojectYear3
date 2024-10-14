@@ -8,6 +8,7 @@
 	export let iDcheckpoint: string;
 	export let showCommentPopup: boolean;
 	export let canSend: boolean;
+	export let unRead : number
 	let inputMessage: string = '';
 	let messages: comment[] = [];
 	let messagesContainer: HTMLDivElement | null = null;
@@ -73,6 +74,7 @@
 				messages = fetchedMessages;
 				isLoading = false;
 				scrollToBottom();
+				unRead = 0
 			})
 			.catch((error) => {
 				isLoading = false;

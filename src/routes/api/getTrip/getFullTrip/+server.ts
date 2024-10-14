@@ -99,16 +99,19 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		let index = 0;
 
 		const checkPointMix = tripDetail?.checkpoint.map((ck) => {
+			const checkpointData = checkpointDetail.find(e => e.id == ck.IDCheckpoint);
+			// console.log(ck.IDTrip + " " + ck.IDCheckpoint + " " + (checkpointData?.commentCount || 0));
+		
 			return {
 				IDCheckpoint: ck.IDCheckpoint,
 				time: ck.time,
 				locationName: ck.locationName,
 				type: ck.type,
-				commentCount: checkpointDetail[index]?.commentCount ?? 0,
-				unRead: checkpointDetail[index]?.unRead ?? 0,
+				commentCount: checkpointData?.commentCount ?? 0,
+				unRead: checkpointData?.unRead ?? 0,
 				orderC: ck.OrderC,
-				progress: checkpointDetail[index]?.progress ?? [],
-				me: checkpointDetail[index++]?.me ?? false
+				progress: checkpointData?.progress ?? [],
+				me: checkpointData?.me ?? false
 			};
 		});
 

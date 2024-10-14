@@ -33,19 +33,19 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						IDAccount: true
 					}
 				},
-				checkpoint: {
-					where: {
-						IDCheckpoint: iDcheckpoint
-					},
-					orderBy: {
-						time: 'asc' // Sorting by time in ascending order
-					},
-					select: {
-						OrderC: true,
-						IDCheckpoint: true,
-						time: true // Assuming 'time' is nullable, Prisma will return 'null' where applicable
-					}
-				}
+				// checkpoint: {
+				// 	where: {
+				// 		IDCheckpoint: iDcheckpoint
+				// 	},
+				// 	orderBy: {
+				// 		time: 'asc' // Sorting by time in ascending order
+				// 	},
+				// 	select: {
+				// 		OrderC: true,
+				// 		IDCheckpoint: true,
+				// 		time: true // Assuming 'time' is nullable, Prisma will return 'null' where applicable
+				// 	}
+				// }
 			}
 		});
 
@@ -59,10 +59,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			console.log('false user');
 			return resFalse();
 		}
-		if (tripDetail.checkpoint.length === 0) {
-			console.log('false checkpoint');
-			return resFalse();
-		}
+		// if (tripDetail.checkpoint.length === 0) {
+		// 	console.log('false checkpoint');
+		// 	return resFalse();
+		// }
 
 		try {
 			const newComment = {
@@ -84,38 +84,38 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			});
 
-			//update BI from BE trip
+			// //update BI from BE trip
 
-			if (tripDetail.Booking === 'BE') {
-				const checkpointIDInBI = (
-					await prismaMySQL.trip.findUnique({
-						where: {
-							IDTrip: tripDetail.IDOriginTrip as string
-						},
-						select: {
-							checkpoint: {
-								where: {
-									OrderC: tripDetail.checkpoint[0].OrderC,
-									time: tripDetail.checkpoint[0].time
-								},
-								select: {
-									IDCheckpoint: true
-								}
-							}
-						}
-					})
-				)?.checkpoint[0].IDCheckpoint;
-				await prismaMongo.checkpointNSQL.updateMany({
-					where: {
-						IDCheckpoint: checkpointIDInBI
-					},
-					data: {
-						Comments: {
-							push: newComment
-						}
-					}
-				});
-			}
+			// if (tripDetail.Booking === 'BE') {
+			// 	const checkpointIDInBI = (
+			// 		await prismaMySQL.trip.findUnique({
+			// 			where: {
+			// 				IDTrip: tripDetail.IDOriginTrip as string
+			// 			},
+			// 			select: {
+			// 				checkpoint: {
+			// 					where: {
+			// 						OrderC: tripDetail.checkpoint[0].OrderC,
+			// 						time: tripDetail.checkpoint[0].time
+			// 					},
+			// 					select: {
+			// 						IDCheckpoint: true
+			// 					}
+			// 				}
+			// 			}
+			// 		})
+			// 	)?.checkpoint[0].IDCheckpoint;
+			// 	await prismaMongo.checkpointNSQL.updateMany({
+			// 		where: {
+			// 			IDCheckpoint: checkpointIDInBI
+			// 		},
+			// 		data: {
+			// 			Comments: {
+			// 				push: newComment
+			// 			}
+			// 		}
+			// 	});
+			// }
 			const userSender = await prismaMySQL.account.findUnique({
 				where: {
 					IDAccount: uuid as string

@@ -4,6 +4,7 @@
 	import { formatDate } from '$lib/utilsFn/Date';
 	import { getTripData } from '$lib/utilsFn/getTripData';
 	import Icon from '@iconify/svelte';
+	import Loading from '../Loading.svelte';
 
 	export let tripID: string;
 	export let tripTitle: string;
@@ -16,13 +17,16 @@
 		'https://di-uploads-pod5.dealerinspire.com/millsmotorsbuickgmc/uploads/2016/08/road-trip-1500x750.jpg'; // Placeholder for the image URL
 	export let organization: string = 'โดย กรมท่องเที่ยวชว.'; // Default organization
 	export let verified: boolean = true; // Default to verified
+	let isLoading = false
 	async function handleClick() {
+		isLoading = true
 		// alert('Card clicked!');
 		const tripDataFromCard: tripPageData = await getTripData(tripID);
 		tripData.set(tripDataFromCard);
 		goto('/trip');
 		// setActiveNavbarItem()
 		// console.log(tripDataFromCard.tripID)
+		isLoading = false
 	}
 </script>
 
@@ -75,3 +79,5 @@
 		</div>
 	</div>
 </button>
+
+<Loading {isLoading} />

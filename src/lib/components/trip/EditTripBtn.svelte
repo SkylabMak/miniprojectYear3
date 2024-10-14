@@ -38,7 +38,7 @@
 			}}
 			class="absolute left-[-120px] bottom-[-40px] bg-accent2 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2"
 		>
-			<span class={'text-lg'}>แก้ไขทริป</span>
+			<span class={'text-lg'}>{(editMode)?"ปิดการแก้ไขทริป":"แก้ไขทริป"}</span>
 			<Icon icon={'material-symbols-light:draw-outline'} class={'text-4xl'} />
 		</button>
 	{/if}
