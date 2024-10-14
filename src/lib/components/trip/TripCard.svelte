@@ -17,16 +17,16 @@
 		'https://di-uploads-pod5.dealerinspire.com/millsmotorsbuickgmc/uploads/2016/08/road-trip-1500x750.jpg'; // Placeholder for the image URL
 	export let organization: string = 'โดย กรมท่องเที่ยวชว.'; // Default organization
 	export let verified: boolean = true; // Default to verified
-	let isLoading = false
+	let isLoading = false;
 	async function handleClick() {
-		isLoading = true
+		isLoading = true;
 		// alert('Card clicked!');
 		const tripDataFromCard: tripPageData = await getTripData(tripID);
 		tripData.set(tripDataFromCard);
 		goto('/trip');
 		// setActiveNavbarItem()
 		// console.log(tripDataFromCard.tripID)
-		isLoading = false
+		isLoading = false;
 	}
 </script>
 

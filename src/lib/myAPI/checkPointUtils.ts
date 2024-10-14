@@ -21,7 +21,7 @@ export async function getCheckpointDetail(tripID: string, uuid: string | null) {
 				}
 			}
 			return {
-				id:checkpoint.IDCheckpoint,
+				id: checkpoint.IDCheckpoint,
 				commentCount: checkpoint.Comments.length,
 				unRead: unReadCount,
 				progress: progressInfo,

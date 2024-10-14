@@ -184,7 +184,7 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 	//     }
 	// })
 	try {
-		if(tripID != ''){
+		if (tripID != '') {
 			await prismaMongo.checkpointNSQL.deleteMany({
 				where: {
 					IDTrip: userIDTrip?.IDTrip
@@ -210,13 +210,13 @@ export async function deleateTrip(tripID: string) {
 	}
 
 	try {
-		if(tripID != ''){
-		await prismaMongo.orgChat.deleteMany({
-			where: {
-				IDTrip: tripID
-			}
-		});
-	}
+		if (tripID != '') {
+			await prismaMongo.orgChat.deleteMany({
+				where: {
+					IDTrip: tripID
+				}
+			});
+		}
 	} catch (error) {
 		console.log('can not delete orgChat');
 	}
@@ -233,14 +233,13 @@ export async function deleateTrip(tripID: string) {
 
 	//No sql deleate
 	try {
-		if(tripID != ''){
+		if (tripID != '') {
 			await prismaMongo.checkpointNSQL.deleteMany({
 				where: {
 					IDTrip: tripID
 				}
 			});
 		}
-		
 	} catch (error) {
 		console.log('can not delete checkpointNSQL');
 	}

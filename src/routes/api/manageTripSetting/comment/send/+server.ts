@@ -32,7 +32,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					select: {
 						IDAccount: true
 					}
-				},
+				}
 				// checkpoint: {
 				// 	where: {
 				// 		IDCheckpoint: iDcheckpoint

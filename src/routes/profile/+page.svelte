@@ -21,7 +21,7 @@
 	let originalName = '';
 	let originIMG = '';
 	let isModified = false;
-	if (data.userToken) {
+	if (data.userToken || data.data) {
 		originalName = data.data.name;
 		originIMG = data.data.imgURL;
 		// console.log(data.data.imgURL);
@@ -100,7 +100,7 @@
 	}
 </script>
 
-{#if data.userToken}
+{#if data.userToken || data.data}
 	<!-- Parent Container for Flex Column Layout -->
 	<div class="max-h-screen flex flex-col items-center gap-8">
 		<!-- Profile Icon or Image -->

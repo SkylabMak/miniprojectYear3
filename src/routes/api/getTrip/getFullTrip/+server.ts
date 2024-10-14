@@ -99,9 +99,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		let index = 0;
 
 		const checkPointMix = tripDetail?.checkpoint.map((ck) => {
-			const checkpointData = checkpointDetail.find(e => e.id == ck.IDCheckpoint);
+			const checkpointData = checkpointDetail.find((e) => e.id == ck.IDCheckpoint);
 			// console.log(ck.IDTrip + " " + ck.IDCheckpoint + " " + (checkpointData?.commentCount || 0));
-		
+
 			return {
 				IDCheckpoint: ck.IDCheckpoint,
 				time: ck.time,

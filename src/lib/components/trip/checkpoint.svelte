@@ -72,7 +72,13 @@
 					</button>
 					<span>{commentCount}</span>
 
-					<CommentsComponent {tripID} iDcheckpoint={IDCheckpoint} bind:showCommentPopup {canSend} bind:unRead={unRead}/>
+					<CommentsComponent
+						{tripID}
+						iDcheckpoint={IDCheckpoint}
+						bind:showCommentPopup
+						{canSend}
+						bind:unRead
+					/>
 
 					<!-- Unread Badge -->
 					{#if unRead > 0 && join}
