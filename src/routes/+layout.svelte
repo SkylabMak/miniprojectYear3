@@ -5,6 +5,7 @@
 	import { searchedTrip, setActiveNavbarItem } from '$lib/store/store';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	let searchTerm = '';
 
 	async function getSearchTrip() {
@@ -28,8 +29,18 @@
 		// console.log('Search term:', event.detail.term);
 		getSearchTrip();
 	}
-	onMount(async () => {
-		getSearchTrip();
+	onMount(() => {
+		const unsubscribe = page.subscribe((p) => {
+			if (p.url.pathname === '/') {
+				// console.log('Path is "/", running getSearchTrip()');
+				getSearchTrip(); // Run getSearchTrip() only if the path is "/"
+			}
+		});
+
+		// Clean up the subscription when the component is destroyed
+		return () => {
+			unsubscribe();
+		};
 	});
 </script>
 

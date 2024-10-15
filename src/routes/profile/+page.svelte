@@ -94,7 +94,7 @@
 			const errorMessage = await response.text();
 			alert(`Error: ${errorMessage}`);
 		} else {
-			data.data.Org = 'true';
+			data.data.Org = 'wait';
 		}
 		popupOrg = false;
 	}

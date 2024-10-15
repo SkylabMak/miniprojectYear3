@@ -4,6 +4,7 @@
 	export let background = 'bg-primary';
 	export let cusWeight = 'max-w-[90%]';
 	export let cusHeight = 'max-h-[83.33%]';
+	export let custPadding = 'p-6'
 	export let cusClass = '';
 	// Function to close the popup
 	function closePopup() {
@@ -15,7 +16,7 @@
 	<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
 		<!-- Popup Content -->
 		<div
-			class={`${background} rounded-lg p-6 ${cusHeight} ${cusWeight} space-y-4 relative shadow-lg flex flex-col justify-center items-center overflow-y-auto ${cusClass}`}
+			class={`${background} rounded-lg ${custPadding} ${cusHeight} ${cusWeight} space-y-4 relative shadow-lg flex flex-col justify-center items-center overflow-y-auto ${cusClass}`}
 		>
 			<div class={`w-full overflow-y-auto `}>
 				<slot />

@@ -54,14 +54,14 @@
 			</div>
 		</div>
 	</button>
-	<button
+	<button class="w-full"
 		on:click={() => {
 			showCustPopup = true;
 			message.readed = true;
 		}}
 	>
 		<!-- Middle row with user profile image, username, and message -->
-		<div class="flex items-start space-x-4">
+		<div class="flex items-start space-x-4 ">
 			<img
 				src={message.custImgUrl || 'https://via.placeholder.com/40'}
 				alt="User profile"
@@ -74,7 +74,7 @@
 		</div>
 	</button>
 	<!-- Bottom row with buttons -->
-	<div class="flex gap-4 justify-center">
+	<div class="flex gap-4 justify-center mr-2">
 		{#if message.bookDone !== ''}
 			<button
 				class="grow"
@@ -99,14 +99,6 @@
 				on:click={handleStatusClick}
 			>
 				สถานะ
-			</button>
-			<button
-				class="grow"
-				on:click={() => {
-					showCustPopup = true;
-					message.readed = true;
-				}}
-			>
 			</button>
 		{/if}
 	</div>
