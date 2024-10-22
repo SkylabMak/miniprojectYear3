@@ -28,7 +28,9 @@
 				/>
 			{/each}
 		</ul>
-	{:else}
+	{:else if !data}
 		<NotYetLogin />
+	{:else}
+		<p>A free life</p>
 	{/if}
 </div>

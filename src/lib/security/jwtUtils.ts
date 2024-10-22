@@ -15,7 +15,7 @@ export function encrypt(account_id: string): string {
 }
 
 // Function to decrypt the token and return the account_id
-export function decrypt(token: string): string | null {
+export function decrypt(token: string): string {
 	try {
 		const decoded = jwt.verify(token, SECRET_KEY) as { account_id: string };
 		return decoded.account_id;

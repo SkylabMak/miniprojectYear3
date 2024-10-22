@@ -40,6 +40,9 @@ export class CustomError extends Error {
 
 export async function checkErrorAndRes(error: any) {
 	if (error instanceof CustomError) {
+		if (error.code !== '501') {
+			console.log(error);
+		}
 		return resCustomError(error as CustomError);
 	} else {
 		throw error;

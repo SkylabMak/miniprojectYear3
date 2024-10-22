@@ -34,6 +34,16 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				console.log('false not own');
 				return resFalse();
 			}
+			countToRemove =
+				(
+					await prismaMySQL.trip.findFirst({
+						where: {
+							IDOriginTrip: tripID,
+							IDAccount: IDAccount as string,
+							Booking: 'BE'
+						}
+					})
+				)?.maxJoiner ?? 0;
 		} else {
 			const joinDetail = await prismaMySQL.joiner.findUnique({
 				where: {
@@ -57,9 +67,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						}
 					})
 				)?.maxJoiner ?? 0;
-			console.log(countToRemove);
 		}
 
+		console.log(countToRemove);
 		// console.log("")
 		if (book === true) {
 			console.log('bookDone Trip');

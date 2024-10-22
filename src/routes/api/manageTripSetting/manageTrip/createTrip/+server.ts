@@ -47,7 +47,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						tripIDOrigin: '',
 						head: true,
 						ownOrgTrip: userInfo?.Org,
-						name: userInfo?.name,
+						name: tripName,
 						detail: '',
 						startDate: '',
 						preparation: '',

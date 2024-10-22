@@ -4,7 +4,7 @@
 	export let background = 'bg-primary';
 	export let cusWeight = 'max-w-[90%]';
 	export let cusHeight = 'max-h-[83.33%]';
-	export let custPadding = 'p-6'
+	export let custPadding = 'p-6';
 	export let cusClass = '';
 	// Function to close the popup
 	function closePopup() {

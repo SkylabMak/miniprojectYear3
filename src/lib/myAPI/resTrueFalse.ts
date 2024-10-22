@@ -1,5 +1,8 @@
+import { CONDTIONS_NOT_MATCH } from '$lib/constants/errorCodes';
+
 export async function resFalse() {
-	return new Response(JSON.stringify({ success: false }), {
+	const error = CONDTIONS_NOT_MATCH;
+	return new Response(JSON.stringify({ code: error.code, message: error.message }), {
 		status: 400,
 		headers: {
 			'Content-Type': 'application/json'

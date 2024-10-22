@@ -54,14 +54,15 @@
 			</div>
 		</div>
 	</button>
-	<button class="w-full"
+	<button
+		class="w-full"
 		on:click={() => {
 			showCustPopup = true;
 			message.readed = true;
 		}}
 	>
 		<!-- Middle row with user profile image, username, and message -->
-		<div class="flex items-start space-x-4 ">
+		<div class="flex items-start space-x-4">
 			<img
 				src={message.custImgUrl || 'https://via.placeholder.com/40'}
 				alt="User profile"

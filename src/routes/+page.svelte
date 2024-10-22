@@ -29,6 +29,6 @@
 			{/each}
 		</ul>
 	{:else}
-		<p>No data found.</p>
+		<p>Fetching data.</p>
 	{/if}
 </div>

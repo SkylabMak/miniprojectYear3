@@ -235,8 +235,8 @@
 	// $: console.log(selectInputClass)
 </script>
 
-<Popup bind:isOpen={showEditPopup} hideCloseBtn={true} background={'secondary4'}>
-	<div class="bg-secondary4 p-6 rounded-xl w-full shadow-lg flex flex-col items-center gap-4">
+<Popup bind:isOpen={showEditPopup} hideCloseBtn={true} background={'bg-secondary4'}>
+	<div class="bg-secondary4 rounded-xl w-full flex flex-col items-center gap-4">
 		<div
 			class={`flex items-center bg-secondary3 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
 		>
@@ -283,7 +283,7 @@
 			/>
 		</div>
 
-		<div class="flex gap-4 w-full">
+		<div class="flex gap-4 w-full flex-wrap justify-center items-center">
 			<div class="flex flex-col items-center w-1/2">
 				<label for="date" class="mb-1">Select Date</label>
 				<input

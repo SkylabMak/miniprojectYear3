@@ -15,6 +15,7 @@ model account {
   Org       Boolean?
   imgURL    String?   @mysql.VarChar(255)
   name      String?   @mysql.VarChar(100)
+  admin     Boolean?  @default(false)
   joiner    joiner[]
   orgwaitq  orgwaitq?
   trip      trip[]

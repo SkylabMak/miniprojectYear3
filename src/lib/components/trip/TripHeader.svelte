@@ -7,6 +7,7 @@
 	import ImageInputFile from '../ImageInputFile.svelte';
 	import JoinerList from './JoinerList.svelte';
 	import DateChange from '../org/DateChange.svelte';
+	import ErrorShow from '../ErrorShow.svelte';
 
 	export let editMode: boolean;
 	let inputIMGOpen = false;
@@ -26,6 +27,9 @@
 	let isJoinerPopup = false;
 	let datePopup = false;
 	let statusBe = 'NM';
+
+	let errorCode = '';
+	let errorOpen = false;
 	const unsubscribe = tripData.subscribe((value) => {
 		dataTrip = value;
 		if (value) {
@@ -72,6 +76,8 @@
 			});
 			if (!response.ok) {
 				console.log('tripHeader error at ');
+				errorCode = (await response.json()).code;
+				errorOpen = true;
 				throw new Error('Failed to fetch messages');
 			}
 			// const newComment = (await response.json()) as chat;
@@ -229,7 +235,7 @@
 						datePopup = true;
 					}}
 				>
-					<ButtonMine>แก้ไขวัน</ButtonMine>
+					<ButtonMine>เลื่อนวัน</ButtonMine>
 				</button>
 			</div>
 		{/if}
@@ -289,3 +295,4 @@
 		</div>
 	</div>
 </div>
+<ErrorShow bind:open={errorOpen} code={errorCode} />

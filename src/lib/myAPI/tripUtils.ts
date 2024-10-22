@@ -184,7 +184,7 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 	//     }
 	// })
 	try {
-		if (tripID != '') {
+		if (userIDTrip && userIDTrip?.IDTrip !== '') {
 			await prismaMongo.checkpointNSQL.deleteMany({
 				where: {
 					IDTrip: userIDTrip?.IDTrip
@@ -198,7 +198,7 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 
 export async function deleateTrip(tripID: string) {
 	try {
-		if (tripID != '') {
+		if (tripID && tripID != '') {
 			await prismaMySQL.checkpoint.deleteMany({
 				where: {
 					IDTrip: tripID
@@ -210,7 +210,7 @@ export async function deleateTrip(tripID: string) {
 	}
 
 	try {
-		if (tripID != '') {
+		if (tripID && tripID != '') {
 			await prismaMongo.orgChat.deleteMany({
 				where: {
 					IDTrip: tripID
@@ -233,7 +233,7 @@ export async function deleateTrip(tripID: string) {
 
 	//No sql deleate
 	try {
-		if (tripID != '') {
+		if (tripID && tripID != '') {
 			await prismaMongo.checkpointNSQL.deleteMany({
 				where: {
 					IDTrip: tripID

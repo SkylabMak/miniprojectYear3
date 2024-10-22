@@ -80,41 +80,48 @@
 </script>
 
 <Popup bind:isOpen={isDatePopup}>
-	<div class="flex gap-4 flex-col mb-4">
-		<!-- Date Input -->
-		<div>
-			<label for="date">Select Date:</label>
-			<input
-				id="date"
-				type="date"
-				bind:value={selectedDate}
-				on:input={handleDateEdit}
-				class={`border rounded px-4 py-2 ${isDateEdited ? 'border-warning' : 'border-grayfocus'}`}
-				disabled={!can}
-			/>
+	{#if !stringISOString}
+		<div class="flex justify-center flex-col items-center gap-2">
+			<div>ตอนนี้ยังไม่มี checkpoint ให้เลื่อนเวลา</div>
+			<div>คุณสามารถสร้าง checkpoint ได้ด้านล่าง</div>
+		</div>
+	{:else}
+		<div class="flex gap-4 flex-col mb-4">
+			<!-- Date Input -->
+			<div>
+				<label for="date">Select Date:</label>
+				<input
+					id="date"
+					type="date"
+					bind:value={selectedDate}
+					on:input={handleDateEdit}
+					class={`border rounded px-4 py-2 ${isDateEdited ? 'border-warning' : 'border-grayfocus'}`}
+					disabled={!can}
+				/>
+			</div>
+
+			<!-- Time Input -->
+			<div>
+				<label for="time">Select Time:</label>
+				<input
+					id="time"
+					type="time"
+					bind:value={selectedTime}
+					on:input={handleTimeEdit}
+					class={`border rounded px-4 py-2 ${isTimeEdited ? 'border-warning' : 'border-gray-300'}`}
+					disabled={!can}
+				/>
+			</div>
 		</div>
 
-		<!-- Time Input -->
-		<div>
-			<label for="time">Select Time:</label>
-			<input
-				id="time"
-				type="time"
-				bind:value={selectedTime}
-				on:input={handleTimeEdit}
-				class={`border rounded px-4 py-2 ${isTimeEdited ? 'border-warning' : 'border-gray-300'}`}
-				disabled={!can}
-			/>
-		</div>
-	</div>
-
-	<p>Selected Date: {selectedDate}</p>
-	<p>Selected Time: {selectedTime}</p>
-	{#if isTimeEdited || isDateEdited}
-		<div class="w-full flex justify-center">
-			<button on:click={dateAction}>
-				<ButtonMine>บันทึก</ButtonMine>
-			</button>
-		</div>
+		<p>Selected Date: {selectedDate}</p>
+		<p>Selected Time: {selectedTime}</p>
+		{#if isTimeEdited || isDateEdited}
+			<div class="w-full flex justify-center">
+				<button on:click={dateAction}>
+					<ButtonMine>บันทึก</ButtonMine>
+				</button>
+			</div>
+		{/if}
 	{/if}
 </Popup>

@@ -90,7 +90,7 @@
 	});
 </script>
 
-<Popup bind:isOpen={showChatPopup} cusWeight={"w-[100%]"} cusHeight={"h-full"} custPadding={"p-2"}>
+<Popup bind:isOpen={showChatPopup} cusWeight={'w-[100%]'} cusHeight={'h-[90%]'} custPadding={'p-2'}>
 	{#if hasToken}
 		<div class="flex flex-col gap-4 h-full">
 			<!-- Messages container with overflow-y-auto to scroll -->
