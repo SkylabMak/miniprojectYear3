@@ -120,7 +120,8 @@
 	}
 	async function savecheckpoint() {
 		// console.log(originalTypeCK)
-		// console.log(typeCKEdit)
+		console.log(typeCKEdit)
+		console.log(typeCK)
 		// console.log(editedName)
 		// console.log(editedDetail)
 
@@ -143,7 +144,7 @@
 						locationName: editedName,
 						detail: editedDetail,
 						time: resultISOString,
-						type: typeCK
+						type: typeCKEdit
 					})
 				});
 				if (!response.ok) {
