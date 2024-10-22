@@ -152,6 +152,7 @@
 					status={dataTrip.started}
 					can={dataTrip.me}
 					tripOriginID={dataTrip.tripIDOrigin}
+					tripTypeBook={dataTrip.booking == "BI"}
 				/>
 			</div>
 			<!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->

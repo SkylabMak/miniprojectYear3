@@ -8,6 +8,8 @@
 	import JoinerList from './JoinerList.svelte';
 	import DateChange from '../org/DateChange.svelte';
 	import ErrorShow from '../ErrorShow.svelte';
+	import { autoHeight } from 'svelte-textarea-auto-height';
+	// import autosize from 'svelte-autosize';
 
 	export let editMode: boolean;
 	let inputIMGOpen = false;
@@ -210,12 +212,13 @@
 	{#if editMode}
 		<span class="text-lg"> คำอธิบาย </span>
 		<textarea
+			use:autoHeight
 			bind:value={editedDetail}
 			class="border rounded w-full px-2 py-1 text-black focus:outline-none"
 			class:border-warning-500={isEdited(originalDetail, editedDetail)}
-		></textarea>
+		/>
 	{:else if dataTrip}
-		<p class="text-black mb-4 pl-2">{dataTrip.detail}</p>
+		<p class="text-black mb-4 pl-2">{@html dataTrip.detail.replace(/\n/g, '<br>')}</p>
 	{/if}
 </div>
 
@@ -224,6 +227,7 @@
 	{#if editMode}
 		<span class="text-lg"> สิ่งที่ต้องเตียมตัว </span>
 		<textarea
+			use:autoHeight
 			bind:value={editedPreparation}
 			class="border rounded w-full px-2 py-1 text-sm focus:outline-none"
 			class:border-warning-500={isEdited(originalPreparation, editedPreparation)}
@@ -242,7 +246,7 @@
 	{:else}
 		<h3 class="font-bold text-sm mb-2">สิ่งที่ต้องเตรียม</h3>
 		{#if dataTrip}
-			<p class="text-sm text-black mb-4">{dataTrip.preparation}</p>
+			<p class="text-sm text-black mb-4" style="white-space: pre-line;">{dataTrip.preparation}</p>
 		{/if}
 	{/if}
 </div>

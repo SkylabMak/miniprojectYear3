@@ -19,7 +19,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				joiner: {},
 				TripName: true,
 				maxJoiner: true,
-				IDAccount: true
+				IDAccount: true,
+				Booking:true
 			}
 		});
 		if (trip?.IDAccount != uuid) {
@@ -35,6 +36,18 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					started: start
 				}
 			});
+
+			if(trip.Booking == "BI"){
+				await prismaMySQL.trip.updateMany({
+					where:{
+						IDOriginTrip:tripID,
+						Booking:"BE"
+					},
+					data:{
+						started : start
+					}
+				})
+			}
 		}
 
 		return resTrue();

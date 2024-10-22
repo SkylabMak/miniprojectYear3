@@ -8,6 +8,7 @@
 	export let tripID: string;
 	export let tripOriginID: string;
 	export let status: boolean;
+	export let tripTypeBook : boolean
 	let bookStatus: string = 'None';
 	let goPopupShow = false;
 	async function startAction() {
@@ -94,6 +95,7 @@
 		<div class="flex gap-2">
 			<h2>คุณต้องการ</h2>
 			<h2 class="font-bold italic">{`${status ? 'ปิดทริป' : 'เริ่มทริป'}`}</h2>
+			{#if tripTypeBook}<h2>ทุกคนหรือไม่</h2>{/if}
 			<h2>หรือไม่</h2>
 		</div>
 	{/if}
