@@ -10,6 +10,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse } from '$lib/myAPI/resTrueFalse';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
 import { MISSING_INPUT } from '$lib/constants/errorCodes';
+import { partialJoin } from '$lib/myAPI/tripUtils';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
@@ -39,6 +40,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			}
 		});
+
+		// const partialJoin = partialJoin(tripID,uuid)
 		const checkpointDetail = await prismaMongo.checkpointNSQL.findFirst({
 			where: {
 				IDCheckpoint: iDcheckpoint
@@ -46,7 +49,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		});
 		console.log(iDcheckpoint);
 		const joiner: boolean = !(
-			tripDetail?.IDAccount !== uuid && !tripDetail?.joiner.some((e) => e.IDAccount === uuid)
+			tripDetail?.IDAccount !== uuid &&
+			!tripDetail?.joiner.some((e) => e.IDAccount === uuid) &&
+			!(await partialJoin(tripID, uuid))
 		);
 
 		if (tripDetail === null) {

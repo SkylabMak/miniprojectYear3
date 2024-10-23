@@ -43,8 +43,8 @@
 	on:click={() => {
 		joinPopupShow = true;
 	}}
-	class={`m-1 focus:outline-none ${visbleBtn ? 'hidden' : ''}`}
-	disabled={can}
+	class={`m-1 focus:outline-none ${visbleBtn ? '' : 'hidden'}`}
+	disabled={!can}
 >
 	<IconContainer iconName="material-symbols:group-add-outline" yes={joined} />
 </button>

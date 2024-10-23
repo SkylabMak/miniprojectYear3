@@ -44,6 +44,7 @@
 			if (p.url.pathname === '/') {
 				// console.log('Path is "/", running getSearchTrip()');
 				getSearchTrip(); // Run getSearchTrip() only if the path is "/"
+			} else if (p.url.pathname.includes('trip')) {
 			} else {
 				console.log('page change');
 				setActiveNavbarItem(navNumber[p.url.pathname as keyof typeof navNumber]);

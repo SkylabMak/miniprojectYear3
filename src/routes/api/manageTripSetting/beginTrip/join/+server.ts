@@ -46,7 +46,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			});
 		} else {
-			if (!(trip?.count ?? 1 < (trip?.maxJoiner ?? 10))) {
+			if ((trip?.count ?? 0) >= (trip?.maxJoiner ?? 0)) {
 				console.log('false max');
 				return resFalse();
 			} else if (trip?.joiner.find((e) => e.IDAccount == uuid) && join) {

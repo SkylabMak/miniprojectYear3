@@ -19,7 +19,7 @@
 		if (inputText.trim().length != 0) {
 			const tripDataFromCard: tripPageData = await getTripData(inputText);
 			tripData.set(tripDataFromCard);
-			goto('/trip');
+			goto('/trip/' + tripDataFromCard.tripID);
 		}
 	}
 </script>

@@ -139,6 +139,7 @@
 			fetchStatus()
 				.then((fetchedMessages) => {
 					statusBe = fetchedMessages?.status ?? '';
+					console.log('statusBe', statusBe);
 				})
 				.catch((error) => {
 					console.error('Error fetching messages:', error);
@@ -271,12 +272,13 @@
 </div>
 
 <div class={`flex justify-center ${dataTrip && dataTrip.booking == 'BE' ? 'gap-6' : 'gap-16'}`}>
-	{#if dataTrip && dataTrip.booking == 'BE'}
+	<!-- status -->
+	{#if dataTrip && dataTrip.booking == 'BE' && statusBe != 'NM'}
 		<div class="flex items-center">
 			<Icon icon="fluent:status-24-regular" class="text-2xl text-black mr-2" />
 			{#if statusBe == 'BI'}
 				<span class="text-warning whitespace-nowrap">กำลังจอง</span>
-			{:else}
+			{:else if statusBe == 'BE'}
 				<span class="text-success whitespace-nowrap">จองเสร็จแล้ว</span>
 			{/if}
 		</div>

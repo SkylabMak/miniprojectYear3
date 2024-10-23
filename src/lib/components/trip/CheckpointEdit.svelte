@@ -120,8 +120,8 @@
 	}
 	async function savecheckpoint() {
 		// console.log(originalTypeCK)
-		console.log(typeCKEdit)
-		console.log(typeCK)
+		console.log(typeCKEdit);
+		console.log(typeCK);
 		// console.log(editedName)
 		// console.log(editedDetail)
 
@@ -162,6 +162,9 @@
 					};
 				});
 				showEditPopup = false;
+				editedName = '';
+				editedDetail = '';
+				typeCKEdit = 'D';
 			} else {
 				const response = await fetch('/api/manageTripSetting/manageCheckpoint/saveCheckpoint', {
 					method: 'POST',

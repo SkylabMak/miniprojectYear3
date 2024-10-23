@@ -8,7 +8,7 @@ import { prismaMySQL } from '$lib/utils/database/sqlDB';
 import { decrypt } from '$lib/security/jwtUtils';
 import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
-import { getCurrentIsoDate } from '$lib/myAPI/tripUtils';
+import { getCurrentIsoDate, partialJoin } from '$lib/myAPI/tripUtils';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
 import { MISSING_INPUT } from '$lib/constants/errorCodes';
 
@@ -33,19 +33,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						IDAccount: true
 					}
 				}
-				// checkpoint: {
-				// 	where: {
-				// 		IDCheckpoint: iDcheckpoint
-				// 	},
-				// 	orderBy: {
-				// 		time: 'asc' // Sorting by time in ascending order
-				// 	},
-				// 	select: {
-				// 		OrderC: true,
-				// 		IDCheckpoint: true,
-				// 		time: true // Assuming 'time' is nullable, Prisma will return 'null' where applicable
-				// 	}
-				// }
 			}
 		});
 
@@ -55,7 +42,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			console.log('false trip');
 			return resFalse();
 		}
-		if (tripDetail.IDAccount !== uuid && !tripDetail.joiner.some((e) => e.IDAccount === uuid)) {
+		if (
+			tripDetail.IDAccount !== uuid &&
+			!tripDetail.joiner.some((e) => e.IDAccount === uuid) &&
+			!(await partialJoin(tripID, uuid))
+		) {
 			console.log('false user');
 			return resFalse();
 		}

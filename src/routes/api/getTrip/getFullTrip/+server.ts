@@ -10,6 +10,7 @@ import {
 import { MISSING_INPUT } from '$lib/constants/errorCodes';
 import { getLatestChat } from '$lib/myAPI/chatUtils';
 import { getCheckpointDetail } from '$lib/myAPI/checkPointUtils';
+import { partialJoin } from '$lib/myAPI/tripUtils';
 
 async function getOrgDetail(originIDTrip: string): Promise<{ name: string; org: boolean }> {
 	const resData = await prismaMySQL.trip.findUnique({
@@ -127,6 +128,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// console.log("startDate",startDate)
 		const orgTripDetaill =
 			tripDetail?.Booking === 'BE' ? await getOrgDetail(tripDetail?.IDOriginTrip ?? '') : null;
+		const partialJoin1 = await partialJoin(tripID, uuid);
+		console.log('partialJoin1 ', partialJoin1);
 		const result = {
 			Trip: {
 				tripID: tripDetail?.IDTrip,
@@ -148,9 +151,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				me: tripDetail?.IDAccount === uuid,
 				count: tripDetail?.count,
 				hasToken: uuid ? true : false,
-				join: tripDetail?.joiner.some((e) => {
-					if (e.IDAccount === uuid) return e.IDAccount === uuid;
-				}),
+				join:
+					tripDetail?.joiner.some((e) => {
+						if (e.IDAccount === uuid) return e.IDAccount === uuid;
+					}) || partialJoin1,
 				unread: uuid === '' ? false : unread,
 				checkpoint: checkPointMixSorted
 			}

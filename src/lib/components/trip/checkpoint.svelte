@@ -81,13 +81,14 @@
 					/>
 
 					<!-- Unread Badge -->
-					{#if unRead > 0 && join}
+					{#if unRead > 0 && (join || me)}
 						<span
 							class="absolute top-[-8px] right-[5px] bg-error text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
 						>
 							{unRead}
 						</span>
 					{/if}
+					<!-- {me} -->
 				</div>
 			{/if}
 		</div>

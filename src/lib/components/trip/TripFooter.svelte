@@ -141,9 +141,9 @@
 				<!-- Icon Buttons -->
 				<JoinBtn
 					hasToken={dataTrip.hasToken}
-					joined={dataTrip.join}
-					visbleBtn={dataTrip.booking !== 'NM' || dataTrip.me}
-					can={dataTrip.me}
+					joined={dataTrip.join || dataTrip.count == dataTrip.maxJoiner}
+					visbleBtn={dataTrip.booking !== 'BI' && !dataTrip.me}
+					can={!dataTrip.me && !(dataTrip.count == dataTrip.maxJoiner)}
 					tripID={dataTrip.tripID}
 				/>
 				<CopyBtn hasToken={dataTrip.hasToken} can={true} tripID={dataTrip.tripID} />
@@ -152,12 +152,12 @@
 					status={dataTrip.started}
 					can={dataTrip.me}
 					tripOriginID={dataTrip.tripIDOrigin}
-					tripTypeBook={dataTrip.booking == "BI"}
+					tripTypeBook={dataTrip.booking == 'BI'}
 				/>
 			</div>
 			<!-- {#if ((dataTrip.org || (dataTrip.booking === "BE" && dataTrip.me)))} -->
 			<!-- business section-->
-			{#if dataTrip.booking !== 'NM'}
+			{#if dataTrip.booking == 'BI' || (dataTrip.booking === 'BE' && dataTrip.me)}
 				<div class={`border-l h-12 mx-4 border-black `}></div>
 				<BookBtn
 					tripOriginID={dataTrip.tripIDOrigin}
@@ -301,12 +301,15 @@
 
 		<!-- Buttons -->
 		<div class="flex justify-center mt-5 gap-4">
-			<button
-				on:click={() => {
-					removePopup = true;
-				}}
-				class="bg-error text-white px-4 py-2 rounded-md hover:bg-gray-900 transition-all">ลบ</button
-			>
+			{#if dataTrip.booking != 'BE'}
+				<button
+					on:click={() => {
+						removePopup = true;
+					}}
+					class="bg-error text-white px-4 py-2 rounded-md hover:bg-gray-900 transition-all"
+					>ลบ</button
+				>
+			{/if}
 			<button
 				on:click={closePopup}
 				class="bg-accent2 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition-all"

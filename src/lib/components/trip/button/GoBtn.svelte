@@ -8,7 +8,7 @@
 	export let tripID: string;
 	export let tripOriginID: string;
 	export let status: boolean;
-	export let tripTypeBook : boolean
+	export let tripTypeBook: boolean;
 	let bookStatus: string = 'None';
 	let goPopupShow = false;
 	async function startAction() {

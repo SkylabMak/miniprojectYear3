@@ -23,7 +23,7 @@
 		// alert('Card clicked!');
 		const tripDataFromCard: tripPageData = await getTripData(tripID);
 		tripData.set(tripDataFromCard);
-		goto('/trip');
+		goto('/trip/' + tripID);
 		// setActiveNavbarItem()
 		// console.log(tripDataFromCard.tripID)
 		isLoading = false;

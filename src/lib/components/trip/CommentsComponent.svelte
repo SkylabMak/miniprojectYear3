@@ -35,7 +35,7 @@
 
 		// Mock data for testing
 
-		return [...data, ...mockData];
+		return [...data];
 	}
 
 	async function sendMessage() {

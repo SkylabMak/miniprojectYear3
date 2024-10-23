@@ -167,13 +167,27 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 	}
 
 	try {
+		if (userIDTrip && userIDTrip?.IDTrip !== '') {
+			await prismaMySQL.joiner.deleteMany({
+				where: {
+					IDTrip: userIDTrip?.IDTrip
+				}
+			});
+		}
+	} catch (error) {
+		console.log('can not delete join BE trip');
+		console.log(error);
+	}
+
+	try {
 		await prismaMySQL.trip.delete({
 			where: {
 				IDTrip: userIDTrip?.IDTrip
 			}
 		});
 	} catch (error) {
-		console.log('can not delete trip');
+		console.log('can not delete BE trip');
+		console.log(error);
 	}
 
 	//No sql deleate
@@ -219,6 +233,19 @@ export async function deleateTrip(tripID: string) {
 		}
 	} catch (error) {
 		console.log('can not delete orgChat');
+	}
+
+	try {
+		if (tripID && tripID != '') {
+			await prismaMySQL.joiner.deleteMany({
+				where: {
+					IDTrip: tripID
+				}
+			});
+		}
+	} catch (error) {
+		console.log('can not delete join BE trip');
+		console.log(error);
 	}
 
 	try {
@@ -283,4 +310,31 @@ export async function getTripID(): Promise<string> {
 
 export function getCurrentIsoDate() {
 	return new Date().toISOString();
+}
+
+export async function partialJoin(tripID: string, uuid: string): Promise<boolean> {
+	const partialJoin = await prismaMySQL.trip.findMany({
+		where: {
+			IDOriginTrip: tripID,
+			Booking: 'BE'
+		},
+		select: {
+			joiner: {
+				where: {
+					IDAccount: uuid
+				}
+			}
+		}
+	});
+	// const partialJoin5 = await prismaMySQL.trip.findMany({
+	// 	where:{
+	// 		IDOriginTrip:tripID
+	// 	},
+	// })
+	// console.log("pa1" , partialJoin5 )
+	// console.log("pa2" , partialJoin)
+	// console.log("pa3" , tripID)
+	// console.log("partialJoin_1",partialJoin?.[0].joiner.length)
+	// console.log("partialJoin_2",partialJoin )
+	return partialJoin != null ? partialJoin?.some((e) => e.joiner.length != 0) : false;
 }

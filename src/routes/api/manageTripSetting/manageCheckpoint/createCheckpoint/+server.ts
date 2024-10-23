@@ -28,7 +28,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				IDAccount: true,
 				checkpoint: {
 					orderBy: {
-						time: 'asc' // Sort by 'time' in ascending order
+						OrderC: 'asc' // Sort by 'time' in ascending order
 					},
 					select: {
 						IDCheckpoint: true,
@@ -41,8 +41,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			}
 		});
 
-		console.log('data VVVVV');
-		console.log(checkpointList);
+		// console.log('data VVVVV');
+		// console.log(checkpointList);
 		if (checkpointList?.IDAccount !== uuid) {
 			return resFalse();
 		}
