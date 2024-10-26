@@ -6,6 +6,7 @@ import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
 import { getCurrentIsoDate } from '$lib/myAPI/tripUtils';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
 import {  getSocketID } from '$lib/utils/webSocket/websocket';
+import { broadcastChatMessage } from '$lib/utils/chat/chatUtils';
 // import { getOnlineUserSocket } from '../../../../hooks.server';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -53,6 +54,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const cust = !(uuid === tripChat?.IDAccount);
 		// console.log('cust is ' + cust);
 		const chatAccount = cust ? (uuid as string) : custID;
+		console.log("chatAccount +",chatAccount)
 		console.log(chatAccount);
 		if (chatAccount) {
 			try {
@@ -108,8 +110,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				// 	// Reader is online, send the message in real time
 				// 	readerSocket.send(JSON.stringify(newChat));
 				// } 
+				const newRes = {
+						text: newChat.message,
+						name: userInfo?.name,
+						imgUrl: userInfo?.imgURL,
+						time: newChat.time,
+						my: true
+				}
+				const newResSEE = {
+					text: newChat.message,
+					name: userInfo?.name,
+					imgUrl: userInfo?.imgURL,
+					time: newChat.time,
+					rest: !cust
+			}
+				console.log("getSocketID(chatAccount,tripID) = ", getSocketID(chatAccount,tripID))
+				broadcastChatMessage(JSON.stringify(newResSEE), getSocketID(chatAccount,tripID));
 				return new Response(
-					JSON.stringify(newChat),
+					JSON.stringify(newRes),
 					{
 						status: 200,
 						headers: {
@@ -119,7 +137,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				);
 			} catch (error) {
 				console.log(error);
-				return resFalse();
+				throw error
 			}
 		} else {
 			return resFalse();

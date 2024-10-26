@@ -30,6 +30,7 @@
 	custID={message.IDAccount}
 	bind:showChatPopup={showCustPopup}
 	hasToken={true}
+	cust={cust}
 />
 
 <!-- Outer container with border -->

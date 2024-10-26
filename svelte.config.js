@@ -1,5 +1,5 @@
-// import adapter from '@sveltejs/adapter-auto';
-import adapter from '@mdd95/sveltekit-adapter-node';
+import adapter from '@sveltejs/adapter-auto';
+// import adapter from '@mdd95/sveltekit-adapter-node';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import path from 'path';
 
@@ -17,10 +17,10 @@ const config = {
 			'@prismaMysql': path.resolve('prisma/generated/clientMysql'),
 			'@prismaMongo': path.resolve('prisma/generated/clientMongodb')
 		},
-		// adapter: adapter(),
-		adapter: adapter({
-			pluginPath: 'plugin.ts'
-		})
+		adapter: adapter(),
+		// adapter: adapter({
+		// 	pluginPath: 'plugin.ts'
+		// })
 	}
 };
 

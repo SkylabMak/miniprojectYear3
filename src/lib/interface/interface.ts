@@ -104,6 +104,14 @@ interface chat {
 	my: boolean;
 }
 
+interface chatSEE {
+	text: string;
+	name: string;
+	imgUrl: string;
+	time: string;
+	rest: boolean;
+}
+
 interface checkpoint {
 	IDCheckpoint: string;
 	time: string;
