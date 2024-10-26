@@ -5,6 +5,8 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
 import { getCurrentIsoDate } from '$lib/myAPI/tripUtils';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
+import {  getSocketID } from '$lib/utils/webSocket/websocket';
+// import { getOnlineUserSocket } from '../../../../hooks.server';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
@@ -12,7 +14,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(tripID, text);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is ' + uuid);
+		// //console.log('uuid is ' + uuid);
 
 		const tripChat = await prismaMySQL.trip.findUnique({
 			where: {
@@ -49,7 +51,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// const senderUserBooked: boolean = (custTrip?.Booking === 'BE' &&custTrip?.IDAccount === uuid)//cust
 		// const senderUser = (custTrip?.Booking === 'BI' && custTrip?.IDAccount !== uuid)//newcust
 		const cust = !(uuid === tripChat?.IDAccount);
-		console.log('cust is ' + cust);
+		// console.log('cust is ' + cust);
 		const chatAccount = cust ? (uuid as string) : custID;
 		console.log(chatAccount);
 		if (chatAccount) {
@@ -70,43 +72,44 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 				// const chatID : string = (senderUser)?uuid as string:custID
 				// console.log("chatID is "+chatID)
-				if (orgChat === null || orgChat === undefined) {
-					console.log('new');
-					await prismaMongo.orgChat.create({
-						data: {
-							IDTrip: tripID,
-							IDAccount: uuid as string, // ที่พักจะไม่ส่งก่อน เว้นแต่ลูกค้าจอง ถึงจะสร้างไว้
-							Chat: [newChat]
-						}
-					});
-				} else {
-					console.log('update');
-					await prismaMongo.orgChat.updateMany({
-						where: {
-							IDTrip: tripID,
-							IDAccount: chatAccount
-						},
-						data: {
-							Chat: {
-								push: newChat
-							}
-						}
-					});
-				}
+				// if (orgChat === null || orgChat === undefined) {
+				// 	console.log('new');
+				// 	await prismaMongo.orgChat.create({
+				// 		data: {
+				// 			IDTrip: tripID,
+				// 			IDAccount: uuid as string, // ที่พักจะไม่ส่งก่อน เว้นแต่ลูกค้าจอง ถึงจะสร้างไว้
+				// 			Chat: [newChat]
+				// 		}
+				// 	});
+				// } else {
+				// 	console.log('update');
+				// 	await prismaMongo.orgChat.updateMany({
+				// 		where: {
+				// 			IDTrip: tripID,
+				// 			IDAccount: chatAccount
+				// 		},
+				// 		data: {
+				// 			Chat: {
+				// 				push: newChat
+				// 			}
+				// 		}
+				// 	});
+				// }
 
 				const userInfo = await prismaMySQL.account.findUnique({
 					where: {
 						IDAccount: uuid as string
 					}
 				});
+
+				// const readerSocket = getOnlineUserSocket(getSocketID(chatAccount,tripID));
+
+				// if (readerSocket) {
+				// 	// Reader is online, send the message in real time
+				// 	readerSocket.send(JSON.stringify(newChat));
+				// } 
 				return new Response(
-					JSON.stringify({
-						text: newChat.message,
-						name: userInfo?.name,
-						imgUrl: userInfo?.imgURL,
-						time: newChat.time,
-						my: true
-					}),
+					JSON.stringify(newChat),
 					{
 						status: 200,
 						headers: {

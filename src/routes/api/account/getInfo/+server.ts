@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is ' + uuid);
+		// //console.log('uuid is ' + uuid);
 
 		const waitStatus = await prismaMySQL.orgwaitq.findUnique({
 			where: {

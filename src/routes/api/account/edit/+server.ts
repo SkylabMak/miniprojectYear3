@@ -11,7 +11,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(name, org, imgURL, remove);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is ' + uuid);
+		// //console.log('uuid is ' + uuid);
 
 		if (remove === true) {
 			await prismaMySQL.account.delete({

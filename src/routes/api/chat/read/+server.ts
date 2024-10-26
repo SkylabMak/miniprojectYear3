@@ -5,6 +5,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse } from '$lib/myAPI/resTrueFalse';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
 import { MISSING_INPUT } from '$lib/constants/errorCodes';
+import { getSocketID } from '$lib/utils/webSocket/websocket';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
@@ -12,7 +13,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(tripID);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is ' + uuid);
+		// //console.log('uuid is ' + uuid);
 
 		const tripChat = await prismaMySQL.trip.findUnique({
 			where: {
@@ -59,7 +60,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			// })
 			// const chatID : string = (readerUser)?uuid as string:custID
 			const cust = !(uuid === tripChat?.IDAccount);
-			console.log('cust is ' + cust);
+			// console.log('cust is ' + cust);
 			const chatAccount = cust ? (uuid as string) : custID;
 			console.log('chatAccount is' + chatAccount);
 			const orgChat = await prismaMongo.orgChat.findFirst({
@@ -110,7 +111,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			});
 			return new Response(
 				JSON.stringify({
-					chats: result
+					chats: result,
+					SocketID: getSocketID(uuid,tripID)
 				}),
 				{
 					status: 200,

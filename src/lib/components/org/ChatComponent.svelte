@@ -1,4 +1,6 @@
 <script lang="ts">
+	interface chatData  {chatList:chat[],socketID:string }
+	import { getSocketID } from '$lib/utils/webSocket/websocket';
 	import { formatDate, formatTime } from '$lib/utilsFn/Date';
 	import NotYetLogin from '../NotYetLogin.svelte';
 	import Popup from '../Popup.svelte';
@@ -11,11 +13,29 @@
 
 	let inputMessage: string = '';
 	let messages: chat[] = [];
+	let socketID = ""
 	let messagesContainer: HTMLDivElement | null = null;
 	let SignedIn = false;
 	let isLoading: boolean = true; // Track loading state
 
-	async function fetchMessages(): Promise<chat[]> {
+	let ws: WebSocket;
+	function connectWebSocket(userId: string) {
+		console.log("try to connect1 WebSocket")
+        ws = new WebSocket(`ws://localhost:4173?userId=${userId}`);
+		console.log("try to connect2 WebSocket")
+        ws.onopen = () => console.log("Connected to WebSocket");
+		console.log("try to connect3 WebSocket")
+        
+        ws.onmessage = (event) => {
+			console.log(event.data)
+        };
+
+        ws.onclose = () => console.log("WebSocket connection closed");
+		ws.onerror = (error) => console.error("WebSocket error:", error);
+		console.log("close WebSocket")
+    }
+
+	async function fetchMessages(): Promise<chatData> {
 		if (hasToken) {
 			// console.log('cust ID', custID);
 			// console.log('trip ID', tripID);
@@ -36,11 +56,12 @@
 			}
 
 			const dataRes = await response.json();
-			const data: chat[] = dataRes.chats;
+			const data: chatData = {chatList: dataRes.chats, socketID:dataRes.SocketID};
+			
 			console.log(dataRes);
 			return data;
 		} else {
-			return [];
+			return {chatList:[],socketID:""};
 		}
 	}
 
@@ -75,9 +96,11 @@
 	$: if (showChatPopup) {
 		fetchMessages()
 			.then((fetchedMessages) => {
-				messages = fetchedMessages;
+				messages = fetchedMessages.chatList;
+				socketID = fetchedMessages.socketID
 				isLoading = false;
 				scrollToBottom();
+				connectWebSocket(socketID);
 			})
 			.catch((error) => {
 				isLoading = false;

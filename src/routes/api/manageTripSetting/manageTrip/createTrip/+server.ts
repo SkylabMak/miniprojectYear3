@@ -12,7 +12,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
 		const isoDate = getCurrentIsoDate();
-		console.log('uuid is ' + uuid);
+		//console.log('uuid is ' + uuid);
 		let newTripID = await getTripID();
 		const tripDataBody = {
 			IDTrip: newTripID as string,

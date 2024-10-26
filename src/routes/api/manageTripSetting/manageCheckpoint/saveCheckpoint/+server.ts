@@ -17,7 +17,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(tripID, locationName, time, detail, type, checkpointID, remove);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is ' + uuid);
+		//console.log('uuid is ' + uuid);
 		const checkpointList = await prismaMySQL.trip.findUnique({
 			where: {
 				IDTrip: tripID

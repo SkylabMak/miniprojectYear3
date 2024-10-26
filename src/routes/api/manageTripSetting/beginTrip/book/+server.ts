@@ -11,7 +11,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(tripID, count, book);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is ' + uuid);
+		// //console.log('uuid is ' + uuid);
 		const trip = await prismaMySQL.trip.findUnique({
 			where: {
 				IDTrip: tripID
