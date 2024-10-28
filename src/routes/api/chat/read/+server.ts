@@ -80,7 +80,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 				return chat;
 			});
-			
+
 			const result = await Promise.all(
 				(updatedChat ?? []).map(async (chat) => {
 					// Use async inside the map function to handle the asynchronous operation
@@ -112,7 +112,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			return new Response(
 				JSON.stringify({
 					chats: result,
-					SocketID: getSocketID(chatAccount,tripID)
+					SocketID: getSocketID(chatAccount, tripID)
 				}),
 				{
 					status: 200,

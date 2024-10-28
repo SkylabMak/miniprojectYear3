@@ -17,7 +17,7 @@ const config = {
 			'@prismaMysql': path.resolve('prisma/generated/clientMysql'),
 			'@prismaMongo': path.resolve('prisma/generated/clientMongodb')
 		},
-		adapter: adapter(),
+		adapter: adapter()
 		// adapter: adapter({
 		// 	pluginPath: 'plugin.ts'
 		// })

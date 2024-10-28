@@ -5,8 +5,9 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
 import { getCurrentIsoDate } from '$lib/myAPI/tripUtils';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
-import {  getSocketID } from '$lib/utils/webSocket/websocket';
+// import {  getChatID } from '$lib/utils/webSocket/websocket';
 import { broadcastChatMessage } from '$lib/utils/chat/chatUtils';
+import { getChatID } from '$lib/utils/chat/ChatID';
 // import { getOnlineUserSocket } from '../../../../hooks.server';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -54,7 +55,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const cust = !(uuid === tripChat?.IDAccount);
 		// console.log('cust is ' + cust);
 		const chatAccount = cust ? (uuid as string) : custID;
-		console.log("chatAccount +",chatAccount)
+		console.log('chatAccount +', chatAccount);
 		console.log(chatAccount);
 		if (chatAccount) {
 			try {
@@ -109,35 +110,32 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				// if (readerSocket) {
 				// 	// Reader is online, send the message in real time
 				// 	readerSocket.send(JSON.stringify(newChat));
-				// } 
+				// }
 				const newRes = {
-						text: newChat.message,
-						name: userInfo?.name,
-						imgUrl: userInfo?.imgURL,
-						time: newChat.time,
-						my: true
-				}
+					text: newChat.message,
+					name: userInfo?.name,
+					imgUrl: userInfo?.imgURL,
+					time: newChat.time,
+					my: true
+				};
 				const newResSEE = {
 					text: newChat.message,
 					name: userInfo?.name,
 					imgUrl: userInfo?.imgURL,
 					time: newChat.time,
 					rest: !cust
-			}
-				console.log("getSocketID(chatAccount,tripID) = ", getSocketID(chatAccount,tripID))
-				broadcastChatMessage(JSON.stringify(newResSEE), getSocketID(chatAccount,tripID));
-				return new Response(
-					JSON.stringify(newRes),
-					{
-						status: 200,
-						headers: {
-							'Content-Type': 'application/json'
-						}
+				};
+				console.log('getSocketID(chatAccount,tripID) = ', getChatID(chatAccount, tripID));
+				broadcastChatMessage(JSON.stringify(newResSEE), getChatID(chatAccount, tripID));
+				return new Response(JSON.stringify(newRes), {
+					status: 200,
+					headers: {
+						'Content-Type': 'application/json'
 					}
-				);
+				});
 			} catch (error) {
 				console.log(error);
-				throw error
+				throw error;
 			}
 		} else {
 			return resFalse();
