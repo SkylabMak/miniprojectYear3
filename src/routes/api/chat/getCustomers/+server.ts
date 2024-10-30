@@ -9,7 +9,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log(' ' + uuid);
+		// console.log(' ' + uuid);
 
 		const allTrip = await prismaMySQL.trip.findMany({
 			where: {
@@ -38,65 +38,72 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		const flattenedAllMessage = allMessage.flat();
 
-		const messageWithTrip = await Promise.all(
-			flattenedAllMessage.map(async (m) => {
-				const tripDetail = await prismaMySQL.trip.findFirst({
-					where: {
-						IDOriginTrip: m.IDTrip,
-						IDAccount: m.IDAccount,
-						Booking: 'BE'
-					},
-					select: {
-						IDAccount: true,
-						IDTrip: true,
-						IDOriginTrip: true,
-						TripName: true,
-						maxJoiner: true,
-						checkpoint: {
-							orderBy: {
-								time: 'asc' // Sorting by time in ascending order
-							},
-							take: 1,
-							select: {
-								time: true
+		const messageWithTrip = await (
+			await Promise.all(
+				flattenedAllMessage.map(async (m) => {
+					const tripDetail = await prismaMySQL.trip.findFirst({
+						where: {
+							IDOriginTrip: m.IDTrip,
+							IDAccount: m.IDAccount,
+							Booking: 'BE'
+						},
+						select: {
+							IDAccount: true,
+							IDTrip: true,
+							IDOriginTrip: true,
+							TripName: true,
+							maxJoiner: true,
+							checkpoint: {
+								orderBy: {
+									time: 'asc' // Sorting by time in ascending order
+								},
+								take: 1,
+								select: {
+									time: true
+								}
 							}
 						}
-					}
-				});
+					});
 
-				const acccount = await prismaMySQL.account.findUnique({
-					where: {
-						IDAccount: m.IDAccount
-					}
-				});
-				const bookStatus = await prismaMySQL.joiner.findUnique({
-					where: {
-						IDTrip_IDAccount: {
-							IDTrip: m.IDTrip as string,
-							IDAccount: m.IDAccount as string
+					const acccount = await prismaMySQL.account.findUnique({
+						where: {
+							IDAccount: m.IDAccount
 						}
-					},
-					select: {
-						status: true
-					}
-				});
-				// console.log(tripDetail?.IDTrip+" date is " + tripDetail?.checkpoint?.[0]?.time ?? "")
-				const latestChat = await getLatestChatFromlist(m.Chat ?? null);
-				return {
-					IDTrip: m.IDTrip,
-					IDTripCust: tripDetail?.IDTrip,
-					IDAccount: m.IDAccount,
-					tripname: m.tripName,
-					IDOriginTrip: m.IDTrip,
-					Lastmessage: latestChat?.message ?? '',
-					readed: latestChat?.orgReaded ?? '',
-					custImgUrl: acccount?.imgURL,
-					custName: acccount?.name ?? '',
-					bookDone: bookStatus?.status ?? '',
-					startTime: tripDetail?.checkpoint?.[0]?.time ?? '',
-					count: tripDetail?.maxJoiner
-				};
-			})
+					});
+					const bookStatus = await prismaMySQL.joiner.findUnique({
+						where: {
+							IDTrip_IDAccount: {
+								IDTrip: m.IDTrip as string,
+								IDAccount: m.IDAccount as string
+							}
+						},
+						select: {
+							status: true
+						}
+					});
+					// console.log(tripDetail?.IDTrip+" date is " + tripDetail?.checkpoint?.[0]?.time ?? "")
+					const latestChat = await getLatestChatFromlist(m.Chat ?? null);
+					// console.log(latestChat?.time)
+					return {
+						IDTrip: m.IDTrip,
+						IDTripCust: tripDetail?.IDTrip,
+						IDAccount: m.IDAccount,
+						tripname: m.tripName,
+						IDOriginTrip: m.IDTrip,
+						Lastmessage: latestChat?.message ?? '',
+						readed: latestChat?.orgReaded ?? '',
+						LastmessageTime: latestChat?.time,
+						custImgUrl: acccount?.imgURL,
+						custName: acccount?.name ?? '',
+						bookDone: bookStatus?.status ?? '',
+						startTime: tripDetail?.checkpoint?.[0]?.time ?? '',
+						count: tripDetail?.maxJoiner
+					};
+				})
+			)
+		).sort(
+			(a, b) =>
+				new Date(b.LastmessageTime || 0).getTime() - new Date(a.LastmessageTime || 0).getTime()
 		);
 
 		return new Response(JSON.stringify(messageWithTrip), {

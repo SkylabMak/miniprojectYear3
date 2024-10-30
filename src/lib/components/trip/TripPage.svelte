@@ -2,7 +2,7 @@
 	import MapCicleIcon from '$lib/components/MapCicleIcon.svelte';
 	import Checkpoint from '$lib/components/trip/Checkpoint.svelte';
 	import CheckpointEdit from '$lib/components/trip/CheckpointEdit.svelte';
-	import EditTripBtn from '$lib/components/trip/EditTripBtn.svelte';
+	import EditTripBtn from '$lib/components/trip/button/EditTripBtn.svelte';
 	import Go from '$lib/components/trip/Go.svelte';
 	import TripFooter from '$lib/components/trip/TripFooter.svelte';
 	import TripHeader from '$lib/components/trip/TripHeader.svelte';
@@ -10,6 +10,7 @@
 	import { genGoogleMapsURL, getAllDest } from '$lib/utilsFn/assistance';
 	import Icon from '@iconify/svelte';
 	import { onDestroy } from 'svelte';
+	import ShareTripBtn from './button/ShareTripBtn.svelte';
 
 	let canEdit = false;
 	let editMode = false;
@@ -44,10 +45,11 @@
 </script>
 
 <div class="w-full mx-auto p-4 rounded-lg text-black">
-	<div class="w-full flex justify-end">
+	<div class="w-full flex justify-end gap-2 items-center mt-[-24px] mb-2">
 		{#if canEdit}
 			<EditTripBtn bind:editMode />
 		{/if}
+		<ShareTripBtn />
 	</div>
 	<TripHeader bind:editMode />
 

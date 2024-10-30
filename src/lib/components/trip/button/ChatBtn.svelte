@@ -6,11 +6,12 @@
 	export let tripID: string;
 	export let hasToken: boolean;
 	export let unRead: boolean;
+	export let tripName: string;
 	let showChatPopup = false;
 	// $: console.log(unRead);
 </script>
 
-<ChatComponent {tripID} custID={''} bind:showChatPopup {hasToken} />
+<ChatComponent {tripID} custID={''} bind:showChatPopup {hasToken} {tripName} cust={true} />
 <button
 	class="m-1 focus:outline-none relative"
 	disabled={!can}

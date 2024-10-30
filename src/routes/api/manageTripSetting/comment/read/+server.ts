@@ -47,7 +47,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				IDCheckpoint: iDcheckpoint
 			}
 		});
-		console.log(iDcheckpoint);
+		// console.log(iDcheckpoint);
 		const joiner: boolean = !(
 			tripDetail?.IDAccount !== uuid &&
 			!tripDetail?.joiner.some((e) => e.IDAccount === uuid) &&

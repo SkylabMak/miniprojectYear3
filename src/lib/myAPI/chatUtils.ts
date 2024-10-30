@@ -1,5 +1,5 @@
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
-import type { OrgChatChat } from '@prisma/client';
+import type { OrgChatChat } from '@prisma-app/clientMongo';
 
 export async function getChat(tripID: string, accountID: string) {
 	const chat = await prismaMongo.orgChat.findFirst({

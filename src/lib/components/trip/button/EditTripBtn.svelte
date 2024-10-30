@@ -8,18 +8,19 @@
 	let editTripButton: HTMLButtonElement | null = null;
 
 	async function togglePopup() {
-		showEditTripPopup = !showEditTripPopup;
+		showEditTripPopup = showEditTripPopup ? false : true;
 		if (showEditTripPopup) {
 			await tick();
 			editTripButton?.focus();
 		}
 	}
+	// $:console.log(showEditTripPopup)
 </script>
 
-<div class="relative h-6">
+<div class="relative">
 	<!-- Ellipsis Button -->
 	<button
-		class="flex items-center justify-center w-12 h-6 rounded-full border-2 border-black cursor-pointer px-2 mt-[-12px]"
+		class="flex items-center justify-center w-fit h-[100%] rounded-full border-grayfocus-100 shadow-md px-4 py-1"
 		on:click={togglePopup}
 	>
 		<Icon icon={'ri:more-fill'} class={`text-2xl flex justify-center`} />
@@ -36,7 +37,7 @@
 				editMode = !editMode;
 				showEditTripPopup = false;
 			}}
-			class="absolute left-[-120px] bottom-[-40px] bg-accent2 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2"
+			class="absolute left-[-140px] bottom-[-40px] bg-accent2 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2"
 		>
 			<span class={'text-lg'}>{editMode ? 'ปิดการแก้ไขทริป' : 'แก้ไขทริป'}</span>
 			<Icon icon={'material-symbols-light:draw-outline'} class={'text-4xl'} />

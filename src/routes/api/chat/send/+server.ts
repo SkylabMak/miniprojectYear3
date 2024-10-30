@@ -6,8 +6,10 @@ import { resFalse, resTrue } from '$lib/myAPI/resTrueFalse';
 import { getCurrentIsoDate } from '$lib/myAPI/tripUtils';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
 // import {  getChatID } from '$lib/utils/webSocket/websocket';
-import { broadcastChatMessage } from '$lib/utils/chat/chatUtils';
+import { broadcastChatMessage, isClientExists } from '$lib/utils/chat/chatUtils';
 import { getChatID } from '$lib/utils/chat/ChatID';
+import { getchatNotiFormat } from '$lib/utils/notificationFormat/chatNoti';
+import { sendNotificationsOnline } from '$lib/utils/chat/notificationUtils';
 // import { getOnlineUserSocket } from '../../../../hooks.server';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -23,9 +25,21 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				IDTrip: tripID
 			},
 			select: {
+				TripName: true,
 				IDAccount: true,
 				IDOriginTrip: true,
 				Booking: true
+			}
+		});
+		const tripCustChat = await prismaMySQL.trip.findFirst({
+			where: {
+				IDOriginTrip: tripID,
+				Booking: 'BE',
+				IDAccount: custID
+			},
+			select: {
+				TripName: true,
+				IDAccount: true
 			}
 		});
 
@@ -59,13 +73,20 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		console.log(chatAccount);
 		if (chatAccount) {
 			try {
+				const chatID = getChatID(chatAccount, tripID);
+				const isOppositeFocus = isClientExists(
+					chatID,
+					cust ? (tripChat?.IDAccount ?? '') : chatAccount
+				);
 				const newChat = {
 					message: text as string,
-					orgReaded: !cust,
-					readed: cust,
+					orgReaded: !cust || isOppositeFocus,
+					readed: cust || isOppositeFocus,
 					senderUser: cust,
 					time: getCurrentIsoDate()
 				};
+				console.log('isOppositeFocus ', isOppositeFocus);
+				console.log('new chat ', newChat);
 				const orgChat = await prismaMongo.orgChat.findFirst({
 					where: {
 						IDTrip: tripID,
@@ -75,42 +96,37 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 				// const chatID : string = (senderUser)?uuid as string:custID
 				// console.log("chatID is "+chatID)
-				// if (orgChat === null || orgChat === undefined) {
-				// 	console.log('new');
-				// 	await prismaMongo.orgChat.create({
-				// 		data: {
-				// 			IDTrip: tripID,
-				// 			IDAccount: uuid as string, // ที่พักจะไม่ส่งก่อน เว้นแต่ลูกค้าจอง ถึงจะสร้างไว้
-				// 			Chat: [newChat]
-				// 		}
-				// 	});
-				// } else {
-				// 	console.log('update');
-				// 	await prismaMongo.orgChat.updateMany({
-				// 		where: {
-				// 			IDTrip: tripID,
-				// 			IDAccount: chatAccount
-				// 		},
-				// 		data: {
-				// 			Chat: {
-				// 				push: newChat
-				// 			}
-				// 		}
-				// 	});
-				// }
-
+				// -------save to DB-------
+				if (orgChat === null || orgChat === undefined) {
+					console.log('new');
+					await prismaMongo.orgChat.create({
+						data: {
+							IDTrip: tripID,
+							IDAccount: uuid as string, // ที่พักจะไม่ส่งก่อน เว้นแต่ลูกค้าจอง ถึงจะสร้างไว้
+							Chat: [newChat]
+						}
+					});
+				} else {
+					console.log('update');
+					await prismaMongo.orgChat.updateMany({
+						where: {
+							IDTrip: tripID,
+							IDAccount: chatAccount
+						},
+						data: {
+							Chat: {
+								push: newChat
+							}
+						}
+					});
+				}
+				// -------End save to DB-------
 				const userInfo = await prismaMySQL.account.findUnique({
 					where: {
 						IDAccount: uuid as string
 					}
 				});
 
-				// const readerSocket = getOnlineUserSocket(getSocketID(chatAccount,tripID));
-
-				// if (readerSocket) {
-				// 	// Reader is online, send the message in real time
-				// 	readerSocket.send(JSON.stringify(newChat));
-				// }
 				const newRes = {
 					text: newChat.message,
 					name: userInfo?.name,
@@ -125,8 +141,30 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					time: newChat.time,
 					rest: !cust
 				};
-				console.log('getSocketID(chatAccount,tripID) = ', getChatID(chatAccount, tripID));
-				broadcastChatMessage(JSON.stringify(newResSEE), getChatID(chatAccount, tripID));
+
+				console.log('getSocketID(chatAccount,tripID) = ', chatID);
+				broadcastChatMessage(JSON.stringify(newResSEE), chatID);
+				if (cust) {
+					const notiFormat = getchatNotiFormat(
+						chatID,
+						tripChat?.TripName ?? '',
+						newChat.message,
+						userInfo?.name ?? '',
+						userInfo?.imgURL ?? '',
+						newChat.time
+					);
+					sendNotificationsOnline(JSON.stringify(notiFormat), tripChat?.IDAccount ?? '');
+				} else {
+					const notiFormat = getchatNotiFormat(
+						chatID,
+						tripCustChat?.TripName ?? '',
+						newChat.message,
+						userInfo?.name ?? '',
+						userInfo?.imgURL ?? '',
+						newChat.time
+					);
+					sendNotificationsOnline(JSON.stringify(notiFormat), chatAccount);
+				}
 				return new Response(JSON.stringify(newRes), {
 					status: 200,
 					headers: {

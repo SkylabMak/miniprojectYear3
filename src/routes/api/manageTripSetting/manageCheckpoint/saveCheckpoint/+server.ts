@@ -27,8 +27,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				IDAccount: true
 			}
 		});
-		console.log('data VVVVV');
-		console.log(checkpointList);
+		// console.log('data VVVVV');
+		// console.log(checkpointList);
 		if (checkpointList?.IDAccount !== uuid) {
 			return resFalse();
 		}
@@ -63,7 +63,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			}
 			return resTrue();
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 			return resFalse();
 		}
 	} catch (error) {

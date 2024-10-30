@@ -18,11 +18,15 @@ export const GET: RequestHandler = ({ request, url, cookies }) => {
 
 	const stream = new ReadableStream({
 		start(controller) {
+			console.log(uuid, 'call Focus ');
 			addClientChatMessage(connectionID, controller, uuid);
-			request.signal.addEventListener('abort', () => {
-				removeClient(connectionID, uuid);
-				controller.close();
-			});
+		},
+		cancel() {
+			try {
+				removeClient(connectionID, uuid); // Clean up on cancel
+			} catch (e) {
+				console.error('Controller already closed:', uuid);
+			}
 		}
 	});
 

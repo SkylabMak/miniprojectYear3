@@ -8,14 +8,26 @@
 	import ButtonMine from '$lib/components/ButtonMine.svelte';
 	import ImageInputFile from '$lib/components/ImageInputFile.svelte';
 	import PrivateTrip from '$lib/components/trip/PrivateTrip.svelte';
+	import { closeChatEvent } from '$lib/store/store';
+	import { getChatOrg } from '$lib/utilsFn/getChat';
+	import { onMount } from 'svelte';
 	let privateTripOpen = false;
 	let popupOrg = false;
 	let change = false; // Ensure `change` is reactive and used properly.
+	let loadDone = false;
 	export let data: {
 		userToken: string;
 		data: profile;
 		chatData: orgChat[];
 	};
+
+	closeChatEvent.subscribe(async (e) => {
+		if (loadDone) {
+			// console.log("closeChatEvent.subscribe run",await getChatOrg(data.data.Org))
+			data.chatData = await getChatOrg(data.data.Org);
+			console.log('get new chat ', data.chatData);
+		}
+	});
 
 	// console.log('Data passed to the page:', data.userToken);
 	let originalName = '';
@@ -47,7 +59,7 @@
 			alert(`Error: ${errorMessage}`);
 		} else {
 			const result = await response.json(); // Assuming the API sends a JSON response
-			console.log('Name changed successfully:', result);
+			// console.log('Name changed successfully:', result);
 		}
 		change = false;
 	}
@@ -98,6 +110,11 @@
 		}
 		popupOrg = false;
 	}
+	onMount(() => {
+		loadDone = true;
+		// console.log('Component has loaded');
+		// You can also trigger any actions here
+	});
 </script>
 
 {#if data.userToken || data.data}
@@ -116,6 +133,7 @@
 							alt={data.data.name}
 							class="w-full h-full rounded-full object-cover"
 						/>
+						<!-- {data.data.imgURL} -->
 					{:else}
 						<span>click me to add image</span>
 					{/if}

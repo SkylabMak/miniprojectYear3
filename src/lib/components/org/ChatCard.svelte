@@ -26,6 +26,7 @@
 </script>
 
 <ChatComponent
+	tripName={message.tripname}
 	tripID={message.IDTrip}
 	custID={message.IDAccount}
 	bind:showChatPopup={showCustPopup}

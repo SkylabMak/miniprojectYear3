@@ -5,7 +5,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { resFalse } from '$lib/myAPI/resTrueFalse';
 import { prismaMongo } from '$lib/utils/database/noSqlDB';
 import { MISSING_INPUT } from '$lib/constants/errorCodes';
-import { getSocketID } from '$lib/utils/webSocket/websocket';
+import { getChatID } from '$lib/utils/chat/ChatID';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
@@ -62,7 +62,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			const cust = !(uuid === tripChat?.IDAccount);
 			// console.log('cust is ' + cust);
 			const chatAccount = cust ? (uuid as string) : custID;
-			console.log('chatAccount is ' + chatAccount);
+			// console.log('chatAccount is ' + chatAccount);
 			const orgChat = await prismaMongo.orgChat.findFirst({
 				where: {
 					IDTrip: tripID,
@@ -112,7 +112,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			return new Response(
 				JSON.stringify({
 					chats: result,
-					SocketID: getSocketID(chatAccount, tripID)
+					SocketID: getChatID(chatAccount, tripID)
 				}),
 				{
 					status: 200,

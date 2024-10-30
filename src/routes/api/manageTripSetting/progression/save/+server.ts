@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(tripID, checkpointID);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is save progression ' + uuid);
+		// console.log('uuid is save progression ' + uuid);
 		// const checkpointDetail = await prismaMongo.checkpointNSQL.findFirst({
 		//     where:{
 		//         IDCheckpoint:checkpointID

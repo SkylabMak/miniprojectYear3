@@ -129,7 +129,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const orgTripDetaill =
 			tripDetail?.Booking === 'BE' ? await getOrgDetail(tripDetail?.IDOriginTrip ?? '') : null;
 		const partialJoin1 = await partialJoin(tripID, uuid);
-		console.log('partialJoin1 ', partialJoin1);
+		// console.log('partialJoin1 ', partialJoin1);
 		const result = {
 			Trip: {
 				tripID: tripDetail?.IDTrip,

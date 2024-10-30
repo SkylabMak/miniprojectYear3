@@ -123,3 +123,8 @@ interface checkpoint {
 	progress: progress[];
 	me: boolean;
 }
+
+interface NotiFormat {
+	type: string;
+	body: any;
+}

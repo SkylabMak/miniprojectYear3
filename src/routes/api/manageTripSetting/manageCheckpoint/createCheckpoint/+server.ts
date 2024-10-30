@@ -15,7 +15,7 @@ import { MISSING_INPUT } from '$lib/constants/errorCodes';
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const { tripID, locationName, time, detail, type } = await request.json();
-		console.log('tripID', tripID);
+		// console.log('tripID', tripID);
 		checkMissingInput(tripID, locationName, time, detail, type);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);

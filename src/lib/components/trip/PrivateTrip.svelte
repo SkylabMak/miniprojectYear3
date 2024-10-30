@@ -15,11 +15,13 @@
 	}
 
 	async function visit() {
-		// alert('Card clicked!');
 		if (inputText.trim().length != 0) {
-			const tripDataFromCard: tripPageData = await getTripData(inputText);
-			tripData.set(tripDataFromCard);
-			goto('/trip/' + tripDataFromCard.tripID);
+			const tripId = inputText.split('/').pop();
+			if (tripId) {
+				const tripDataFromCard: tripPageData = await getTripData(tripId);
+				tripData.set(tripDataFromCard);
+				goto('/trip/' + tripDataFromCard.tripID);
+			}
 		}
 	}
 </script>

@@ -12,8 +12,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is in date ' + uuid);
-		console.log('tripID is in date ' + tripID);
+		// console.log('uuid is in date ' + uuid);
+		// console.log('tripID is in date ' + tripID);
 
 		const checkpointList = await prismaMySQL.trip.findUnique({
 			where: {
@@ -44,9 +44,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			const oldTime = new Date(checkpointList?.checkpoint?.[0]?.time ?? '');
 			const timeDifferenceMs = newDate.getTime() - oldTime.getTime();
 
-			console.log('Old time:', oldTime.toISOString());
-			console.log('New date:', newDate.toISOString());
-			console.log('Time difference in ms:', timeDifferenceMs);
+			// console.log('Old time:', oldTime.toISOString());
+			// console.log('New date:', newDate.toISOString());
+			// console.log('Time difference in ms:', timeDifferenceMs);
 
 			if (checkpointList) {
 				for (const checkpoint of checkpointList?.checkpoint ?? []) {
@@ -80,7 +80,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			}
 			return resTrue();
 		} catch (error) {
-			console.log('Error during checkpoint updates:', error);
+			// console.log('Error during checkpoint updates:', error);
 			return resFalse();
 		}
 	} catch (error) {

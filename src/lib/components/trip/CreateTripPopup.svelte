@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditTripBtn from './EditTripBtn.svelte';
+	import EditTripBtn from './button/EditTripBtn.svelte';
 	import Icon from '@iconify/svelte';
 	import { formatDate } from '$lib/utilsFn/Date';
 	import { tripData } from '$lib/store/store';

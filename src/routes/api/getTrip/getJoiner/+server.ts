@@ -23,12 +23,40 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			}
 		});
+
+		const ownTripAccount = await prismaMySQL.trip.findUnique({
+			where: {
+				IDTrip: tripID
+			},
+			select: {
+				account: true
+			}
+		});
+		const ownTrip = {
+			name: ownTripAccount?.account?.name,
+			imgURL: ownTripAccount?.account?.imgURL
+		};
+		if (joiner.length == 0) {
+			return new Response(
+				JSON.stringify({
+					joinerList: [ownTrip]
+				}),
+				{
+					status: 200,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			);
+		}
+		console.log('joiner ', joiner);
 		const company = joiner[0].trip.Booking == 'BI' && joiner[0].trip.account?.IDAccount == uuid;
 		const canSee =
 			joiner[0].trip.Booking == 'NM' ||
 			joiner[0].trip.account?.IDAccount == uuid ||
 			(joiner.find((e) => e.account.IDAccount == uuid) && joiner[0].trip.Booking == 'NM') ||
 			company;
+
 		// let joinerCount
 		// if(company){
 		// 	joinerCount = await Promise.all( joiner.map(async e => {

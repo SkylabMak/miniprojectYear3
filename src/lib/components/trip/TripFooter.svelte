@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tripData } from '$lib/store/store';
 	import { onDestroy } from 'svelte';
-	import EditTripBtn from './EditTripBtn.svelte';
+	import EditTripBtn from './button/EditTripBtn.svelte';
 	import Icon from '@iconify/svelte';
 	import { formatDate } from '$lib/utilsFn/Date';
 	import ButtonMine from '../ButtonMine.svelte';
@@ -171,6 +171,7 @@
 					tripID={dataTrip.tripIDOrigin == null ? dataTrip.tripID : dataTrip.tripIDOrigin}
 					hasToken={dataTrip.hasToken}
 					unRead={dataTrip.unread}
+					tripName={dataTrip.name}
 				/>
 			{/if}
 		</div>

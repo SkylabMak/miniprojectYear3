@@ -14,7 +14,19 @@ export function addClientChatMessage(
 	} else {
 		const connectionControllers = clientsFocus.get(connectionId);
 		if (connectionControllers) {
-			connectionControllers.set(uuid, controller);
+			if (connectionControllers.has(uuid)) {
+				// Close the existing controller before setting the new one
+				const existingController = connectionControllers.get(uuid);
+				if (existingController) {
+					try {
+						existingController.close();
+						console.log('close : ', existingController);
+					} catch (error) {
+						console.error('Failed to close existing controller:', uuid);
+					}
+				}
+			}
+			connectionControllers.set(uuid, controller); // Set the new controller
 		}
 	}
 	console.log('clients: ', clientsFocus);
@@ -26,6 +38,7 @@ export function isClientExists(connectionId: string, uuid: string): boolean {
 }
 
 export function removeClient(connectionId: string, uuid: string) {
+	console.log('some user want to close');
 	const connectionControllers = clientsFocus.get(connectionId);
 	if (connectionControllers) {
 		const controller = connectionControllers.get(uuid);
@@ -33,7 +46,7 @@ export function removeClient(connectionId: string, uuid: string) {
 			try {
 				controller.close();
 			} catch (error) {
-				console.error('Controller already closed:', error);
+				console.error('Controller already closed:', uuid);
 			}
 			connectionControllers.delete(uuid);
 		}
@@ -43,6 +56,7 @@ export function removeClient(connectionId: string, uuid: string) {
 			clientsFocus.delete(connectionId);
 		}
 	}
+	console.log('clients: ', clientsFocus);
 }
 
 export function broadcastChatMessage(message: string, connectionId: string) {
@@ -54,7 +68,7 @@ export function broadcastChatMessage(message: string, connectionId: string) {
 				controller.enqueue(`data: ${message}\n\n`);
 			} catch (error) {
 				if (error instanceof Error) {
-					console.error('cannot enqueue, Controller timeout or already closed:', error.message);
+					console.error('cannot enqueue, Controller timeout or already closed:');
 				} else {
 					console.error('An unknown error occurred');
 				}
