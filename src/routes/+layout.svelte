@@ -47,38 +47,42 @@
 	}
 
 	function connectSEE() {
-		if (!eventSource) {
-			console.log('try to connect');
-			eventSource = new EventSource(`/api/online`);
+		try {
+			if (!eventSource) {
+				console.log('try to connect');
+				eventSource = new EventSource(`/api/online`);
 
-			eventSource.onmessage = (event) => {
-				if (!eventSource) return; // Ensure eventSource is not null
+				eventSource.onmessage = (event) => {
+					if (!eventSource) return; // Ensure eventSource is not null
 
-				const data = JSON.parse(event.data) as NotiFormat;
-				console.log('New Noti:', data);
-				if (data.type == 'newMS') {
-					if (currentReadChatID != data.body.chatID) {
-						addNotification('new message from ', data.body.name, 'chat');
+					const data = JSON.parse(event.data) as NotiFormat;
+					console.log('New Noti:', data);
+					if (data.type == 'newMS') {
+						if (currentReadChatID != data.body.chatID) {
+							addNotification('new message from ', data.body.name, 'chat');
+						}
 					}
-				}
-			};
+				};
 
-			eventSource.onerror = (error) => {
-				if (eventSource) {
-					console.error('EventSource error:', error);
-					eventSource.close();
-					eventSource = null; // Set to null after closing
-				}
-			};
+				eventSource.onerror = (error) => {
+					if (eventSource) {
+						console.error('EventSource error:', error);
+						eventSource.close();
+						eventSource = null; // Set to null after closing
+					}
+				};
 
-			eventSource.addEventListener('open', () => {
-				if (eventSource && eventSource.readyState === 2) {
-					// CLOSED state
-					console.error('Failed to establish connection. Server response not OK.');
-					eventSource.close();
-					eventSource = null;
-				}
-			});
+				eventSource.addEventListener('open', () => {
+					if (eventSource && eventSource.readyState === 2) {
+						// CLOSED state
+						console.error('Failed to establish connection. Server response not OK.');
+						eventSource.close();
+						eventSource = null;
+					}
+				});
+			}
+		} catch (error) {
+			console.error('cannot get online ', error);
 		}
 	}
 

@@ -6,7 +6,7 @@
 		data: tripCard[];
 	};
 
-	// console.log('Data passed to the page:', data);
+	// console.log('Data passed to the library page:', data);
 </script>
 
 <!-- Parent Container for Flex Column Layout -->
@@ -28,7 +28,7 @@
 				/>
 			{/each}
 		</ul>
-	{:else if !data}
+	{:else if !data.data}
 		<NotYetLogin />
 	{:else}
 		<p>A free life</p>

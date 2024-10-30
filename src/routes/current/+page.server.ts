@@ -13,6 +13,15 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		},
 		body: JSON.stringify(requestBody) // Convert the body to JSON
 	});
+	if (!response.ok) {
+		// console.log("response.ok return none profile")
+		const data = (await response.json()) as resCustomError;
+		// console.log(data)
+		if (data.code == '501' || data.code == '402') {
+			// console.log("return none profile")
+			return {};
+		}
+	}
 	const data = (await response.json()).Trip;
 	//   console.log('Fetched Data:', data);
 

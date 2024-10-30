@@ -4,9 +4,10 @@ import { getInfo, oauth2Client } from '$lib/security/auth2Utils';
 import { prismaMySQL } from '$lib/utils/database/sqlDB.js';
 import { encrypt } from '$lib/security/jwtUtils';
 import { getUUID } from '$lib/utils/uuidUtils.js';
-import { CAN_NOT_INSERT_ACCOUNT } from '$lib/constants/errorCodes';
-import { resError } from '$lib/myAPI/customError';
+// import { CAN_NOT_INSERT_ACCOUNT } from '$lib/constants/errorCodes';
+import { checkErrorAndRes, CustomError, resError } from '$lib/myAPI/customError';
 import type { RequestHandler } from '@sveltejs/kit';
+import { CAN_NOT_INSERT_ACCOUNT } from '$lib/constants/errorCodes';
 
 const client = oauth2Client;
 
@@ -67,7 +68,7 @@ async function addNewUsre(info: googleInfo, IDAccount: string) {
 		});
 		return senResponse(IDAccount, 302);
 	} catch (error) {
-		return resError(CAN_NOT_INSERT_ACCOUNT);
+		return checkErrorAndRes(new CustomError(CAN_NOT_INSERT_ACCOUNT));
 	}
 }
 

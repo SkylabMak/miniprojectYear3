@@ -15,7 +15,7 @@ export function addNotification(
 	message: string,
 	by: string,
 	type: NotificationType,
-	duration = 5000000
+	duration = 5000
 ) {
 	const id = Date.now();
 	notifications.update((n) => [...n, { id, by, message, type }]);

@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	// Fetching data from an API or a local source
-	// console.log('run');
+	console.log('profile run');
 	const response = await fetch('/api/account/getInfo', {
 		method: 'POST',
 		headers: {
@@ -11,7 +11,23 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		}
 		// body: JSON.stringify(requestBody), // Convert the body to JSON
 	});
+	if (!response.ok) {
+		// console.log("response.ok return none profile")
+		const data = (await response.json()) as resCustomError;
+		// console.log(data)
+		if (data.code == '501' || data.code == '402') {
+			// console.log("return none profile")
+			return {};
+		}
+	}
 	const data = await response.json();
+	//data.userToken || data.data
+	// export let data: {
+	// 	userToken: string;
+	// 	data: profile;
+	// 	chatData: orgChat[];
+	// };
+	console.log('profile data : ', data);
 	let chatData: orgChat[] = [];
 	if (!response.ok) {
 		return null;

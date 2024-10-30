@@ -16,7 +16,7 @@
 	let change = false; // Ensure `change` is reactive and used properly.
 	let loadDone = false;
 	export let data: {
-		userToken: string;
+		// userToken: string;
 		data: profile;
 		chatData: orgChat[];
 	};
@@ -33,7 +33,7 @@
 	let originalName = '';
 	let originIMG = '';
 	let isModified = false;
-	if (data.userToken || data.data) {
+	if (data.data) {
 		originalName = data.data.name;
 		originIMG = data.data.imgURL;
 		// console.log(data.data.imgURL);
@@ -117,7 +117,7 @@
 	});
 </script>
 
-{#if data.userToken || data.data}
+{#if data.data}
 	<!-- Parent Container for Flex Column Layout -->
 	<div class="max-h-screen flex flex-col items-center gap-8">
 		<!-- Profile Icon or Image -->

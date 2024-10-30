@@ -50,6 +50,7 @@ async function senResponse(token: string, code: number): Promise<Response> {
 		status: code,
 		headers: {
 			'Set-Cookie': `token=${token}; HttpOnly; Path=/; Max-Age=${1 * 60 * 60};`,
+			// 'Set-Cookie': `token=${token}; HttpOnly; Path=/; Max-Age=${20};`,
 			Location: '/'
 		}
 	});

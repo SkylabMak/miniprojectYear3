@@ -24,6 +24,11 @@ interface customError {
 	message: string;
 }
 
+interface resCustomError {
+	code: string;
+	message: string;
+}
+
 interface tripCard {
 	tripID: string;
 	name: string;
