@@ -112,9 +112,9 @@
 						</div>
 					{/each}
 				{/if}
-				{#if me}
+				<!-- {#if me}
 					<div class="bg-emerald-500 border-black border-2 rounded-full w-4 h-4"></div>
-				{/if}
+				{/if} -->
 			</div>
 
 			<!-- Time and Date -->

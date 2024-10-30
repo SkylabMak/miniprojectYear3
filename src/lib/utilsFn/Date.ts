@@ -18,3 +18,11 @@ export function formatTime(dateString: string): string {
 		hour12: false // Use 24-hour format
 	});
 }
+
+export function findStartMinTime(checkpoints: checkpoint[]): string {
+	const minCheckpoint = checkpoints.reduce((min, current) =>
+		new Date(current.time) < new Date(min.time) ? current : min
+	);
+
+	return minCheckpoint.time;
+}

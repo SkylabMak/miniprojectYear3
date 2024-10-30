@@ -10,14 +10,24 @@
 	import { navNumber } from '$lib/utilsFn/pageNumber';
 	import Notification from '$lib/components/Notification.svelte';
 	import { addNotification } from '$lib/store/notificationStore';
+	import ErrorShow from '$lib/components/ErrorShow.svelte';
+	import { errorDetail, errorShow } from '$lib/store/ErrorStore';
 
 	let showNotification = false;
+	let errorOpen = false;
+	let errorCode = '';
 	let searchTerm = '';
 	let eventSource: EventSource | null = null;
 
 	let currentReadChatID = '';
 	readChat.subscribe((e) => {
 		currentReadChatID = e;
+	});
+	errorDetail.subscribe((e) => {
+		errorCode = e[0];
+	});
+	errorShow.subscribe((e) => {
+		errorOpen = e;
 	});
 	async function getSearchTrip() {
 		const response = await fetch('/api/search', {
@@ -114,6 +124,7 @@
 <div class="app bg-primary">
 	<SearchBar bind:searchTerm on:search={handleSearch} />
 	<Notification />
+	<ErrorShow bind:open={errorOpen} code={errorCode} />
 	<main>
 		<slot />
 	</main>

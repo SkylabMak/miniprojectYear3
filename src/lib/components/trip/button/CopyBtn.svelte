@@ -3,6 +3,7 @@
 	import IconContainer from '$lib/components/IconContainer.svelte';
 	import ButtonMine from '$lib/components/ButtonMine.svelte';
 	import NotYetLogin from '$lib/components/NotYetLogin.svelte';
+	import { sendError } from '$lib/store/ErrorStore';
 	// export let visbleBtn: boolean = true;
 	export let can: boolean;
 	export let tripID: string;
@@ -21,7 +22,11 @@
 		});
 
 		if (!response.ok) {
-			console.log('join error ');
+			console.log('copy error ');
+			const data = (await response.json()) as customError;
+			sendError(data.code.toString(), data.message);
+			console.log('error data : ', data);
+			copyPopupShow = false;
 			throw new Error('Failed to fetch messages');
 		}
 		confirm = true;

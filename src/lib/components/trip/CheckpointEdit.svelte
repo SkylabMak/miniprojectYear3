@@ -5,6 +5,8 @@
 	import { tripData } from '$lib/store/store';
 	import ButtonMine from '../ButtonMine.svelte';
 	import { sortCheckpointsByTime } from '$lib/utilsFn/getTripData';
+	import { autoHeight } from 'svelte-textarea-auto-height';
+	import { findStartMinTime } from '$lib/utilsFn/Date';
 
 	export let tripID: string;
 	export let checkPointID: string;
@@ -111,6 +113,7 @@
 			const updatedCheckpoints = data.checkpoint.filter((e) => e.IDCheckpoint != checkPointID);
 			return {
 				...data,
+				startDate: updatedCheckpoints[0]?.time ?? '',
 				checkpoint: updatedCheckpoints // Set the modified checkpoints back
 			};
 		});
@@ -158,7 +161,8 @@
 					const updatedCheckpointsSorted = sortCheckpointsByTime(updatedCheckpoints); // Sort the checkpoints
 					return {
 						...data,
-						checkpoint: updatedCheckpointsSorted // Set the modified checkpoints back
+						startDate: updatedCheckpointsSorted[0].time,
+						checkpoint: updatedCheckpointsSorted
 					};
 				});
 				showEditPopup = false;
@@ -207,6 +211,7 @@
 					const updatedCheckpointsSorted = sortCheckpointsByTime(updatedCheckpoints);
 					return {
 						...data,
+						startDate: updatedCheckpointsSorted[0].time,
 						checkpoint: updatedCheckpointsSorted // Set the modified checkpoints back
 					};
 				});
@@ -242,7 +247,7 @@
 <Popup bind:isOpen={showEditPopup} hideCloseBtn={true} background={'bg-secondary4'}>
 	<div class="bg-secondary4 rounded-xl w-full flex flex-col items-center gap-4">
 		<div
-			class={`flex items-center bg-secondary3 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
+			class={`shadow-md flex items-center bg-secondary3 text-gray-800 font-bold py-2 px-4 rounded-lg ${selectInputClass}`}
 		>
 			<Icon
 				icon={checkpointTypeIcon.get(typeCKEdit) ?? 'carbon:location-current'}
@@ -274,16 +279,20 @@
 					class={`${nameInputClass} rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-accent2-500`}
 				/>
 			</div>
-			<span class="text-xs text-gray-500"
-				>หมายเหตุ : สถานที่นี้จะนำเข้าไปค้นหาใน google map และแสดงให้เห็นอันดับแรก</span
-			>
+			<div class="text-xs text-gray-500">
+				<span class=" text-wrap">
+					หมายเหตุ : สถานที่นี้สำหรับประเภท <span class="underline">จุดหมาย</span> จะนำเข้าไปค้นหาใน
+					Google Maps
+				</span>
+			</div>
 		</div>
 
-		<div class="flex flex-col w-full items-center font-bold">
+		<div class="flex flex-col w-full items-center font-bold px-1">
 			<span class="mb-2">รายละเอียดสถานที่</span>
 			<textarea
+				use:autoHeight
 				bind:value={editedDetail}
-				class={`${detailInputClass} font-normal rounded-md w-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-accent2-500`}
+				class={`${detailInputClass}  font-normal rounded-md w-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-accent2-500`}
 			/>
 		</div>
 
@@ -342,9 +351,11 @@
 </Popup>
 
 <Popup bind:isOpen={removePopup} hideCloseBtn={true}>
-	<h2>คุณต้องการ</h2>
-	<h2 class="font-bold italic">ลบ</h2>
-	<h2>หรือไม่</h2>
+	<div class="text-wrap">
+		<h2 class="whitespace-nowrap inline-block">คุณต้องการ</h2>
+		<h2 class="font-bold italic inline-block whitespace-nowrap">ลบ</h2>
+		<h2 class="whitespace-nowrap inline-block">หรือไม่</h2>
+	</div>
 	<div class="flex items-center gap-4 justify-center mt-4">
 		<button
 			on:click={() => {

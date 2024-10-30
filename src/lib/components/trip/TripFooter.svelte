@@ -296,8 +296,8 @@
 
 		<!-- Debug Output -->
 		<div class="mt-4">
-			<p>Public Choice: {publicOrigin} {publicChoice}</p>
-			<p>Booking Choice: {bookingOrigin} {bookingChoice}</p>
+			<!-- <p>Public Choice: {publicOrigin} {publicChoice}</p>
+			<p>Booking Choice: {bookingOrigin} {bookingChoice}</p> -->
 		</div>
 
 		<!-- Buttons -->
@@ -325,9 +325,11 @@
 	</div>
 </Popup>
 <Popup bind:isOpen={removePopup} hideCloseBtn={true}>
-	<h2>คุณต้องการ</h2>
-	<h2 class="font-bold italic">ลบ</h2>
-	<h2>หรือไม่</h2>
+	<div class="text-wrap">
+		<h2 class="whitespace-nowrap inline-block">คุณต้องการ</h2>
+		<h2 class="font-bold italic inline-block whitespace-nowrap">ลบ</h2>
+		<h2 class="whitespace-nowrap inline-block">หรือไม่</h2>
+	</div>
 	<div class="flex items-center gap-4 justify-center mt-4">
 		<button
 			on:click={() => {

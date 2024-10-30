@@ -51,7 +51,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						detail: '',
 						startDate: '',
 						preparation: '',
-						booking: booking,
+						booking: booking ? 'BI' : 'NM',
 						org: userInfo?.Org,
 						lastEdit: isoDate,
 						private: true,

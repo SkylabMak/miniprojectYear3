@@ -19,6 +19,12 @@
 	color: var(--color-text);
 }
 
+@layer base {
+	textarea {
+		@apply min-h-[80px] p-2 border rounded;
+	}
+}
+
 body {
 	min-height: 100vh;
 	margin: 0;

@@ -57,7 +57,8 @@
 
 	// Function to handle save and reset original values
 	async function saveChanges() {
-		console.log(isEdit);
+		// console.log(isEdit);
+		console.log('dataTrip  ', dataTrip);
 		if (isEdit) {
 			const response = await fetch('/api/manageTripSetting/manageTrip/saveTrip', {
 				method: 'POST',

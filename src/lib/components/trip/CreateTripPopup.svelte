@@ -35,8 +35,9 @@
 			tripData.update(() => {
 				return newTripResDate;
 			});
+			console.log('newTripResDate ', newTripResDate);
 			closePopup();
-			goto('/trip');
+			goto('/trip/' + newTripResDate.tripID);
 		}
 	}
 	function closePopup() {

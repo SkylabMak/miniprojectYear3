@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { checkpointTypeText } from '$lib/res/word';
+	import { sendError } from '$lib/store/ErrorStore';
 	import { tripData } from '$lib/store/store';
 	import Popup from '../Popup.svelte';
 
@@ -23,6 +24,7 @@
 
 		if (!response.ok) {
 			console.log('checkpoint error at ', checkPointID);
+
 			throw new Error('Failed to fetch messages');
 		}
 
@@ -54,6 +56,10 @@
 
 		if (!response.ok) {
 			console.log('checkpoint error at ', checkPointID);
+			const data = (await response.json()) as customError;
+			sendError(data.code.toString(), data.message);
+			console.log(data);
+			showDetailPopup = false;
 			throw new Error('Failed to fetch messages');
 		}
 

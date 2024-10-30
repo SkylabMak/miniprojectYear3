@@ -8,6 +8,9 @@ export async function getTripData(tripID: string): Promise<tripPageData> {
 			tripID: tripID
 		})
 	});
+	if (!resTripData.ok) {
+		throw '';
+	}
 	const data = (await resTripData.json()).Trip as tripPageData;
 	return data;
 }

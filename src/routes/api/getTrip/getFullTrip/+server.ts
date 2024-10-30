@@ -11,6 +11,7 @@ import { MISSING_INPUT } from '$lib/constants/errorCodes';
 import { getLatestChat } from '$lib/myAPI/chatUtils';
 import { getCheckpointDetail } from '$lib/myAPI/checkPointUtils';
 import { partialJoin } from '$lib/myAPI/tripUtils';
+import { resFalse } from '$lib/myAPI/resTrueFalse';
 
 async function getOrgDetail(originIDTrip: string): Promise<{ name: string; org: boolean }> {
 	const resData = await prismaMySQL.trip.findUnique({
@@ -75,6 +76,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			}
 		});
+		if (!tripDetail) {
+			return resFalse();
+		}
 		let lastChat = null; // Including booking and yet
 		if (uuid) {
 			lastChat = await getLatestChat(
@@ -159,6 +163,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				checkpoint: checkPointMixSorted
 			}
 		};
+		// console.log("result full trip ",result)
 		return new Response(JSON.stringify(result), {
 			status: 200,
 			headers: {

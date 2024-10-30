@@ -1,11 +1,12 @@
 <script>
 	export let isOpen = false;
 	export let hideCloseBtn = false;
-	export let background = 'bg-primary';
+	export let background = 'bg-primary shadow-lg';
 	export let cusWeight = 'max-w-[90%]';
 	export let cusHeight = 'max-h-[83.33%]';
 	export let custPadding = 'p-6';
 	export let cusClass = '';
+	export let zIndex = 'z-10';
 	// Function to close the popup
 	function closePopup() {
 		isOpen = false;
@@ -13,10 +14,10 @@
 </script>
 
 {#if isOpen}
-	<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+	<div class={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${zIndex}`}>
 		<!-- Popup Content -->
 		<div
-			class={`${background} rounded-lg ${custPadding} ${cusHeight} ${cusWeight} space-y-4 relative shadow-lg flex flex-col justify-center items-center overflow-y-auto ${cusClass}`}
+			class={`${background} rounded-lg ${custPadding} ${cusHeight} ${cusWeight} space-y-4 relative  flex flex-col justify-center items-center overflow-y-auto ${cusClass} ${zIndex}`}
 		>
 			<div class={`w-full overflow-y-auto `}>
 				<slot />
