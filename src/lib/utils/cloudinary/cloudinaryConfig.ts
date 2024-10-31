@@ -45,3 +45,17 @@ export const uploadToProfileFolder = async (fileData: string, customFileName: st
 		throw error;
 	}
 };
+
+export const uploadToProfileFolderWithURL = async (imageUrl: string, customFileName: string) => {
+	try {
+		const result = await cloudinary.uploader.upload(imageUrl, {
+			folder: 'miniproject/profile',
+			public_id: customFileName, // Set custom file name
+			overwrite: true
+		});
+		return result;
+	} catch (error) {
+		console.log('Error uploading to Profile Folder:', error);
+		throw error;
+	}
+};

@@ -103,7 +103,7 @@
 			<div class="flex items-start">
 				{#if progress.length > 0}
 					{#each progress as img}
-						<div class="w-4 h-4 rounded-full border-black border-2 shadow-sm mr-[-8px]">
+						<div class="w-5 h-5 rounded-full bg-white border-black border-2 shadow-sm mr-[-8px]">
 							<img
 								src={img.imgURL}
 								alt={IDCheckpoint}

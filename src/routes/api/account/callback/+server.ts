@@ -7,6 +7,7 @@ import { getUUID } from '$lib/utils/uuidUtils.js';
 import { CAN_NOT_INSERT_ACCOUNT } from '$lib/constants/errorCodes';
 import { resCustomError, resCustomErrorCode, resError } from '$lib/myAPI/customError';
 import type { RequestHandler } from '@sveltejs/kit';
+import { uploadToProfileFolderWithURL } from '$lib/utils/cloudinary/cloudinaryConfig';
 
 const client = oauth2Client;
 
@@ -39,7 +40,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		while (await checkExistAccount(IDAccount)) {
 			IDAccount = getUUID();
 		}
-		addNewUsre(info, IDAccount);
+		const uploadResult = await uploadToProfileFolderWithURL(info.url, IDAccount);
+		await addNewUsre(info, IDAccount, uploadResult.url);
 		const userToken = encrypt(IDAccount);
 		return senResponse(userToken, 302);
 	}
@@ -56,7 +58,7 @@ async function senResponse(token: string, code: number): Promise<Response> {
 	});
 }
 
-async function addNewUsre(info: googleInfo, IDAccount: string) {
+async function addNewUsre(info: googleInfo, IDAccount: string, newimgURL: string) {
 	try {
 		await prismaMySQL.account.create({
 			data: {
@@ -64,7 +66,7 @@ async function addNewUsre(info: googleInfo, IDAccount: string) {
 				IDGoogle: info.Google_ID,
 				Email: info.Email,
 				Org: false,
-				imgURL: info.url,
+				imgURL: newimgURL,
 				name: info.name
 			}
 		});
