@@ -69,8 +69,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const cust = !(uuid === tripChat?.IDAccount);
 		// console.log('cust is ' + cust);
 		const chatAccount = cust ? (uuid as string) : custID;
-		console.log('chatAccount +', chatAccount);
-		console.log(chatAccount);
+		// console.log('chatAccount +', chatAccount);
+		// console.log(chatAccount);
 		if (chatAccount) {
 			try {
 				const chatID = getChatID(chatAccount, tripID);
@@ -85,8 +85,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					senderUser: cust,
 					time: getCurrentIsoDate()
 				};
-				console.log('isOppositeFocus ', isOppositeFocus);
-				console.log('new chat ', newChat);
+				// console.log('isOppositeFocus ', isOppositeFocus);
+				// console.log('new chat ', newChat);
 				const orgChat = await prismaMongo.orgChat.findFirst({
 					where: {
 						IDTrip: tripID,
@@ -98,7 +98,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				// console.log("chatID is "+chatID)
 				// -------save to DB-------
 				if (orgChat === null || orgChat === undefined) {
-					console.log('new');
+					// console.log('new');
 					await prismaMongo.orgChat.create({
 						data: {
 							IDTrip: tripID,
@@ -107,7 +107,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 						}
 					});
 				} else {
-					console.log('update');
+					// console.log('update');
 					await prismaMongo.orgChat.updateMany({
 						where: {
 							IDTrip: tripID,
@@ -142,7 +142,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 					rest: !cust
 				};
 
-				console.log('getSocketID(chatAccount,tripID) = ', chatID);
+				// console.log('getSocketID(chatAccount,tripID) = ', chatID);
 				broadcastChatMessage(JSON.stringify(newResSEE), chatID);
 				if (cust) {
 					const notiFormat = getchatNotiFormat(

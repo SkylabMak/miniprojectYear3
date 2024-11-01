@@ -15,8 +15,8 @@
 	let finish = false;
 
 	async function bookAction() {
-		console.log(custID);
-		console.log('custID is ', custID);
+		// console.log(custID);
+		// console.log('custID is ', custID);
 		const response = await fetch('/api/manageTripSetting/beginTrip/changeBooking', {
 			method: 'POST',
 			headers: {

@@ -49,7 +49,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			);
 		}
-		console.log('joiner ', joiner);
+		// console.log('joiner ', joiner);
 		const company = joiner[0].trip.Booking == 'BI' && joiner[0].trip.account?.IDAccount == uuid;
 		const canSee =
 			joiner[0].trip.Booking == 'NM' ||
@@ -71,7 +71,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// 		}
 		// 	}))
 		// }
-		console.log(canSee);
+		// console.log(canSee);
 		let resFormat = joiner.map((e) => {
 			return {
 				name: e.account.name,

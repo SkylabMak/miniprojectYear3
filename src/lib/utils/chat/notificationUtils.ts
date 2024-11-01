@@ -45,7 +45,7 @@ export function sendNotificationsOnline(message: string, uuid: string) {
 	const connectionControllers = clientsOnLine.get(uuid);
 	if (connectionControllers) {
 		try {
-			console.log('for each controller', connectionControllers);
+			// console.log('for each controller', connectionControllers);
 			connectionControllers.enqueue(`data: ${message}\n\n`);
 		} catch (error) {
 			if (error instanceof Error) {

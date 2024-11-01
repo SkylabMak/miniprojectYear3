@@ -40,7 +40,7 @@
 
 	async function sendMessage() {
 		if (inputMessage.trim() !== '') {
-			console.log(iDcheckpoint);
+			// console.log(iDcheckpoint);
 			const response = await fetch('/api/manageTripSetting/comment/send', {
 				method: 'POST',
 				headers: {
@@ -55,7 +55,7 @@
 
 			const newComment = (await response.json()) as comment;
 			messages = [...messages, newComment];
-			console.log('Message sent:', newComment);
+			// console.log('Message sent:', newComment);
 			inputMessage = ''; // Clear the input after sending the message
 		}
 	}

@@ -55,7 +55,11 @@
 
 	<!-- Title and Subtitle -->
 	<h2 class="font-bold text-xl mb-1">{tripTitle}</h2>
-	<p class="indent-8 text-sm text-gray-700 mb-3">{tripSubtitle}</p>
+	<div class="">
+		<p class="indent-8 text-sm text-gray-700 mb-3 line-clamp-3" style="white-space: pre-line;">
+			{tripSubtitle}
+		</p>
+	</div>
 
 	<!-- Trip Info: Date and People Count -->
 	<div class="flex justify-between text-sm text-gray-700">

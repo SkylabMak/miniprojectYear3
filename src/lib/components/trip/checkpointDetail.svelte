@@ -78,7 +78,7 @@
 			};
 		});
 		showDetailPopup = false;
-		console.log('check point clicked');
+		// console.log('check point clicked');
 	}
 </script>
 

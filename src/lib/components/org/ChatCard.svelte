@@ -17,7 +17,7 @@
 
 	function handleStatusClick() {
 		showBookPopup = true;
-		console.log('Status button clicked');
+		// console.log('Status button clicked');
 	}
 	// const date = new Date(message.startTime);
 	const formattedDate = formatDate(message.startTime);

@@ -68,7 +68,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				}
 			});
 			// deleate trip
-			console.log('try to deleate');
+			// console.log('try to deleate');
 			await deleateBETrip(tripID, uuid as string);
 		} else {
 			await prismaMySQL.joiner.create({

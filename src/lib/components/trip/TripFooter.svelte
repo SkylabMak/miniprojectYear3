@@ -51,7 +51,7 @@
 			inviteFriend = value.tripID;
 		}
 
-		console.log(dataTrip);
+		// console.log(dataTrip);
 	});
 
 	async function removeAction() {
@@ -65,7 +65,7 @@
 				imageURL: '',
 				tripName: '',
 				detail: '',
-				booking: '',
+				booking: bookingChoice ? 'BI' : 'NM', //edit
 				preparation: '',
 				maxJoiner: 0,
 				tripPrivate: false,

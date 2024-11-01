@@ -51,7 +51,7 @@
 				socketID: dataRes.SocketID
 			};
 
-			console.log(dataRes);
+			// console.log(dataRes);
 			return data;
 		} else {
 			return {
@@ -63,7 +63,7 @@
 
 	async function sendMessage() {
 		if (inputMessage.trim() !== '') {
-			console.log('send : ', inputMessage);
+			// console.log('send : ', inputMessage);
 			const response = await fetch('/api/chat/send', {
 				method: 'POST',
 				headers: {
@@ -90,11 +90,11 @@
 	}
 
 	function connectSEE(id: string) {
-		console.log('try to connect');
+		// console.log('try to connect');
 		eventSource = new EventSource(`/api/chat/Focus?userId=${id}`);
 		eventSource.onmessage = (event) => {
 			const data = JSON.parse(event.data) as chatSEE;
-			console.log('New message:', data);
+			// console.log('New message:', data);
 			const dataChat: chat = {
 				text: data.text,
 				name: data.name,
@@ -108,10 +108,10 @@
 
 	// Reactively fetch messages when showChatPopup becomes true
 	$: if (showChatPopup) {
-		console.log('open run');
+		// console.log('open run');
 		if (!eventSource) {
 			// Only connect if not already connected
-			console.log('first run');
+			// console.log('first run');
 			fetchMessages()
 				.then((fetchedMessages) => {
 					messages = fetchedMessages.chatList;
@@ -127,15 +127,15 @@
 				});
 		}
 	} else {
-		console.log('close chat popup');
+		// console.log('close chat popup');
 		if (eventSource) {
-			console.log('Closing EventSource');
+			// console.log('Closing EventSource');
 			eventSource.close();
 			eventSource = null;
 		}
 		readChat.set('');
 		closeChatEvent.update((e) => {
-			console.log('close popup', e);
+			// console.log('close popup', e);
 			return !e;
 		});
 	}

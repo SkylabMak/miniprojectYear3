@@ -40,7 +40,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		});
 
 		if (org !== '' && org === true) {
-			console.log('wait org');
+			// console.log('wait org');
 			await prismaMySQL.orgwaitq.create({
 				data: {
 					IDAccount: uuid as string,
@@ -51,7 +51,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		return resTrue();
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 		return checkErrorAndRes(error);
 	}
 };

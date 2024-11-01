@@ -65,7 +65,7 @@
 				class="flex items-center bg-secondary4 text-black font-bold py-2 px-4 rounded-lg border-2 border-black"
 			>
 				<select
-					class="w-full bg-transparent text-black focus:outline-none text-base"
+					class="w-full bg-transparent text-black focus:outline-none text-base cursor-pointer"
 					bind:value={selectedFirstCheckpoint}
 				>
 					{#each allCheckPointList as ckt}
@@ -83,7 +83,7 @@
 				class="flex items-center bg-secondary4 text-black font-bold py-2 px-4 rounded-lg border-2 border-black"
 			>
 				<select
-					class="w-full bg-transparent text-black focus:outline-none text-base"
+					class="w-full bg-transparent text-black focus:outline-none text-base cursor-pointer"
 					bind:value={selectedSecondCheckpoint}
 				>
 					{#each allCheckPointList as ckt}

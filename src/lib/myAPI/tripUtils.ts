@@ -152,7 +152,7 @@ export async function deleateBETrip(tripID: string, IDAccount: string) {
 			IDTrip: true
 		}
 	});
-	console.log('userIDTrip is ' + userIDTrip?.IDTrip);
+	// console.log('userIDTrip is ' + userIDTrip?.IDTrip);
 
 	try {
 		if (userIDTrip?.IDTrip != '') {
@@ -255,7 +255,86 @@ export async function deleateTrip(tripID: string) {
 			}
 		});
 	} catch (error) {
-		console.log('can not delete trip');
+		console.log('can not delete trip', error);
+	}
+
+	//No sql deleate
+	try {
+		if (tripID && tripID != '') {
+			await prismaMongo.checkpointNSQL.deleteMany({
+				where: {
+					IDTrip: tripID
+				}
+			});
+		}
+	} catch (error) {
+		console.log('can not delete checkpointNSQL');
+	}
+}
+
+export async function deleateBITrip(tripID: string) {
+	try {
+		if (tripID && tripID != '') {
+			const custTrip = await prismaMySQL.trip.findMany({
+				where: {
+					IDOriginTrip: tripID,
+					Booking: 'BE'
+				}
+			});
+			custTrip.forEach(async (element) => {
+				console.log('try to delete', element.IDTrip, 'from BI trip');
+				await deleateTrip(element.IDTrip);
+			});
+		}
+	} catch (error) {
+		console.log('can not delete BE trip from BI trip');
+		console.log(error);
+	}
+	try {
+		if (tripID && tripID != '') {
+			await prismaMySQL.checkpoint.deleteMany({
+				where: {
+					IDTrip: tripID
+				}
+			});
+		}
+	} catch (error) {
+		console.log('can not delete checkpoint');
+	}
+
+	try {
+		if (tripID && tripID != '') {
+			await prismaMongo.orgChat.deleteMany({
+				where: {
+					IDTrip: tripID
+				}
+			});
+		}
+	} catch (error) {
+		console.log('can not delete orgChat');
+	}
+
+	try {
+		if (tripID && tripID != '') {
+			await prismaMySQL.joiner.deleteMany({
+				where: {
+					IDTrip: tripID
+				}
+			});
+		}
+	} catch (error) {
+		console.log('can not delete join BE trip');
+		console.log(error);
+	}
+
+	try {
+		await prismaMySQL.trip.delete({
+			where: {
+				IDTrip: tripID
+			}
+		});
+	} catch (error) {
+		console.log('can not delete trip', error);
 	}
 
 	//No sql deleate

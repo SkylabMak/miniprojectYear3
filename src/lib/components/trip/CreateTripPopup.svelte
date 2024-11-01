@@ -15,8 +15,8 @@
 	// Function to handle save and reset original values
 	async function createAction() {
 		if (tripName.length != 0) {
-			console.log(tripName);
-			console.log(bookingChoice);
+			// console.log(tripName);
+			// console.log(bookingChoice);
 			const response = await fetch('/api/manageTripSetting/manageTrip/createTrip', {
 				method: 'POST',
 				headers: {
@@ -35,7 +35,7 @@
 			tripData.update(() => {
 				return newTripResDate;
 			});
-			console.log('newTripResDate ', newTripResDate);
+			// console.log('newTripResDate ', newTripResDate);
 			closePopup();
 			goto('/trip/' + newTripResDate.tripID);
 		}

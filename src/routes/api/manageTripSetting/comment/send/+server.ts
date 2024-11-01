@@ -36,7 +36,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			}
 		});
 
-		console.log(tripDetail);
+		// console.log(tripDetail);
 
 		if (tripDetail === null) {
 			console.log('false trip');

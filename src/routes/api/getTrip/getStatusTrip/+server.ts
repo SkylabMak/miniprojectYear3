@@ -10,7 +10,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
 		checkMissingInput(tripID);
-		console.log('tripID in api', tripID);
+		// console.log('tripID in api', tripID);
 		const joinDetail = await prismaMySQL.joiner.findUnique({
 			where: {
 				IDTrip_IDAccount: {
@@ -30,7 +30,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		if (joinDetail != null && joinDetail.type == 'B') {
 			status = joinDetail.status == 'B' ? 'BI' : 'BE';
 		}
-		console.log(tripDetail?.maxJoiner);
+		// console.log(tripDetail?.maxJoiner);
 		return new Response(
 			JSON.stringify({
 				status: {

@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	// Fetching data from an API or a local source
-	console.log('profile run');
+	// console.log('profile run');
 	const response = await fetch('/api/account/getInfo', {
 		method: 'POST',
 		headers: {
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	// 	data: profile;
 	// 	chatData: orgChat[];
 	// };
-	console.log('profile data : ', data);
+	// console.log('profile data : ', data);
 	let chatData: orgChat[] = [];
 	if (!response.ok) {
 		return null;

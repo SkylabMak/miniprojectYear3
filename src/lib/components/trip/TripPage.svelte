@@ -11,12 +11,15 @@
 	import Icon from '@iconify/svelte';
 	import { onDestroy } from 'svelte';
 	import ShareTripBtn from './button/ShareTripBtn.svelte';
+	import HorizontalLine from '../HorizontalLine.svelte';
+	import HorizontalLineBtn from '../HorizontalLineBtn.svelte';
 
 	let canEdit = false;
 	let editMode = false;
 	let dataTrip: tripPageData;
 	let indexPass = -1;
 	let showEditPopup = false;
+	let openCK = true;
 	const unsubscribe = tripData.subscribe((value) => {
 		// console.log(value);
 		dataTrip = value;
@@ -54,8 +57,9 @@
 	<TripHeader bind:editMode />
 
 	<!-- Checkpoints Section -->
+	<HorizontalLineBtn bind:open={openCK} />
 	<div class="flex justify-center flex-col text-sm text-black my-4">
-		{#if dataTrip && dataTrip.checkpoint && Array.isArray(dataTrip.checkpoint)}
+		{#if dataTrip && openCK && dataTrip.checkpoint && Array.isArray(dataTrip.checkpoint)}
 			{#each dataTrip.checkpoint as checkpoint, index}
 				{#if index === 0}
 					{#if !editMode}
@@ -97,9 +101,23 @@
 					checkpointList={dataTrip.checkpoint}
 				/>
 			{/if}
+			{#if !editMode}
+				<div class="flex justify-end w-full">
+					<button
+						class="mt-[-60px] flex flex-col justify-center items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none"
+						on:click={openGoogleMap}
+					>
+						<MapCicleIcon />
+						<span class="mt-1">AllMap</span>
+					</button>
+				</div>
+			{/if}
+		{:else if !openCK}
+			<div>checkpoints...</div>
 		{:else}
 			<span>No checkpoints available</span>
 		{/if}
+
 		{#if editMode && dataTrip.booking != 'BE'}
 			<div class="flex flex-col items-center text-xl">
 				<div class={`text-accent2-500 text-3xl flex items-center justify-center`}>
@@ -131,17 +149,7 @@
 			</div>
 		{/if}
 	</div>
-	{#if !editMode}
-		<div class="flex justify-end w-full">
-			<button
-				class="mt-[-80px] flex flex-col justify-center items-center bg-accent2 text-white rounded-lg p-2 focus:outline-none"
-				on:click={openGoogleMap}
-			>
-				<MapCicleIcon />
-				<span class="mt-1">AllMap</span>
-			</button>
-		</div>
-	{/if}
+	<HorizontalLineBtn bind:open={openCK} />
 </div>
 
 <TripFooter bind:editMode />

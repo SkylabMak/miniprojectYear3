@@ -21,6 +21,7 @@
 	let cancel = false;
 	let book = false;
 	let done = false;
+	let info = false;
 	let count = 1;
 	let maxCount = 1;
 
@@ -52,6 +53,7 @@
 						count: data.count + count
 					};
 				});
+				info = true;
 			} else if (cancel || done) {
 				const response = await fetch('/api/manageTripSetting/beginTrip/changeBooking', {
 					method: 'POST',
@@ -237,5 +239,14 @@
 		<button on:click={bookAction}>
 			<ButtonMine>ใช่</ButtonMine>
 		</button>
+	</div>
+</Popup>
+
+<Popup bind:isOpen={info}>
+	<div class="flex gap-2 items-center text-xl mb-8">
+		<div class="flex flex-col my-4">
+			<h1>จองสำเร็จ</h1>
+			<h2>คุณสามารถเข้าไปดูทริปของคุณใน ที่จัดเก็บของคุณได้ เพื่อตั้งค่าหรือเชิญเพื่อนเพิ่มเติม</h2>
+		</div>
 	</div>
 </Popup>

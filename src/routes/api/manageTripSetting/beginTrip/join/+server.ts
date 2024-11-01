@@ -10,7 +10,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		checkMissingInput(tripID, join);
 		const token = cookies.get('token');
 		const uuid = decrypt(token as string);
-		console.log('uuid is join ' + uuid);
+		// console.log('uuid is join ' + uuid);
 		const trip = await prismaMySQL.trip.findUnique({
 			where: {
 				IDTrip: tripID
@@ -25,7 +25,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		});
 
 		if (join == false) {
-			console.log('delete join');
+			// console.log('delete join');
 			await prismaMySQL.joiner.delete({
 				where: {
 					IDTrip_IDAccount: {
@@ -57,7 +57,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 				return resFalse();
 			}
 
-			console.log('create join');
+			// console.log('create join');
 			await prismaMySQL.joiner.create({
 				data: {
 					IDTrip: tripID,

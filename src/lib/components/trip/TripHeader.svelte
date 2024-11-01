@@ -9,6 +9,7 @@
 	import DateChange from '../org/DateChange.svelte';
 	import ErrorShow from '../ErrorShow.svelte';
 	import { autoHeight } from 'svelte-textarea-auto-height';
+	import HorizontalLine from '../HorizontalLine.svelte';
 	// import autosize from 'svelte-autosize';
 
 	export let editMode: boolean;
@@ -155,10 +156,13 @@
 
 <div class="w-full flex justify-end"></div>
 <!-- Image Section -->
-<div class="image-placeholder bg-gray-300 w-full max-h-32 rounded-lg mb-4 overflow-hidden">
+<div
+	class="image-placeholder bg-gray-300 w-full sm:max-h-32 lg:max-h-64 rounded-lg mb-4 overflow-hidden flex justify-center items-start"
+>
 	{#if dataTrip}
 		{#if dataTrip.imageURL}
 			<button
+				class="w-full"
 				disabled={!editMode}
 				on:click={() => {
 					inputIMGOpen = true;
@@ -234,17 +238,6 @@
 			class="border rounded w-full px-2 py-1 text-sm focus:outline-none"
 			class:border-warning-500={isEdited(originalPreparation, editedPreparation)}
 		></textarea>
-		{#if dataTrip && dataTrip.booking != 'BE'}
-			<div class="w-full flex justify-center my-4">
-				<button
-					on:click={() => {
-						datePopup = true;
-					}}
-				>
-					<ButtonMine>เลื่อนวัน</ButtonMine>
-				</button>
-			</div>
-		{/if}
 	{:else}
 		<h3 class="font-bold text-sm mb-2">สิ่งที่ต้องเตรียม</h3>
 		{#if dataTrip}
@@ -271,6 +264,18 @@
 		</button>
 	{/if}
 </div>
+{#if dataTrip && editMode && dataTrip.booking != 'BE'}
+	<div class="w-full flex flex-col justify-center items-center my-4">
+		<HorizontalLine thickness={2} />
+		<button
+			on:click={() => {
+				datePopup = true;
+			}}
+		>
+			<ButtonMine>เลื่อนวัน</ButtonMine>
+		</button>
+	</div>
+{/if}
 
 <div class={`flex justify-center ${dataTrip && dataTrip.booking == 'BE' ? 'gap-6' : 'gap-16'}`}>
 	<!-- status -->

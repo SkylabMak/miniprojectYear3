@@ -123,8 +123,8 @@
 	}
 	async function savecheckpoint() {
 		// console.log(originalTypeCK)
-		console.log(typeCKEdit);
-		console.log(typeCK);
+		// console.log(typeCKEdit);
+		// console.log(typeCK);
 		// console.log(editedName)
 		// console.log(editedDetail)
 
@@ -254,7 +254,7 @@
 				class="text-xl"
 			/>
 			<!-- Wrap the select in a div for custom styling -->
-			<div class={`w-full ml-2 rounded-md `}>
+			<div class={`w-full ml-2 rounded-md cursor-pointer`}>
 				<select
 					class="w-full bg-transparent text-gray-800 focus:outline-none text-base"
 					bind:value={typeCKEdit}

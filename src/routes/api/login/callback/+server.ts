@@ -13,12 +13,12 @@ const client = oauth2Client;
 
 export const GET: RequestHandler = async ({ url, cookies }) => {
 	const code = url.searchParams.get('code') as string;
-	console.log('code in login callback is ' + code);
+	// console.log('code in login callback is ' + code);
 	const { tokens } = await client.getToken(code);
-	console.log('tokens in login callback is  ' + tokens);
+	// console.log('tokens in login callback is  ' + tokens);
 	// client.setCredentials(tokens);
 	const info = await getInfo(tokens as Token);
-	console.log('info : ' + info);
+	// console.log('info : ' + info);
 	const uuidUser = await prismaMySQL.account.findFirst({
 		where: {
 			IDGoogle: info.Google_ID

@@ -20,7 +20,7 @@ export function addClientChatMessage(
 				if (existingController) {
 					try {
 						existingController.close();
-						console.log('close : ', existingController);
+						// console.log('close : ', existingController);
 					} catch (error) {
 						console.error('Failed to close existing controller:', uuid);
 					}
@@ -29,7 +29,7 @@ export function addClientChatMessage(
 			connectionControllers.set(uuid, controller); // Set the new controller
 		}
 	}
-	console.log('clients: ', clientsFocus);
+	// console.log('clients: ', clientsFocus);
 }
 
 export function isClientExists(connectionId: string, uuid: string): boolean {
@@ -38,7 +38,7 @@ export function isClientExists(connectionId: string, uuid: string): boolean {
 }
 
 export function removeClient(connectionId: string, uuid: string) {
-	console.log('some user want to close');
+	// console.log('some user want to close');
 	const connectionControllers = clientsFocus.get(connectionId);
 	if (connectionControllers) {
 		const controller = connectionControllers.get(uuid);
@@ -56,7 +56,7 @@ export function removeClient(connectionId: string, uuid: string) {
 			clientsFocus.delete(connectionId);
 		}
 	}
-	console.log('clients: ', clientsFocus);
+	// console.log('clients: ', clientsFocus);
 }
 
 export function broadcastChatMessage(message: string, connectionId: string) {
@@ -64,7 +64,7 @@ export function broadcastChatMessage(message: string, connectionId: string) {
 	if (connectionControllers) {
 		connectionControllers.forEach((controller) => {
 			try {
-				console.log('for each controller', controller);
+				// console.log('for each controller', controller);
 				controller.enqueue(`data: ${message}\n\n`);
 			} catch (error) {
 				if (error instanceof Error) {

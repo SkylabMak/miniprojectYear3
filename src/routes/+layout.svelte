@@ -49,14 +49,14 @@
 	function connectSEE() {
 		try {
 			if (!eventSource) {
-				console.log('try to connect');
+				// console.log('try to connect');
 				eventSource = new EventSource(`/api/online`);
 
 				eventSource.onmessage = (event) => {
 					if (!eventSource) return; // Ensure eventSource is not null
 
 					const data = JSON.parse(event.data) as NotiFormat;
-					console.log('New Noti:', data);
+					// console.log('New Noti:', data);
 					if (data.type == 'newMS') {
 						if (currentReadChatID != data.body.chatID) {
 							addNotification('new message from ', data.body.name, 'chat');
