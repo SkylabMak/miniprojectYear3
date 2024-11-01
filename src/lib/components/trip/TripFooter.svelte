@@ -150,7 +150,7 @@
 				<GoBtn
 					tripID={dataTrip.tripID}
 					status={dataTrip.started}
-					can={dataTrip.me && !(dataTrip.count == dataTrip.maxJoiner)}
+					can={dataTrip.me }
 					tripOriginID={dataTrip.tripIDOrigin}
 					tripTypeBook={dataTrip.booking == 'BI'}
 				/>
@@ -163,8 +163,8 @@
 					tripOriginID={dataTrip.tripIDOrigin}
 					tripID={dataTrip.tripID}
 					hasToken={dataTrip.hasToken}
-					can={!((dataTrip.ownOrgTrip || dataTrip.me) && dataTrip.booking == 'BI')}
-					aleardy={dataTrip.booking == 'BE' || dataTrip.join}
+					can={!((dataTrip.ownOrgTrip || dataTrip.me) && dataTrip.booking == 'BI') && !(dataTrip.count == dataTrip.maxJoiner)}
+					aleardy={dataTrip.booking == 'BE' || dataTrip.join || (dataTrip.count == dataTrip.maxJoiner)}
 				/>
 				<ChatBtn
 					can={!((dataTrip.ownOrgTrip || dataTrip.me) && dataTrip.booking == 'BI')}
