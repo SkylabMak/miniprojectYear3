@@ -272,7 +272,7 @@
 
 		<div class="flex flex-col w-full">
 			<div class="flex items-center mb-2">
-				<span class="font-bold mr-2">สถานที่ : </span>
+				<span class="font-bold mr-2 text-nowrap">ชื่อ : </span>
 				<input
 					type="text"
 					bind:value={editedName}
@@ -281,8 +281,9 @@
 			</div>
 			<div class="text-xs text-gray-500">
 				<span class=" text-wrap">
-					หมายเหตุ : สถานที่นี้สำหรับประเภท <span class="underline">จุดหมาย</span> จะนำเข้าไปค้นหาใน
-					Google Maps
+					หมายเหตุ : ชื่อกิจกรรมหรือสถานที่ โดยสถานที่นี้ในประเภท <span class="underline"
+						>จุดหมาย</span
+					> จะนำเข้าไปค้นหาใน Google Maps
 				</span>
 			</div>
 		</div>
@@ -297,8 +298,8 @@
 		</div>
 
 		<div class="flex gap-4 w-full flex-wrap justify-center items-center">
-			<div class="flex flex-col items-center w-1/2">
-				<label for="date" class="mb-1">Select Date</label>
+			<div class="flex flex-col items-center w-fit">
+				<label for="date" class="mb-1">เลือกวัน</label>
 				<input
 					id="date"
 					type="date"
@@ -308,8 +309,8 @@
 				/>
 			</div>
 
-			<div class="flex flex-col items-center w-1/2">
-				<label for="time" class="mb-1">Select Time</label>
+			<div class="flex flex-col items-center w-fit">
+				<label for="time" class="mb-1">เลือกเวลา</label>
 				<input
 					id="time"
 					type="time"

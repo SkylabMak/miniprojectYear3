@@ -182,7 +182,7 @@
 					settingTripPopup = true;
 				}}
 			>
-				<ButtonMine>ตั้งค่าทิป</ButtonMine>
+				<ButtonMine>ตั้งค่าทริป</ButtonMine>
 			</button>
 			<button
 				on:click={() => {
