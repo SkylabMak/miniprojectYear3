@@ -150,7 +150,7 @@
 				<GoBtn
 					tripID={dataTrip.tripID}
 					status={dataTrip.started}
-					can={dataTrip.me}
+					can={dataTrip.me && !(dataTrip.count == dataTrip.maxJoiner)}
 					tripOriginID={dataTrip.tripIDOrigin}
 					tripTypeBook={dataTrip.booking == 'BI'}
 				/>
@@ -242,7 +242,7 @@
 		<!-- รับจองห้อง section with boolean value -->
 		{#if dataTrip.org && dataTrip.booking != 'BE'}
 			<div class="flex justify-between items-center mb-3">
-				<span class="before:content-['•'] before:mr-2">รับจองห้อง</span>
+				<span class="before:content-['•'] before:mr-2">เปิดรับจอง</span>
 				<div class={`flex gap-2 ${bookingInputClass} rounded-full`}>
 					<label class="flex items-center">
 						<input
