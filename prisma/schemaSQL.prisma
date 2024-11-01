@@ -56,7 +56,7 @@ model trip {
   IDAccount    String?      @mysql.VarChar(50)
   TripName     String       @mysql.VarChar(255)
   Detail       String?      @mysql.VarChar(200)
-  Preparation  String?      @mysql.VarChar(100)
+  Preparation  String?      @mysql.VarChar(500)
   Booking      String?      @mysql.Char(2)
   createDate   DateTime?    @default(now()) @mysql.Timestamp(0)
   lastEdit     DateTime?    @default(now()) @mysql.Timestamp(0)
