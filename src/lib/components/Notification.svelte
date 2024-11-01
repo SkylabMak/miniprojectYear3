@@ -28,8 +28,9 @@
 			class={`p-2 rounded shadow ${getBackgroundColor(type)} text-white flex items-center w-fit`}
 		>
 			<div class="flex gap-1 text-lg">
-				<span>{message}</span>
-				<span class="underline">{by}</span>
+				<span class=" text-wrap">
+					{message} <span class="underline">{by}</span>
+				</span>
 			</div>
 			<button on:click={() => removeNotification(id)} class="ml-2 text-4xl">
 				<Icon icon="mingcute:close-fill" />

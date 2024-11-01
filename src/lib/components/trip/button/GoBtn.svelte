@@ -92,7 +92,7 @@
 	{:else if bookStatus == 'BI'}
 		<h2>ทริปนี้ยังจองไม่สำเร็จ</h2>
 	{:else}
-		<div class="flex gap-2">
+		<div class="flex gap-2 flex-col">
 			<h2>คุณต้องการ</h2>
 			<h2 class="font-bold italic">{`${status ? 'ปิดทริป' : 'เริ่มทริป'}`}</h2>
 			{#if tripTypeBook}<h2>ทุกคนหรือไม่</h2>{/if}
